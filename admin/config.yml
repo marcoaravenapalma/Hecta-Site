@@ -1,29 +1,42 @@
 # ───────────────────────────────────────────────────────────────
-# Hecta — Decap CMS
+# Hecta — Decap CMS (con DecapBridge auth)
 # Editor visual del archivo data/terrenos.json
 # ───────────────────────────────────────────────────────────────
 
 backend:
   name: git-gateway
+  repo: marcoaravenapalma/Hecta-Site
   branch: main
+  auth_type: pkce
+  base_url: https://auth.decapbridge.com
+  auth_endpoint: /sites/34fec44d-adb8-47c4-8b4d-42391ea0b87f/pkce
+  auth_token_endpoint: /sites/34fec44d-adb8-47c4-8b4d-42391ea0b87f/token
+  gateway_url: https://gateway.decapbridge.com
   commit_messages:
-    update: 'cms: actualizar terrenos en {{collection}}'
-    create: 'cms: nuevo {{collection}}'
-    delete: 'cms: eliminar {{collection}}'
-    uploadMedia: 'cms: subir foto "{{path}}"'
-    deleteMedia: 'cms: eliminar foto "{{path}}"'
+    create: "cms: nuevo {{collection}} - {{author-name}}"
+    update: "cms: actualizar {{collection}} - {{author-name}}"
+    delete: "cms: eliminar {{collection}} - {{author-name}}"
+    uploadMedia: "cms: subir foto {{path}} - {{author-name}}"
+    deleteMedia: "cms: eliminar foto {{path}} - {{author-name}}"
+
+# DecapBridge claims
+auth:
+  email_claim: email
+  first_name_claim: first_name
+  last_name_claim: last_name
+  avatar_url_claim: avatar_url
 
 # Carpeta donde se guardan las imágenes que subes desde el CMS
-media_folder: 'uploads'
-public_folder: '/uploads'
+media_folder: "uploads"
+public_folder: "/uploads"
 
 # Idioma del panel
-locale: 'es'
+locale: "es"
 
-# Nombre del sitio (aparece en el header del panel)
-site_url: '/'
-display_url: '/'
-logo_url: '/uploads/.gitkeep'
+# URLs del sitio
+site_url: https://hecta-site.netlify.app
+display_url: https://hecta-site.netlify.app
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 
 collections:
   # ───────────────────────────────────────────
@@ -31,59 +44,59 @@ collections:
   # Editamos data/terrenos.json (un archivo único con una lista
   # de terrenos). Cada item es una ficha que aparece en /maule.html
   # ───────────────────────────────────────────
-  - name: 'terrenos'
-    label: 'Terrenos'
-    label_singular: 'terreno'
+  - name: "terrenos"
+    label: "Terrenos"
+    label_singular: "terreno"
     files:
-      - file: 'data/terrenos.json'
-        name: 'lista'
-        label: 'Listado de terrenos'
-        format: 'json'
+      - file: "data/terrenos.json"
+        name: "lista"
+        label: "Listado de terrenos"
+        format: "json"
         fields:
-          - label: 'Terrenos'
-            name: 'terrenos'
-            label_singular: 'terreno'
-            widget: 'list'
-            summary: '{{fields.title}} — {{fields.comuna}} · UF {{fields.precio_uf}} ({{fields.estado}})'
+          - label: "Terrenos"
+            name: "terrenos"
+            label_singular: "terreno"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.comuna}} · UF {{fields.precio_uf}} ({{fields.estado}})"
             fields:
-              - { label: 'Estado', name: 'estado', widget: 'select', options: ['borrador', 'publicado'], default: 'borrador', hint: 'Solo los terrenos publicados aparecen en el sitio.' }
-              - { label: 'ID interno', name: 'id', widget: 'string', hint: 'Identificador único en URL (ej: mar-001). No usar espacios ni acentos. No cambiar después de publicado.' }
-              - { label: 'Título', name: 'title', widget: 'string', hint: 'Aparece en las cards y como h1 de la ficha. Ej: "Parcela 5.230 m² · Sector Mariposas"' }
-              - { label: 'Sector', name: 'sector', widget: 'string', hint: 'Nombre del sector o localidad. Ej: "Mariposas".' }
-              - label: 'Comuna'
-                name: 'comuna'
-                widget: 'select'
-                options: ['San Clemente', 'Talca', 'Linares', 'Pelarco', 'San Rafael']
-              - { label: 'Superficie (m²)', name: 'm2', widget: 'number', value_type: 'int', min: 0 }
-              - { label: 'Precio (UF)', name: 'precio_uf', widget: 'number', value_type: 'int', min: 0 }
-              - { label: 'UF por m²', name: 'ufm2', widget: 'number', value_type: 'float', min: 0, step: 0.01, hint: 'Calculado: precio_uf ÷ m². Se llena manual por ahora.' }
-              - { label: 'Distancia a Talca (min)', name: 'distancia_talca_km', widget: 'number', value_type: 'int', min: 0, default: 30 }
-              - { label: 'Descripción', name: 'descripcion', widget: 'text', required: false, hint: 'Texto largo. Separa párrafos con una línea en blanco.' }
-              - label: 'Tags (etiquetas que aparecen en la card)'
-                name: 'tags'
-                widget: 'list'
+              - { label: "Estado", name: "estado", widget: "select", options: ["borrador", "publicado"], default: "borrador", hint: "Solo los terrenos publicados aparecen en el sitio." }
+              - { label: "ID interno", name: "id", widget: "string", hint: "Identificador único en URL (ej: mar-001). No usar espacios ni acentos. No cambiar después de publicado." }
+              - { label: "Título", name: "title", widget: "string", hint: "Aparece en las cards y como h1 de la ficha. Ej: Parcela 5.230 m² · Sector Mariposas" }
+              - { label: "Sector", name: "sector", widget: "string", hint: "Nombre del sector o localidad. Ej: Mariposas." }
+              - label: "Comuna"
+                name: "comuna"
+                widget: "select"
+                options: ["San Clemente", "Talca", "Linares", "Pelarco", "San Rafael"]
+              - { label: "Superficie (m²)", name: "m2", widget: "number", value_type: "int", min: 0 }
+              - { label: "Precio (UF)", name: "precio_uf", widget: "number", value_type: "int", min: 0 }
+              - { label: "UF por m²", name: "ufm2", widget: "number", value_type: "float", min: 0, step: 0.01, hint: "Calculado: precio_uf ÷ m². Se llena manual por ahora." }
+              - { label: "Distancia a Talca (min)", name: "distancia_talca_km", widget: "number", value_type: "int", min: 0, default: 30 }
+              - { label: "Descripción", name: "descripcion", widget: "text", required: false, hint: "Texto largo. Separa párrafos con una línea en blanco." }
+              - label: "Tags (etiquetas que aparecen en la card)"
+                name: "tags"
+                widget: "list"
                 default: []
-                hint: 'Ej: Agua APR, Luz CGE, Rol propio'
-              - label: 'Servicios disponibles'
-                name: 'servicios'
-                widget: 'select'
+                hint: "Ej: Agua APR, Luz CGE, Rol propio"
+              - label: "Servicios disponibles"
+                name: "servicios"
+                widget: "select"
                 multiple: true
                 required: false
                 options:
-                  - { label: 'Agua APR', value: 'agua-apr' }
-                  - { label: 'Pozo profundo', value: 'pozo' }
-                  - { label: 'Luz CGE', value: 'luz-cge' }
-                  - { label: 'Alcantarillado', value: 'alcantarillado' }
-                  - { label: 'Acceso pavimentado', value: 'pavimento' }
-              - { label: 'Latitud', name: 'lat', widget: 'number', value_type: 'float', step: 0.0001, required: false, hint: 'Opcional. Coordenadas reales (Google Maps).' }
-              - { label: 'Longitud', name: 'lng', widget: 'number', value_type: 'float', step: 0.0001, required: false }
-              - { label: 'Posición X en mapa de la región (0–100)', name: 'mapa_x', widget: 'number', value_type: 'int', min: 0, max: 100, default: 50, hint: '0 = oeste, 100 = este. Es la posición visual en el mapa pequeño del listado.' }
-              - { label: 'Posición Y en mapa de la región (0–100)', name: 'mapa_y', widget: 'number', value_type: 'int', min: 0, max: 100, default: 50, hint: '0 = norte, 100 = sur.' }
-              - label: 'Fotos'
-                name: 'fotos'
-                widget: 'list'
+                  - { label: "Agua APR", value: "agua-apr" }
+                  - { label: "Pozo profundo", value: "pozo" }
+                  - { label: "Luz CGE", value: "luz-cge" }
+                  - { label: "Alcantarillado", value: "alcantarillado" }
+                  - { label: "Acceso pavimentado", value: "pavimento" }
+              - { label: "Latitud", name: "lat", widget: "number", value_type: "float", step: 0.0001, required: false, hint: "Opcional. Coordenadas reales (Google Maps)." }
+              - { label: "Longitud", name: "lng", widget: "number", value_type: "float", step: 0.0001, required: false }
+              - { label: "Posición X en mapa de la región (0–100)", name: "mapa_x", widget: "number", value_type: "int", min: 0, max: 100, default: 50, hint: "0 = oeste, 100 = este. Es la posición visual en el mapa pequeño del listado." }
+              - { label: "Posición Y en mapa de la región (0–100)", name: "mapa_y", widget: "number", value_type: "int", min: 0, max: 100, default: 50, hint: "0 = norte, 100 = sur." }
+              - label: "Fotos"
+                name: "fotos"
+                widget: "list"
                 required: false
-                summary: '{{fields.imagen}}'
+                summary: "{{fields.imagen}}"
                 fields:
-                  - { label: 'Imagen', name: 'imagen', widget: 'image' }
-                  - { label: 'Pie de foto', name: 'caption', widget: 'string', required: false }
+                  - { label: "Imagen", name: "imagen", widget: "image" }
+                  - { label: "Pie de foto", name: "caption", widget: "string", required: false }
