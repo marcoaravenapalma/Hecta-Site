@@ -1,0 +1,1888 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sube tu terreno — Hecta</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #3B5D44;
+    --green-700: #2F4A37;
+    --green-soft: #EAF0EC;
+    --sand: #E8DFC9;
+    --sand-soft: #F1EBDB;
+    --terra: #C77B5F;
+    --terra-700: #B36A4F;
+    --ink: #1A2421;
+    --bone: #FAFAF7;
+    --gray: #6B6B6B;
+    --gray-light: #9A9A9A;
+    --line: #E8DFC9;
+    --line-strong: #D4D4D4;
+    --r-sm: 8px;
+    --r-md: 10px;
+    --r-lg: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bone);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  h1, h2, h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); }
+  h2 { font-size: clamp(1.35rem, 1.5vw + 0.5rem, 1.75rem); }
+  h3 { font-size: 1.1rem; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  .wrap { width: 100%; max-width: 960px; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2rem; } }
+
+  /* Header */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-block: 0.9rem; gap: 1rem; }
+  .logo { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.4rem; color: var(--ink); }
+  .logo-mark { width: 22px; height: 22px; color: var(--green); }
+  .nav-aside { display: inline-flex; align-items: center; gap: 1rem; font-size: 0.88rem; color: var(--gray); }
+  .nav-aside a { color: var(--green); border-bottom: 1px solid transparent; transition: border-color 160ms; }
+  .nav-aside a:hover { border-color: var(--green); }
+  .nav-aside .save-status {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+  }
+  .nav-aside .save-status .pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  }
+  @media (max-width: 640px) { .nav-aside .save-status span:last-child { display: none; } }
+
+  /* Page head */
+  .page-head { padding-block: 2.5rem 1.5rem; }
+  .page-head .eyebrow { font-size: 0.78rem; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.65rem; }
+  .page-head h1 { margin-bottom: 0.65rem; }
+  .page-head .lede { color: var(--gray); font-size: 1.02rem; max-width: 42rem; }
+
+  /* Stepper */
+  .stepper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    padding-block: 1.5rem 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .step {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    cursor: pointer;
+    transition: opacity 160ms;
+  }
+  .step:hover { opacity: 0.85; }
+  .step .bar {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--line);
+    transition: background-color 200ms;
+  }
+  .step.done .bar { background: var(--green); }
+  .step.current .bar { background: var(--terra); }
+  .step .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray);
+    letter-spacing: 0.04em;
+  }
+  .step.current .num { color: var(--terra); }
+  .step.done .num { color: var(--green); }
+  .step .label {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  @media (max-width: 700px) {
+    .step .label { font-size: 0.78rem; }
+    .step .num { font-size: 0.68rem; }
+  }
+
+  /* Layout: form + side panel */
+  .form-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: 2.5rem 4rem;
+  }
+  @media (min-width: 1024px) {
+    .form-layout { grid-template-columns: 1fr 320px; gap: 3rem; }
+  }
+  .side-panel { display: none; }
+  @media (min-width: 1024px) { .side-panel { display: block; } }
+
+  /* Step section */
+  .step-section { display: none; }
+  .step-section.active { display: block; }
+  .step-section .step-head { margin-bottom: 2rem; }
+  .step-section .step-head .small-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--gray);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .step-section .step-head h2 { margin-bottom: 0.5rem; }
+  .step-section .step-head .lede { color: var(--gray); font-size: 0.98rem; max-width: 36rem; }
+
+  /* Field group */
+  .field-group {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .field-group:last-of-type { border-bottom: 0; }
+  .field-group h3 { margin-bottom: 0.4rem; }
+  .field-group .group-help { color: var(--gray); font-size: 0.9rem; margin-bottom: 1.25rem; }
+
+  .field { margin-bottom: 1.25rem; }
+  .field:last-child { margin-bottom: 0; }
+  .field-row { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  @media (min-width: 640px) { .field-row.cols-2 { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 640px) { .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+  .label-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0.45rem; gap: 0.5rem; }
+  label { display: block; font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+  label .req { color: var(--terra); margin-left: 2px; }
+  label .opt { font-weight: 400; color: var(--gray-light); font-size: 0.78rem; margin-left: 0.4rem; }
+  .help { font-size: 0.8rem; color: var(--gray); margin-top: 0.4rem; line-height: 1.45; }
+  .help.error { color: #B0533A; }
+
+  /* Inputs */
+  .input, .textarea, .select {
+    width: 100%;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    background: var(--bone);
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    transition: border-color 160ms, box-shadow 160ms;
+  }
+  .input:focus, .textarea:focus, .select:focus {
+    outline: 0;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(59,93,68,0.12);
+  }
+  .input.has-prefix { padding-left: 2.5rem; }
+  .input.has-suffix { padding-right: 3.5rem; }
+  .textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+  .input-mono { font-family: 'JetBrains Mono', monospace; }
+
+  .input-wrap { position: relative; }
+  .input-prefix, .input-suffix {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--gray);
+    pointer-events: none;
+  }
+  .input-prefix { left: 0.85rem; }
+  .input-suffix { right: 0.85rem; }
+
+  .select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m6 9 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    padding-right: 2.5rem;
+  }
+
+  /* Radio cards */
+  .radio-cards { display: grid; grid-template-columns: 1fr; gap: 0.65rem; }
+  @media (min-width: 640px) { .radio-cards.cols-2 { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 640px) { .radio-cards.cols-3 { grid-template-columns: 1fr 1fr 1fr; } }
+  .radio-card {
+    display: block;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    padding: 1rem 1.15rem;
+    cursor: pointer;
+    transition: all 160ms;
+    background: var(--bone);
+    position: relative;
+  }
+  .radio-card input { position: absolute; opacity: 0; pointer-events: none; }
+  .radio-card:hover { border-color: var(--green); }
+  .radio-card.selected {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+  .radio-card .rc-head {
+    display: flex; align-items: flex-start; gap: 0.65rem;
+  }
+  .radio-card .dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    flex-shrink: 0; margin-top: 1px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 160ms;
+  }
+  .radio-card.selected .dot { border-color: var(--green); background: var(--green); }
+  .radio-card .dot::after {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bone); opacity: 0;
+    transition: opacity 160ms;
+  }
+  .radio-card.selected .dot::after { opacity: 1; }
+  .radio-card .ttl { font-weight: 500; font-size: 0.95rem; line-height: 1.3; }
+  .radio-card .desc { color: var(--gray); font-size: 0.84rem; margin-top: 0.25rem; line-height: 1.5; }
+
+  /* Checkbox grid (servicios) */
+  .check-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+  @media (min-width: 640px) { .check-grid { grid-template-columns: 1fr 1fr; } }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: all 160ms;
+    background: var(--bone);
+  }
+  .check-item:hover { border-color: var(--green); }
+  .check-item input { display: none; }
+  .check-item .box {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 4px;
+    background: var(--bone);
+    flex-shrink: 0; margin-top: 1px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 160ms;
+  }
+  .check-item .box svg { width: 12px; height: 12px; color: var(--bone); opacity: 0; }
+  .check-item.selected { border-color: var(--green); background: var(--green-soft); }
+  .check-item.selected .box { background: var(--green); border-color: var(--green); }
+  .check-item.selected .box svg { opacity: 1; }
+  .check-item .label-text { font-size: 0.92rem; font-weight: 500; line-height: 1.3; }
+  .check-item .label-sub { color: var(--gray); font-size: 0.8rem; margin-top: 0.2rem; line-height: 1.45; }
+
+  /* Tabs (location methods) */
+  .loc-tabs {
+    display: inline-flex;
+    gap: 2px;
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 4px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .loc-tab {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--gray);
+    transition: all 160ms;
+    white-space: nowrap;
+  }
+  .loc-tab svg { width: 14px; height: 14px; }
+  .loc-tab:hover { color: var(--ink); }
+  .loc-tab.active { background: var(--bone); color: var(--ink); box-shadow: 0 1px 0 rgba(26,36,33,0.05); }
+  .loc-pane { display: none; }
+  .loc-pane.active { display: block; }
+
+  /* Address autocomplete */
+  .ac-wrap { position: relative; }
+  .ac-input { padding-left: 2.5rem; padding-right: 2.5rem; }
+  .ac-icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--gray); pointer-events: none; }
+  .ac-icon svg { width: 16px; height: 16px; }
+  .ac-clear { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border-radius: 50%; color: var(--gray); display: none; align-items: center; justify-content: center; }
+  .ac-clear:hover { background: var(--sand-soft); color: var(--ink); }
+  .ac-clear svg { width: 14px; height: 14px; }
+  .ac-clear.visible { display: inline-flex; }
+  .ac-list {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--bone);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    box-shadow: 0 8px 24px rgba(26,36,33,0.08);
+    max-height: 280px; overflow-y: auto;
+    z-index: 10;
+    display: none;
+  }
+  .ac-list.open { display: block; }
+  .ac-item {
+    display: flex; gap: 0.7rem; align-items: flex-start;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 120ms;
+  }
+  .ac-item:last-child { border-bottom: 0; }
+  .ac-item:hover, .ac-item.highlighted { background: var(--green-soft); }
+  .ac-item .pin-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--green-soft);
+    color: var(--green);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .ac-item .pin-dot svg { width: 14px; height: 14px; }
+  .ac-item .ac-main { font-size: 0.92rem; font-weight: 500; line-height: 1.3; }
+  .ac-item .ac-sub { font-size: 0.8rem; color: var(--gray); margin-top: 0.15rem; }
+  .ac-item mark { background: transparent; color: var(--green); font-weight: 600; }
+  .ac-empty {
+    padding: 1rem 1rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--gray);
+    text-align: center;
+  }
+  .ac-attribution {
+    padding: 0.55rem 0.9rem;
+    border-top: 1px solid var(--line);
+    background: var(--sand-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gray);
+    text-align: right;
+  }
+
+  /* Coords inputs */
+  .coords-grid { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
+  @media (min-width: 640px) { .coords-grid { grid-template-columns: 1fr 1fr auto; align-items: end; } }
+  .gmaps-paste {
+    margin-top: 0.85rem;
+    padding: 0.9rem 1rem;
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .gmaps-paste .gp-head {
+    display: flex; gap: 0.55rem; align-items: center;
+    font-size: 0.85rem; font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .gmaps-paste .gp-head svg { width: 14px; height: 14px; color: var(--green); }
+  .gmaps-paste p {
+    margin: 0 0 0.6rem;
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+  .gmaps-paste p code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+  }
+  .gmaps-paste .input-row { display: flex; gap: 0.5rem; }
+  .gmaps-paste .input-row .input { flex: 1; }
+  .paste-feedback {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    display: none;
+  }
+  .paste-feedback.ok { display: block; color: var(--green); }
+  .paste-feedback.err { display: block; color: #B0533A; }
+
+  /* Map picker */
+  .map-picker {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--sand-soft);
+    overflow: hidden;
+    cursor: crosshair;
+  }
+  .map-picker svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-picker .pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    color: var(--terra);
+    width: 32px; height: 32px;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 0 rgba(26,36,33,0.12));
+    transition: top 200ms ease, left 200ms ease;
+  }
+  .map-picker .hint {
+    position: absolute; top: 0.85rem; left: 0.85rem;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    color: var(--gray);
+  }
+  .coords-readout {
+    margin-top: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+
+  /* File upload */
+  .upload-zone {
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--r-md);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background: var(--sand-soft);
+    cursor: pointer;
+    transition: all 160ms;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+  .upload-zone .upload-icon {
+    width: 38px; height: 38px;
+    margin: 0 auto 0.85rem;
+    color: var(--green);
+  }
+  .upload-zone .ttl { font-weight: 500; font-size: 0.97rem; margin-bottom: 0.3rem; }
+  .upload-zone .desc { color: var(--gray); font-size: 0.85rem; }
+  .upload-zone .desc b { color: var(--green); }
+
+  .file-list { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .file-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--bone);
+  }
+  .file-item .file-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--r-sm);
+    background: var(--green-soft);
+    color: var(--green);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .file-item .file-icon svg { width: 16px; height: 16px; }
+  .file-item .info { flex: 1; min-width: 0; }
+  .file-item .name { font-size: 0.9rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-item .meta { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--gray); margin-top: 0.15rem; }
+  .file-item button.remove {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    color: var(--gray);
+    transition: all 160ms;
+  }
+  .file-item button.remove:hover { background: #F4E1DA; color: #B0533A; }
+  .file-item button.remove svg { width: 14px; height: 14px; }
+
+  /* Photo grid (preview) */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.65rem;
+    margin-top: 1.25rem;
+  }
+  .photo-tile {
+    aspect-ratio: 1;
+    border-radius: var(--r-sm);
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+  }
+  .photo-tile svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .photo-tile .photo-num {
+    position: absolute; top: 0.4rem; left: 0.4rem;
+    background: rgba(26,36,33,0.7); color: var(--bone);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+  }
+  .photo-tile .remove-photo {
+    position: absolute; top: 0.4rem; right: 0.4rem;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--bone); color: var(--ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 160ms;
+  }
+  .photo-tile:hover .remove-photo { opacity: 1; }
+  .photo-tile .remove-photo svg { width: 12px; height: 12px; }
+  .photo-tile.cover-tag::before {
+    content: 'Portada';
+    position: absolute; bottom: 0.4rem; left: 0.4rem;
+    background: var(--terra); color: var(--bone);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    z-index: 2;
+  }
+
+  /* Tip box */
+  .tip {
+    display: flex; gap: 0.85rem;
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1rem 1.15rem;
+    margin-top: 1.25rem;
+  }
+  .tip-icon {
+    width: 32px; height: 32px;
+    background: var(--green-soft); color: var(--green);
+    border-radius: var(--r-sm);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .tip-icon svg { width: 16px; height: 16px; }
+  .tip .ttl { font-weight: 500; font-size: 0.92rem; margin-bottom: 0.2rem; }
+  .tip p { color: var(--gray); font-size: 0.85rem; line-height: 1.55; margin: 0; }
+
+  /* Review (step 5) */
+  .review-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .review-card-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .review-card-head h3 { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.1rem; }
+  .review-edit {
+    color: var(--green); font-size: 0.85rem; font-weight: 500;
+    border-bottom: 1px solid currentColor; padding-bottom: 1px;
+  }
+  .review-edit:hover { color: var(--terra); }
+  .review-row {
+    display: grid; grid-template-columns: 160px 1fr;
+    gap: 1rem; padding: 0.5rem 0;
+    font-size: 0.92rem;
+  }
+  .review-row .k { color: var(--gray); }
+  .review-row .v { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .review-row .v.text { font-family: 'Inter', sans-serif; font-weight: 400; }
+  @media (max-width: 640px) {
+    .review-row { grid-template-columns: 1fr; gap: 0.1rem; padding: 0.6rem 0; }
+  }
+
+  /* Mandate radio (step 1) */
+  .mandate {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1.5rem;
+    background: var(--sand-soft);
+    margin-top: 1rem;
+  }
+  .mandate h3 { margin-bottom: 0.5rem; }
+  .mandate p { color: var(--gray); font-size: 0.9rem; line-height: 1.55; margin: 0; }
+
+  /* Side panel */
+  .panel {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+  .panel h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 1rem;
+  }
+  .panel-block { padding-bottom: 1.25rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+  .panel-block:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: 0; }
+  .next-up { display: flex; flex-direction: column; gap: 0.5rem; }
+  .next-up li {
+    display: flex; gap: 0.65rem; align-items: flex-start;
+    font-size: 0.88rem; color: var(--ink);
+    line-height: 1.45;
+  }
+  .next-up li .num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green-soft);
+    color: var(--green);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .panel-cta {
+    display: flex; gap: 0.6rem; align-items: center;
+    padding: 0.75rem 0.9rem;
+    background: var(--green);
+    color: var(--bone);
+    border-radius: var(--r-md);
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  .panel-cta svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .panel-cta a { color: var(--bone); border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+
+  /* Footer actions */
+  .form-actions {
+    display: flex; justify-content: space-between; gap: 0.85rem;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.85rem 1.35rem;
+    border-radius: var(--r-md);
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1;
+    transition: all 160ms;
+    white-space: nowrap;
+  }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--terra); color: var(--bone); }
+  .btn-primary:hover:not(:disabled) { background: var(--terra-700); }
+  .btn-ghost { color: var(--ink); }
+  .btn-ghost:hover:not(:disabled) { color: var(--green); }
+  .btn-secondary { border: 1px solid var(--line-strong); color: var(--ink); background: var(--bone); }
+  .btn-secondary:hover:not(:disabled) { border-color: var(--green); color: var(--green); }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* Success state */
+  .success {
+    text-align: center;
+    padding: 4rem 1rem;
+  }
+  .success .check-circle {
+    width: 80px; height: 80px;
+    margin: 0 auto 1.5rem;
+    background: var(--green-soft);
+    color: var(--green);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .success .check-circle svg { width: 36px; height: 36px; }
+  .success h2 { margin-bottom: 0.85rem; }
+  .success p { color: var(--gray); max-width: 32rem; margin: 0 auto 0.75rem; line-height: 1.6; }
+  .success .ref-num {
+    margin: 1.5rem auto;
+    display: inline-flex; align-items: center; gap: 0.65rem;
+    padding: 0.7rem 1rem;
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.92rem;
+  }
+  .success .ref-num .label { color: var(--gray); font-size: 0.78rem; }
+  .success .next-actions {
+    margin-top: 2rem;
+    display: flex; gap: 0.85rem; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .success-timeline {
+    margin: 2.5rem auto 0;
+    max-width: 36rem;
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1.5rem;
+    background: var(--bone);
+  }
+  .success-timeline h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.74rem; font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin: 0 0 1.25rem;
+  }
+  .success-timeline ol { display: flex; flex-direction: column; gap: 1rem; counter-reset: tl; }
+  .success-timeline li {
+    counter-increment: tl;
+    padding-left: 2.25rem;
+    position: relative;
+  }
+  .success-timeline li::before {
+    content: counter(tl);
+    position: absolute; left: 0; top: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--green-soft); color: var(--green);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+  .success-timeline li .ttl { font-weight: 500; font-size: 0.95rem; line-height: 1.3; }
+  .success-timeline li .desc { color: var(--gray); font-size: 0.85rem; margin-top: 0.25rem; line-height: 1.5; }
+  .success-timeline li .when {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem; color: var(--gray-light);
+    margin-top: 0.3rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Principal">
+      <a href="hecta.html" class="logo">
+        <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+          <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+        </svg>
+        Hecta
+      </a>
+      <div class="nav-aside">
+        <span class="save-status" id="save-status">
+          <span class="pulse"></span>
+          <span id="save-text">Borrador guardado</span>
+        </span>
+        <a href="hecta.html">Salir</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div class="eyebrow">Sube tu terreno</div>
+    <h1>Cuéntanos sobre tu terreno. El resto lo hacemos nosotros.</h1>
+    <p class="lede">Toma 8 a 12 minutos. Después el equipo te contacta en 48 horas hábiles para coordinar la visita en terreno y la confección de la ficha técnica.</p>
+  </div>
+
+  <div class="stepper" id="stepper">
+    <div class="step current" data-step="1"><div class="bar"></div><div class="num">01</div><div class="label">El predio</div></div>
+    <div class="step" data-step="2"><div class="bar"></div><div class="num">02</div><div class="label">Ubicación</div></div>
+    <div class="step" data-step="3"><div class="bar"></div><div class="num">03</div><div class="label">Servicios y legal</div></div>
+    <div class="step" data-step="4"><div class="bar"></div><div class="num">04</div><div class="label">Fotos y docs</div></div>
+    <div class="step" data-step="5"><div class="bar"></div><div class="num">05</div><div class="label">Tu contacto</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="form-layout">
+    <form id="form" name="subir-terreno" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+
+      <!-- Netlify forms: campos invisibles obligatorios -->
+      <input type="hidden" name="form-name" value="subir-terreno">
+      <input type="hidden" name="payload" id="form-payload" value="">
+      <p style="display:none">
+        <label>No llenar este campo: <input name="bot-field"></label>
+      </p>
+
+      <!-- ============ STEP 1 ============ -->
+      <section class="step-section active" data-section="1">
+        <div class="step-head">
+          <div class="small-eyebrow">Paso 01 de 05</div>
+          <h2>Sobre el predio.</h2>
+          <p class="lede">Lo básico para entender qué estás vendiendo. Si no sabes algún dato, déjalo en blanco — lo llenamos en la visita.</p>
+        </div>
+
+        <div class="field-group">
+          <h3>¿Qué tipo de terreno es?</h3>
+          <p class="group-help">Esto nos ayuda a saber qué certificados pedir.</p>
+          <div class="radio-cards cols-3" data-radio-group="tipo">
+            <label class="radio-card selected">
+              <input type="radio" name="tipo" value="parcela" checked>
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Parcela rural</div>
+                  <div class="desc">Sobre 5.000 m², uso agrícola.</div>
+                </div>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="tipo" value="sitio">
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Sitio urbano</div>
+                  <div class="desc">En centro urbano o loteo.</div>
+                </div>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="tipo" value="campo">
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Campo</div>
+                  <div class="desc">Sobre 5 hectáreas.</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Datos generales</h3>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="titulo">Título corto del terreno <span class="req">*</span></label>
+            </div>
+            <input class="input" id="titulo" type="text" placeholder="Ej. Parcela 5.230 m² · Sector Mariposas" maxlength="80">
+            <div class="help">Cómo aparecerá en el listado. Lo afinamos contigo si hace falta.</div>
+          </div>
+
+          <div class="field-row cols-2">
+            <div class="field">
+              <div class="label-row">
+                <label for="superficie">Superficie aprox. <span class="req">*</span></label>
+              </div>
+              <div class="input-wrap">
+                <input class="input input-mono has-suffix" id="superficie" type="number" placeholder="5.230" inputmode="numeric">
+                <span class="input-suffix">m²</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="label-row">
+                <label for="precio">Precio que pides <span class="req">*</span></label>
+              </div>
+              <div class="input-wrap">
+                <span class="input-prefix">UF</span>
+                <input class="input input-mono has-prefix" id="precio" type="number" placeholder="2.450" inputmode="numeric">
+              </div>
+              <div class="help">Si tienes flexibilidad, lo conversamos en la visita.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="descripcion">Cuéntanos del terreno <span class="opt">opcional</span></label>
+            </div>
+            <textarea class="textarea" id="descripcion" placeholder="¿Qué tiene de especial? Vista, vecinos, historia, proyecto pensado, etc. No te preocupes por la redacción — la editamos para la ficha final."></textarea>
+            <div class="help"><span id="desc-count">0</span> / 600 caracteres</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Tipo de mandato</h3>
+          <p class="group-help">Cómo trabajaremos juntos. Solo cobramos comisión cuando se vende.</p>
+
+          <div class="radio-cards" data-radio-group="mandato">
+            <label class="radio-card selected">
+              <input type="radio" name="mandato" value="exclusivo" checked>
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Mandato exclusivo Hecta <span style="display:inline-flex; background:var(--terra); color:var(--bone); font-size:0.7rem; padding:0.15rem 0.45rem; border-radius:4px; margin-left:0.4rem;">recomendado</span></div>
+                  <div class="desc">Trabajamos solo nosotros tu terreno. Comisión 3% + IVA. Incluye ficha técnica completa, fotos drone, video recorrido y marketing geosegmentado.</div>
+                </div>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="mandato" value="abierto">
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Mandato abierto</div>
+                  <div class="desc">Puedes tener el terreno con otros corredores. Comisión 4% + IVA. La ficha es más simple.</div>
+                </div>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="mandato" value="conversar">
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Aún no decido — me gustaría conversarlo</div>
+                  <div class="desc">Sin compromiso. Te llamamos y resolvemos dudas antes de elegir.</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STEP 2 ============ -->
+      <section class="step-section" data-section="2">
+        <div class="step-head">
+          <div class="small-eyebrow">Paso 02 de 05</div>
+          <h2>¿Dónde queda?</h2>
+          <p class="lede">La dirección no aparece pública en la ficha — solo el sector. La ubicación exacta la usamos solo para coordinar la visita.</p>
+        </div>
+
+        <div class="field-group">
+          <div class="field-row cols-2">
+            <div class="field">
+              <div class="label-row">
+                <label for="region">Región <span class="req">*</span></label>
+              </div>
+              <select class="select" id="region">
+                <option value="maule" selected>Región del Maule</option>
+                <option value="otra" disabled>Otra región (próximamente)</option>
+              </select>
+              <div class="help">Hoy operamos solo en el Maule. Otras regiones a partir de junio.</div>
+            </div>
+            <div class="field">
+              <div class="label-row">
+                <label for="comuna">Comuna <span class="req">*</span></label>
+              </div>
+              <select class="select" id="comuna">
+                <option value="">Selecciona una comuna…</option>
+                <option value="san-clemente">San Clemente</option>
+                <option value="talca">Talca</option>
+                <option value="linares">Linares</option>
+                <option value="pelarco">Pelarco</option>
+                <option value="san-rafael">San Rafael</option>
+                <option value="rio-claro">Río Claro</option>
+                <option value="maule">Maule</option>
+                <option value="curico">Curicó</option>
+                <option value="otra">Otra</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="sector">Sector o localidad <span class="opt">opcional</span></label>
+            </div>
+            <input class="input" id="sector" type="text" placeholder="Ej. Mariposas, El Colorado, Los Maquis…">
+            <div class="help">El nombre con que la zona se conoce localmente.</div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="direccion">Dirección o referencia para llegar <span class="req">*</span></label>
+            </div>
+            <input class="input" id="direccion" type="text" placeholder="Camino L-31 km 8, frente al portón verde de los Soto…">
+            <div class="help">No aparece pública. Es solo para que el equipo llegue al terreno.</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Marca el predio con Google Maps</h3>
+          <p class="group-help">Abre Google Maps en el celular, mantén presionado el punto exacto del terreno hasta que aparezca un pin rojo, toca <code style="font-family:'JetBrains Mono',monospace; background:var(--bone); border:1px solid var(--line); padding:0.05rem 0.35rem; border-radius:4px; font-size:0.82rem;">Compartir</code> y pega aquí el enlace. También sirve copiar las coordenadas directamente desde la app.</p>
+
+          <div class="input-wrap" style="display:flex; gap:0.5rem;">
+            <input class="input" id="gmaps-url" type="text" placeholder="https://maps.app.goo.gl/...   o   −35.6109, −71.4416" style="flex:1;">
+            <button type="button" class="btn btn-secondary" id="gmaps-paste-btn">Ubicar</button>
+          </div>
+          <div class="paste-feedback" id="paste-feedback"></div>
+
+          <div id="gmaps-confirmed" style="display:none; margin-top:1rem; padding:1rem 1.15rem; background:var(--green-soft); border:1px solid var(--green); border-radius:var(--r-md);">
+            <div style="display:flex; gap:0.7rem; align-items:flex-start;">
+              <svg style="width:20px; height:20px; color:var(--green); margin-top:1px; flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+              <div style="flex:1; min-width:0;">
+                <div style="font-weight:500; font-size:0.95rem;">Ubicación guardada</div>
+                <div class="coords-readout" id="coords-readout" style="margin-top:0.25rem;">−35.6109°, −71.4416°</div>
+                <a href="#" id="open-gmaps" target="_blank" rel="noopener" style="display:inline-flex; gap:0.35rem; align-items:center; margin-top:0.5rem; font-size:0.82rem; color:var(--green); border-bottom:1px solid currentColor; padding-bottom:1px;">
+                  Ver en Google Maps
+                  <svg style="width:12px; height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8v.01"/></svg>
+          </div>
+          <div>
+            <div class="ttl">Tu privacidad</div>
+            <p>La dirección exacta y tus datos personales nunca aparecen en la ficha pública. Los compradores ven el sector (ej. "Mariposas, San Clemente") y nosotros coordinamos las visitas.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STEP 3 ============ -->
+      <section class="step-section" data-section="3">
+        <div class="step-head">
+          <div class="small-eyebrow">Paso 03 de 05</div>
+          <h2>Servicios y datos legales.</h2>
+          <p class="lede">Lo que sepas, mejor. Si dudas, deja en blanco — verificamos cada uno con la fuente oficial en la visita técnica.</p>
+        </div>
+
+        <div class="field-group">
+          <h3>Factibilidad de servicios</h3>
+          <p class="group-help">Marca lo que el terreno tiene o puede tener.</p>
+
+          <div class="check-grid">
+            <label class="check-item" data-check>
+              <input type="checkbox" name="servicios" value="agua-apr">
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+              <div>
+                <div class="label-text">Agua APR (comité rural)</div>
+                <div class="label-sub">Tiene factibilidad o ya está conectado</div>
+              </div>
+            </label>
+            <label class="check-item" data-check>
+              <input type="checkbox" name="servicios" value="pozo">
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+              <div>
+                <div class="label-text">Pozo profundo</div>
+                <div class="label-sub">Ya construido o autorizado</div>
+              </div>
+            </label>
+            <label class="check-item" data-check>
+              <input type="checkbox" name="servicios" value="luz">
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+              <div>
+                <div class="label-text">Luz CGE</div>
+                <div class="label-sub">Poste en el frente o cerca</div>
+              </div>
+            </label>
+            <label class="check-item" data-check>
+              <input type="checkbox" name="servicios" value="alcantarillado">
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+              <div>
+                <div class="label-text">Alcantarillado</div>
+                <div class="label-sub">Red pública o fosa séptica viable</div>
+              </div>
+            </label>
+            <label class="check-item" data-check>
+              <input type="checkbox" name="servicios" value="pavimento">
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+              <div>
+                <div class="label-text">Acceso pavimentado</div>
+                <div class="label-sub">Camino transitable todo el año</div>
+              </div>
+            </label>
+            <label class="check-item" data-check>
+              <input type="checkbox" name="servicios" value="internet">
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+              <div>
+                <div class="label-text">Cobertura 4G/5G</div>
+                <div class="label-sub">Señal estable de algún operador</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Datos legales</h3>
+          <p class="group-help">Si los tienes a mano. Si no, lo verificamos en CBR y SII por ti, sin costo.</p>
+
+          <div class="field-row cols-2">
+            <div class="field">
+              <div class="label-row">
+                <label for="rol">ROL predial <span class="opt">opcional</span></label>
+              </div>
+              <input class="input input-mono" id="rol" type="text" placeholder="421-78">
+              <div class="help">Lo encuentras en el aviso de contribuciones.</div>
+            </div>
+            <div class="field">
+              <div class="label-row">
+                <label for="fojas">Inscripción CBR <span class="opt">opcional</span></label>
+              </div>
+              <input class="input input-mono" id="fojas" type="text" placeholder="Fs. 1.482 N°2.318 / 2019">
+              <div class="help">Foja, número y año.</div>
+            </div>
+          </div>
+
+          <div class="field-row cols-2">
+            <div class="field">
+              <div class="label-row">
+                <label for="uso-suelo">Uso de suelo</label>
+              </div>
+              <select class="select" id="uso-suelo">
+                <option value="">No estoy seguro</option>
+                <option value="rural-agricola">Rural agrícola</option>
+                <option value="urbano">Urbano</option>
+                <option value="extension-urbana">Zona de extensión urbana</option>
+                <option value="proteccion">Zona de protección</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label-row">
+                <label for="subdivision">Subdivisión SAG</label>
+              </div>
+              <select class="select" id="subdivision">
+                <option value="">No estoy seguro</option>
+                <option value="si-vigente">Sí, resolución vigente</option>
+                <option value="si-vencida">Sí, pero está vencida</option>
+                <option value="no">No tiene</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group" style="border:0; padding:0; margin-top:0.5rem;">
+            <div class="check-grid" style="grid-template-columns:1fr;">
+              <label class="check-item" data-check>
+                <input type="checkbox" name="condiciones" value="sin-gravamenes">
+                <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                <div>
+                  <div class="label-text">El terreno no tiene hipotecas, embargos ni prohibiciones</div>
+                  <div class="label-sub">Confirmaremos con certificado de gravámenes vigente.</div>
+                </div>
+              </label>
+              <label class="check-item" data-check>
+                <input type="checkbox" name="condiciones" value="contribuciones-dia">
+                <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                <div>
+                  <div class="label-text">Contribuciones al día</div>
+                  <div class="label-sub">Sin deuda con Tesorería.</div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STEP 4 ============ -->
+      <section class="step-section" data-section="4">
+        <div class="step-head">
+          <div class="small-eyebrow">Paso 04 de 05</div>
+          <h2>Fotos y documentos.</h2>
+          <p class="lede">No te estreses con las fotos — el equipo saca fotos profesionales con drone en la visita. Sirve cualquier referencia para entender el terreno.</p>
+        </div>
+
+        <div class="field-group">
+          <h3>Fotos del terreno <span class="opt" style="font-weight:400; color:var(--gray-light); font-size:0.78rem;">opcional</span></h3>
+          <p class="group-help">Las que tengas: del celular, hechas por un vecino, capturas de Maps. Mínimo 3 si quieres que el equipo se haga una idea antes de la visita.</p>
+
+          <label class="upload-zone" for="photo-input" id="photo-zone">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="9" cy="9" r="2"/>
+              <path d="m21 15-5-5L5 21"/>
+            </svg>
+            <div class="ttl">Arrastra fotos aquí o <b>elige desde tu dispositivo</b></div>
+            <div class="desc">JPG o PNG · Hasta 20 fotos · Máx. 10 MB cada una</div>
+            <input type="file" id="photo-input" multiple accept="image/*" hidden>
+          </label>
+
+          <div class="photo-grid" id="photo-grid"></div>
+        </div>
+
+        <div class="field-group">
+          <h3>Documentos <span class="opt" style="font-weight:400; color:var(--gray-light); font-size:0.78rem;">opcional</span></h3>
+          <p class="group-help">Si los tienes: copia de inscripción, certificado de gravámenes, plano del predio, certificado de subdivisión. Acepta PDF, JPG o foto desde el celular.</p>
+
+          <label class="upload-zone" for="doc-input" id="doc-zone">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+              <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>
+              <path d="M9 13h6M9 17h4"/>
+            </svg>
+            <div class="ttl">Arrastra documentos aquí o <b>elige desde tu dispositivo</b></div>
+            <div class="desc">PDF, JPG o PNG · Máx. 25 MB cada uno</div>
+            <input type="file" id="doc-input" multiple accept=".pdf,.jpg,.jpeg,.png" hidden>
+          </label>
+
+          <div class="file-list" id="doc-list"></div>
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-5z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="ttl">Tus archivos están seguros</div>
+            <p>Solo el equipo asignado y el equipo legal acceden a tus documentos. No se publican ni se comparten con terceros sin tu autorización.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STEP 5 ============ -->
+      <section class="step-section" data-section="5">
+        <div class="step-head">
+          <div class="small-eyebrow">Paso 05 de 05</div>
+          <h2>Tu contacto, y a revisar.</h2>
+          <p class="lede">Última pantalla. Te contactamos por el medio que prefieras dentro de 48 horas hábiles.</p>
+        </div>
+
+        <div class="field-group">
+          <h3>Datos de contacto</h3>
+
+          <div class="field-row cols-2">
+            <div class="field">
+              <div class="label-row">
+                <label for="nombre">Nombre <span class="req">*</span></label>
+              </div>
+              <input class="input" id="nombre" type="text" placeholder="Roberto Soto Pérez">
+            </div>
+            <div class="field">
+              <div class="label-row">
+                <label for="rut">RUT <span class="req">*</span></label>
+              </div>
+              <input class="input input-mono" id="rut" type="text" placeholder="12.345.678-9">
+            </div>
+          </div>
+
+          <div class="field-row cols-2">
+            <div class="field">
+              <div class="label-row">
+                <label for="telefono">WhatsApp / teléfono <span class="req">*</span></label>
+              </div>
+              <input class="input input-mono" id="telefono" type="tel" placeholder="+56 9 1234 5678">
+            </div>
+            <div class="field">
+              <div class="label-row">
+                <label for="email">Email <span class="req">*</span></label>
+              </div>
+              <input class="input" id="email" type="email" placeholder="roberto@correo.cl">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label>¿Eres el dueño del terreno? <span class="req">*</span></label>
+            </div>
+            <div class="radio-cards cols-3" data-radio-group="rol">
+              <label class="radio-card selected">
+                <input type="radio" name="rol" value="dueno" checked>
+                <div class="rc-head">
+                  <span class="dot"></span>
+                  <div><div class="ttl">Sí, soy el dueño</div></div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="rol" value="apoderado">
+                <div class="rc-head">
+                  <span class="dot"></span>
+                  <div><div class="ttl">Soy apoderado</div></div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="rol" value="familiar">
+                <div class="rc-head">
+                  <span class="dot"></span>
+                  <div><div class="ttl">Familiar / amigo</div></div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label>Mejor horario para contactarte</label>
+            </div>
+            <div class="radio-cards cols-3" data-radio-group="horario">
+              <label class="radio-card selected">
+                <input type="radio" name="horario" value="manana" checked>
+                <div class="rc-head">
+                  <span class="dot"></span>
+                  <div><div class="ttl">Mañana</div><div class="desc">9 a 13 hrs</div></div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="horario" value="tarde">
+                <div class="rc-head">
+                  <span class="dot"></span>
+                  <div><div class="ttl">Tarde</div><div class="desc">14 a 18 hrs</div></div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="horario" value="cualquiera">
+                <div class="rc-head">
+                  <span class="dot"></span>
+                  <div><div class="ttl">Cualquiera</div><div class="desc">Da lo mismo</div></div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Revisión rápida</h3>
+          <p class="group-help">Mira que esté todo bien antes de enviar. Puedes editar cualquier sección.</p>
+
+          <div class="review-card">
+            <div class="review-card-head">
+              <h3>El predio</h3>
+              <a href="#" class="review-edit" data-go="1">Editar</a>
+            </div>
+            <div class="review-row"><span class="k">Tipo</span><span class="v" id="r-tipo">Parcela rural</span></div>
+            <div class="review-row"><span class="k">Título</span><span class="v text" id="r-titulo">—</span></div>
+            <div class="review-row"><span class="k">Superficie</span><span class="v" id="r-superficie">—</span></div>
+            <div class="review-row"><span class="k">Precio</span><span class="v" id="r-precio">—</span></div>
+            <div class="review-row"><span class="k">Mandato</span><span class="v" id="r-mandato">Exclusivo Hecta</span></div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-head">
+              <h3>Ubicación</h3>
+              <a href="#" class="review-edit" data-go="2">Editar</a>
+            </div>
+            <div class="review-row"><span class="k">Comuna</span><span class="v" id="r-comuna">—</span></div>
+            <div class="review-row"><span class="k">Sector</span><span class="v text" id="r-sector">—</span></div>
+            <div class="review-row"><span class="k">Coordenadas</span><span class="v" id="r-coords">—</span></div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-head">
+              <h3>Servicios y legal</h3>
+              <a href="#" class="review-edit" data-go="3">Editar</a>
+            </div>
+            <div class="review-row"><span class="k">Servicios</span><span class="v text" id="r-servicios">Ninguno marcado</span></div>
+            <div class="review-row"><span class="k">ROL</span><span class="v" id="r-rol">—</span></div>
+            <div class="review-row"><span class="k">Uso de suelo</span><span class="v" id="r-uso">—</span></div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-head">
+              <h3>Fotos y documentos</h3>
+              <a href="#" class="review-edit" data-go="4">Editar</a>
+            </div>
+            <div class="review-row"><span class="k">Fotos</span><span class="v" id="r-fotos">0</span></div>
+            <div class="review-row"><span class="k">Documentos</span><span class="v" id="r-docs">0</span></div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="check-item" data-check style="border-color:var(--green);">
+            <input type="checkbox" id="acepto">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+            <div>
+              <div class="label-text">Acepto que el equipo me contacte para coordinar la visita técnica y entregar el mandato firmado.</div>
+              <div class="label-sub">Sin pagos ni compromisos hasta firmar el mandato. Lee los <a href="#" style="color:var(--green); border-bottom:1px solid currentColor;">términos del servicio</a>.</div>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- ============ SUCCESS ============ -->
+      <section class="step-section" data-section="success">
+        <div class="success">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+          </div>
+          <h2>Recibido. Tu terreno entró a la cola del equipo.</h2>
+          <p>Un equipo del Maule revisa tu información y te contacta dentro de las próximas 48 horas hábiles para coordinar la visita en terreno.</p>
+
+          <div class="ref-num">
+            <span class="label">Tu referencia</span>
+            <strong id="ref-code">PRD-EN-2026-0184</strong>
+          </div>
+
+          <div class="success-timeline">
+            <h4>Qué pasa ahora</h4>
+            <ol>
+              <li>
+                <div class="ttl">Te contactamos por WhatsApp</div>
+                <div class="desc">Camila o un colega del equipo te escribe para revisar tu información y coordinar la visita.</div>
+                <div class="when">En las próximas 48 hrs hábiles</div>
+              </li>
+              <li>
+                <div class="ttl">Visita técnica al terreno</div>
+                <div class="desc">Vamos al sitio: medimos, fotografiamos con drone, hacemos video recorrido y revisamos servicios reales.</div>
+                <div class="when">Semana 1</div>
+              </li>
+              <li>
+                <div class="ttl">Confección de la ficha técnica</div>
+                <div class="desc">Verificamos certificados, estudiamos comparables del sector y armamos la ficha pública.</div>
+                <div class="when">Semana 2</div>
+              </li>
+              <li>
+                <div class="ttl">Publicación en Hecta</div>
+                <div class="desc">Tu terreno aparece verificado en el listado y empieza el marketing geosegmentado.</div>
+                <div class="when">Semana 2-3</div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="next-actions">
+            <a href="hecta.html" class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+              Volver al inicio
+            </a>
+            <a href="maule.html" class="btn btn-primary">
+              Ver otros terrenos del Maule
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer actions -->
+      <div class="form-actions" id="form-actions">
+        <button type="button" class="btn btn-ghost" id="btn-back" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/></svg>
+          Atrás
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-next">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Side panel -->
+    <aside class="side-panel">
+      <div class="panel">
+        <div class="panel-block">
+          <h4>Qué incluye</h4>
+          <ul style="display:flex; flex-direction:column; gap:0.65rem;">
+            <li style="display:flex; gap:0.55rem; align-items:flex-start; font-size:0.88rem;">
+              <svg style="width:14px; height:14px; color:var(--green); margin-top:3px; flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" strokeLineJoin="round"><path d="m5 12 5 5L20 7"/></svg>
+              Visita técnica con drone y video recorrido
+            </li>
+            <li style="display:flex; gap:0.55rem; align-items:flex-start; font-size:0.88rem;">
+              <svg style="width:14px; height:14px; color:var(--green); margin-top:3px; flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 5 5L20 7"/></svg>
+              Certificados gestionados por nosotros
+            </li>
+            <li style="display:flex; gap:0.55rem; align-items:flex-start; font-size:0.88rem;">
+              <svg style="width:14px; height:14px; color:var(--green); margin-top:3px; flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 5 5L20 7"/></svg>
+              Comparables y precio sugerido
+            </li>
+            <li style="display:flex; gap:0.55rem; align-items:flex-start; font-size:0.88rem;">
+              <svg style="width:14px; height:14px; color:var(--green); margin-top:3px; flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 5 5L20 7"/></svg>
+              Marketing geosegmentado en redes
+            </li>
+            <li style="display:flex; gap:0.55rem; align-items:flex-start; font-size:0.88rem;">
+              <svg style="width:14px; height:14px; color:var(--green); margin-top:3px; flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 5 5L20 7"/></svg>
+              Filtramos compradores reales
+            </li>
+          </ul>
+        </div>
+
+        <div class="panel-block">
+          <h4>Sin sorpresas</h4>
+          <p style="font-size:0.88rem; color:var(--gray); line-height:1.55;">No pagas nada hasta que se vende. Si tu terreno no se transa en 12 meses, el mandato termina sin costo.</p>
+        </div>
+
+        <div class="panel-cta">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43Z"/></svg>
+          <span>¿Prefieres conversar primero? <a href="https://wa.me/56933832870">Escríbenos por WhatsApp.</a></span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  /* ============== State ============== */
+  const state = {
+    step: 1,
+    maxStep: 5,
+    data: {
+      tipo: 'parcela',
+      titulo: '',
+      superficie: '',
+      precio: '',
+      descripcion: '',
+      mandato: 'exclusivo',
+      region: 'maule',
+      comuna: '',
+      sector: '',
+      direccion: '',
+      coords: { x: 56, y: 58, lat: -35.6109, lng: -71.4416 },
+      servicios: new Set(),
+      condiciones: new Set(),
+      rol: '',
+      fojas: '',
+      uso_suelo: '',
+      subdivision: '',
+      photos: [],
+      docs: [],
+      nombre: '',
+      rut: '',
+      telefono: '',
+      email: '',
+      rolContacto: 'dueno',
+      horario: 'manana',
+      acepto: false,
+    }
+  };
+
+  /* ============== Stepper ============== */
+  const stepper = document.getElementById('stepper');
+  const sections = document.querySelectorAll('.step-section');
+  const btnBack = document.getElementById('btn-back');
+  const btnNext = document.getElementById('btn-next');
+  const formActions = document.getElementById('form-actions');
+
+  function goToStep(step) {
+    state.step = step;
+    sections.forEach(s => s.classList.remove('active'));
+    if (step === 'success') {
+      document.querySelector('[data-section="success"]').classList.add('active');
+      formActions.style.display = 'none';
+      stepper.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    document.querySelector(`[data-section="${step}"]`).classList.add('active');
+    [...stepper.querySelectorAll('.step')].forEach(s => {
+      const n = +s.dataset.step;
+      s.classList.toggle('current', n === step);
+      s.classList.toggle('done', n < step);
+    });
+    btnBack.disabled = step === 1;
+    btnNext.innerHTML = step === state.maxStep
+      ? `Enviar terreno
+         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>`
+      : `Siguiente
+         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
+    if (step === 5) updateReview();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  stepper.querySelectorAll('.step').forEach(s => {
+    s.addEventListener('click', () => {
+      const n = +s.dataset.step;
+      if (n <= state.step || s.classList.contains('done')) goToStep(n);
+    });
+  });
+  document.querySelectorAll('.review-edit').forEach(a => {
+    a.addEventListener('click', (e) => { e.preventDefault(); goToStep(+a.dataset.go); });
+  });
+
+  btnBack.addEventListener('click', () => {
+    if (state.step > 1) goToStep(state.step - 1);
+  });
+  btnNext.addEventListener('click', () => {
+    syncDataFromInputs();
+    if (state.step < state.maxStep) goToStep(state.step + 1);
+    else submit();
+  });
+
+  /* ============== Radio cards ============== */
+  document.querySelectorAll('[data-radio-group]').forEach(group => {
+    group.querySelectorAll('.radio-card').forEach(card => {
+      card.addEventListener('click', () => {
+        group.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        const input = card.querySelector('input');
+        input.checked = true;
+      });
+    });
+  });
+
+  /* ============== Check items ============== */
+  document.querySelectorAll('[data-check]').forEach(item => {
+    const input = item.querySelector('input');
+    item.addEventListener('click', (e) => {
+      // prevent double-toggle from native click
+      if (e.target.tagName === 'A') return;
+      e.preventDefault();
+      input.checked = !input.checked;
+      item.classList.toggle('selected', input.checked);
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  });
+
+  /* ============== Description counter ============== */
+  const desc = document.getElementById('descripcion');
+  const descCount = document.getElementById('desc-count');
+  desc.addEventListener('input', () => {
+    if (desc.value.length > 600) desc.value = desc.value.slice(0, 600);
+    descCount.textContent = desc.value.length;
+  });
+
+  /* ============== Google Maps URL paste ============== */
+  const coordsReadout = document.getElementById('coords-readout');
+  const openGmaps = document.getElementById('open-gmaps');
+  const gmapsConfirmed = document.getElementById('gmaps-confirmed');
+
+  function setLocation(lat, lng) {
+    lat = +(+lat).toFixed(6); lng = +(+lng).toFixed(6);
+    state.data.coords = { lat, lng };
+    coordsReadout.textContent = `${lat}°, ${lng}°`;
+    openGmaps.href = `https://www.google.com/maps?q=${lat},${lng}`;
+    gmapsConfirmed.style.display = 'block';
+    fakeSave();
+  }
+
+  function showPasteFeedback(msg, kind) {
+    const el = document.getElementById('paste-feedback');
+    el.textContent = msg;
+    el.className = 'paste-feedback ' + kind;
+  }
+  function parseGmapsInput(s) {
+    if (!s) return null;
+    s = s.trim();
+    const plain = s.match(/^(-?\d{1,3}(?:[\.,]\d+)?)[\s,]+(-?\d{1,3}(?:[\.,]\d+)?)$/);
+    if (plain) return { lat: parseFloat(plain[1].replace(',', '.')), lng: parseFloat(plain[2].replace(',', '.')) };
+    const at = s.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (at) return { lat: parseFloat(at[1]), lng: parseFloat(at[2]) };
+    const dd = s.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+    if (dd) return { lat: parseFloat(dd[1]), lng: parseFloat(dd[2]) };
+    const q = s.match(/[?&](?:q|ll|destination|center)=(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (q) return { lat: parseFloat(q[1]), lng: parseFloat(q[2]) };
+    return null;
+  }
+  document.getElementById('gmaps-paste-btn').addEventListener('click', () => {
+    const raw = document.getElementById('gmaps-url').value;
+    const parsed = parseGmapsInput(raw);
+    if (!parsed) {
+      if (/maps\.app\.goo\.gl|goo\.gl\/maps/.test(raw)) {
+        showPasteFeedback('El enlace corto no contiene coordenadas. Ábrelo en el navegador, espera a que se expanda y copia la URL larga, o pega las coordenadas directamente (ej. −35.6109, −71.4416).', 'err');
+      } else {
+        showPasteFeedback('No pude leer las coordenadas. Pega un enlace de Google Maps o las coordenadas separadas por coma.', 'err');
+      }
+      return;
+    }
+    setLocation(parsed.lat, parsed.lng);
+    showPasteFeedback(`Ubicación guardada correctamente.`, 'ok');
+  });
+
+  /* ============== Photo upload ============== */
+  const photoInput = document.getElementById('photo-input');
+  const photoZone = document.getElementById('photo-zone');
+  const photoGrid = document.getElementById('photo-grid');
+
+  function topoSeed(seed) {
+    const o1 = (seed * 7) % 40 - 20;
+    const o2 = (seed * 13) % 60 - 30;
+    return `<svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="200" height="200" fill="#3B5D44"/>
+      <g fill="none" stroke="#FAFAF7" stroke-opacity="0.3" stroke-width="1">
+        <path d="M-10 ${130+o1} C 50 ${110+o2}, 100 ${140+o1}, 150 ${120+o2} S 220 ${100+o1}, 230 ${120+o2}"/>
+        <path d="M-10 ${90+o2} C 60 ${70+o1}, 110 ${100+o2}, 160 ${80+o1} S 220 ${60+o2}, 230 ${80+o1}"/>
+      </g>
+    </svg>`;
+  }
+
+  function renderPhotos() {
+    photoGrid.innerHTML = state.data.photos.map((p, i) => `
+      <div class="photo-tile ${i === 0 ? 'cover-tag' : ''}" data-idx="${i}">
+        ${topoSeed(i + 1)}
+        <span class="photo-num">${String(i+1).padStart(2,'0')}</span>
+        <button type="button" class="remove-photo" aria-label="Quitar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    `).join('');
+    photoGrid.querySelectorAll('.remove-photo').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = +b.closest('.photo-tile').dataset.idx;
+        state.data.photos.splice(idx, 1);
+        renderPhotos();
+      });
+    });
+  }
+
+  function addPhotos(files) {
+    [...files].forEach(f => {
+      if (state.data.photos.length >= 20) return;
+      state.data.photos.push({ name: f.name, size: f.size });
+    });
+    renderPhotos();
+  }
+
+  photoInput.addEventListener('change', e => addPhotos(e.target.files));
+  ;['dragover','dragenter'].forEach(ev => photoZone.addEventListener(ev, e => {
+    e.preventDefault(); photoZone.classList.add('dragover');
+  }));
+  ;['dragleave','drop'].forEach(ev => photoZone.addEventListener(ev, e => {
+    e.preventDefault(); photoZone.classList.remove('dragover');
+  }));
+  photoZone.addEventListener('drop', e => addPhotos(e.dataTransfer.files));
+
+  /* ============== Doc upload ============== */
+  const docInput = document.getElementById('doc-input');
+  const docZone = document.getElementById('doc-zone');
+  const docList = document.getElementById('doc-list');
+
+  function fmtSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024*1024) return (bytes/1024).toFixed(0) + ' KB';
+    return (bytes/(1024*1024)).toFixed(1) + ' MB';
+  }
+  function renderDocs() {
+    docList.innerHTML = state.data.docs.map((d, i) => `
+      <div class="file-item" data-idx="${i}">
+        <div class="file-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+            <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>
+          </svg>
+        </div>
+        <div class="info">
+          <div class="name">${d.name}</div>
+          <div class="meta">${fmtSize(d.size)}</div>
+        </div>
+        <button type="button" class="remove" aria-label="Quitar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    `).join('');
+    docList.querySelectorAll('.remove').forEach(b => {
+      b.addEventListener('click', () => {
+        const idx = +b.closest('.file-item').dataset.idx;
+        state.data.docs.splice(idx, 1);
+        renderDocs();
+      });
+    });
+  }
+  function addDocs(files) {
+    [...files].forEach(f => state.data.docs.push({ name: f.name, size: f.size }));
+    renderDocs();
+  }
+  docInput.addEventListener('change', e => addDocs(e.target.files));
+  ;['dragover','dragenter'].forEach(ev => docZone.addEventListener(ev, e => {
+    e.preventDefault(); docZone.classList.add('dragover');
+  }));
+  ;['dragleave','drop'].forEach(ev => docZone.addEventListener(ev, e => {
+    e.preventDefault(); docZone.classList.remove('dragover');
+  }));
+  docZone.addEventListener('drop', e => addDocs(e.dataTransfer.files));
+
+  /* ============== Sync data ============== */
+  function syncDataFromInputs() {
+    const d = state.data;
+    d.tipo = document.querySelector('input[name="tipo"]:checked')?.value;
+    d.mandato = document.querySelector('input[name="mandato"]:checked')?.value;
+    d.titulo = document.getElementById('titulo').value;
+    d.superficie = document.getElementById('superficie').value;
+    d.precio = document.getElementById('precio').value;
+    d.descripcion = document.getElementById('descripcion').value;
+    d.region = document.getElementById('region').value;
+    d.comuna = document.getElementById('comuna').value;
+    d.sector = document.getElementById('sector').value;
+    d.direccion = document.getElementById('direccion').value;
+    d.servicios = new Set([...document.querySelectorAll('input[name="servicios"]:checked')].map(i => i.value));
+    d.condiciones = new Set([...document.querySelectorAll('input[name="condiciones"]:checked')].map(i => i.value));
+    d.rol = document.getElementById('rol').value;
+    d.fojas = document.getElementById('fojas').value;
+    d.uso_suelo = document.getElementById('uso-suelo').value;
+    d.subdivision = document.getElementById('subdivision').value;
+    d.nombre = document.getElementById('nombre').value;
+    d.rut = document.getElementById('rut').value;
+    d.telefono = document.getElementById('telefono').value;
+    d.email = document.getElementById('email').value;
+    d.rolContacto = document.querySelector('input[name="rol"]:checked')?.value;
+    d.horario = document.querySelector('input[name="horario"]:checked')?.value;
+    d.acepto = document.getElementById('acepto').checked;
+    fakeSave();
+  }
+
+  /* ============== Review ============== */
+  const SERV_LABELS = {
+    'agua-apr': 'Agua APR',
+    'pozo': 'Pozo profundo',
+    'luz': 'Luz CGE',
+    'alcantarillado': 'Alcantarillado',
+    'pavimento': 'Acceso pavimentado',
+    'internet': 'Cobertura 4G/5G',
+  };
+  const TIPO_LABELS = { parcela: 'Parcela rural', sitio: 'Sitio urbano', campo: 'Campo' };
+  const MANDATO_LABELS = { exclusivo: 'Exclusivo Hecta', abierto: 'Abierto', conversar: 'Por conversar' };
+  const COMUNA_LABELS = {
+    'san-clemente': 'San Clemente', 'talca': 'Talca', 'linares': 'Linares',
+    'pelarco': 'Pelarco', 'san-rafael': 'San Rafael', 'rio-claro': 'Río Claro',
+    'maule': 'Maule', 'curico': 'Curicó', 'otra': 'Otra'
+  };
+  const USO_LABELS = {
+    'rural-agricola': 'Rural agrícola', 'urbano': 'Urbano',
+    'extension-urbana': 'Extensión urbana', 'proteccion': 'Protección'
+  };
+
+  function updateReview() {
+    const d = state.data;
+    document.getElementById('r-tipo').textContent = TIPO_LABELS[d.tipo] || '—';
+    document.getElementById('r-titulo').textContent = d.titulo || '—';
+    document.getElementById('r-superficie').textContent = d.superficie ? `${(+d.superficie).toLocaleString('es-CL')} m²` : '—';
+    document.getElementById('r-precio').textContent = d.precio ? `UF ${(+d.precio).toLocaleString('es-CL')}` : '—';
+    document.getElementById('r-mandato').textContent = MANDATO_LABELS[d.mandato] || '—';
+    document.getElementById('r-comuna').textContent = COMUNA_LABELS[d.comuna] || '—';
+    document.getElementById('r-sector').textContent = d.sector || '—';
+    document.getElementById('r-coords').textContent = `${d.coords.lat}°, ${d.coords.lng}°`;
+    const servs = [...d.servicios].map(s => SERV_LABELS[s]).filter(Boolean);
+    document.getElementById('r-servicios').textContent = servs.length ? servs.join(' · ') : 'Ninguno marcado';
+    document.getElementById('r-rol').textContent = d.rol || '—';
+    document.getElementById('r-uso').textContent = USO_LABELS[d.uso_suelo] || '—';
+    document.getElementById('r-fotos').textContent = `${d.photos.length} archivo${d.photos.length === 1 ? '' : 's'}`;
+    document.getElementById('r-docs').textContent = `${d.docs.length} archivo${d.docs.length === 1 ? '' : 's'}`;
+  }
+
+  /* ============== Submit ============== */
+  function submit() {
+    if (!document.getElementById('acepto').checked) {
+      alert('Necesitamos que aceptes que el equipo te contacte para coordinar la visita.');
+      return;
+    }
+
+    // Serializar todo el state a un string legible para Netlify Forms
+    const payloadObj = {
+      ...state.data,
+      servicios: [...state.data.servicios],
+      condiciones: [...state.data.condiciones],
+      photos: state.data.photos.map(p => p.name + ' (' + Math.round(p.size/1024) + ' KB)'),
+      docs: state.data.docs.map(d => d.name + ' (' + Math.round(d.size/1024) + ' KB)'),
+    };
+    document.getElementById('form-payload').value = JSON.stringify(payloadObj, null, 2);
+
+    // Enviar al form processor de Netlify
+    const form = document.getElementById('form');
+    const formData = new FormData(form);
+
+    // Botón en estado "enviando"
+    const btn = document.getElementById('btn-next');
+    const prevHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Enviando…';
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error ' + res.status);
+        const num = String(Math.floor(Math.random() * 9000) + 1000);
+        document.getElementById('ref-code').textContent = `PRD-EN-2026-0${num.slice(0,3)}`;
+        goToStep('success');
+      })
+      .catch(err => {
+        console.error('Error enviando formulario:', err);
+        btn.disabled = false;
+        btn.innerHTML = prevHTML;
+        alert('Hubo un problema enviando el formulario. Vuelve a intentarlo o escríbenos por WhatsApp al +569 3383 2870.');
+      });
+  }
+
+  /* ============== Auto-save indicator (cosmetic) ============== */
+  let saveTimeout;
+  const saveText = document.getElementById('save-text');
+  function fakeSave() {
+    saveText.textContent = 'Guardando…';
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      saveText.textContent = 'Borrador guardado';
+    }, 700);
+  }
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', fakeSave);
+    el.addEventListener('change', fakeSave);
+  });
+
+  goToStep(1);
+</script>
+</body>
+</html>

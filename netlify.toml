@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────
+# Hecta — configuración de Netlify
+# ──────────────────────────────────────────
+
+[build]
+  publish = "."
+  # No hay build step: el sitio es HTML estático puro.
+  command = ""
+
+# El panel del CMS vive en /admin/ (carpeta admin)
+# Decap CMS se sirve directo desde /admin/index.html
+
+# Headers de seguridad básicos
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# El JSON de terrenos se cachea poco para que las
+# actualizaciones del CMS se vean rápido
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=60, must-revalidate"

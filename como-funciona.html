@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cómo funciona — Hecta</title>
+<meta name="description" content="Visitamos cada terreno, levantamos la ficha técnica y te acompañamos hasta la venta. Tres modalidades: publicación, corretaje compartido y corretaje completo." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #3B5D44; --green-700: #2F4A37; --green-soft: #E5EDE7;
+    --sand: #E8DFC9; --sand-soft: #F1EBDB;
+    --terra: #C77B5F; --terra-700: #B36A4F;
+    --ink: #1A2421; --bone: #FAFAF7; --gray: #6B6B6B;
+    --line: #E8DFC9; --line-strong: #D4D4D4;
+    --r-sm: 8px; --r-md: 10px; --r-lg: 12px;
+    --container: 1200px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif; color: var(--ink); background: var(--bone);
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent; }
+  ul { list-style: none; padding: 0; margin: 0; }
+
+  h1, h2, h3, .display {
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 500; color: var(--ink);
+    letter-spacing: -0.01em; line-height: 1.1; margin: 0; text-wrap: balance;
+  }
+  h1 { font-size: clamp(2.25rem, 5vw + 0.5rem, 4rem); }
+  h2 { font-size: clamp(1.75rem, 2.5vw + 0.75rem, 2.75rem); line-height: 1.15; }
+  h3 { font-size: 1.25rem; line-height: 1.3; }
+  p { margin: 0; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 500; }
+  .muted { color: var(--gray); }
+  .eyebrow {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--green); font-weight: 500;
+    display: inline-flex; gap: 0.5rem; align-items: center;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terra); display: inline-block; }
+
+  .wrap { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2rem; } }
+  section { padding-block: 4rem; }
+  @media (min-width: 768px) { section { padding-block: 6rem; } }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.15rem; border-radius: var(--r-md);
+    font-weight: 500; font-size: 0.95rem; line-height: 1;
+    transition: transform 120ms ease, background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--terra); color: var(--bone); }
+  .btn-primary:hover { background: var(--terra-700); }
+  .btn-secondary { background: transparent; color: var(--green); border: 1px solid var(--green); }
+  .btn-secondary:hover { background: var(--green); color: var(--bone); }
+
+  /* Header */
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(250,250,247,0.92); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.85rem; }
+  .logo { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.4rem; color: var(--ink); }
+  .logo-mark { width: 26px; height: 26px; color: var(--green); flex-shrink: 0; }
+  .nav-links { display: none; align-items: center; gap: 0.25rem; }
+  .nav-links a { padding: 0.5rem 0.75rem; border-radius: var(--r-sm); font-size: 0.95rem; color: var(--ink); transition: color 160ms, background 160ms; }
+  .nav-links a:hover, .nav-links a.is-active { color: var(--green); background: var(--sand-soft); }
+  .nav-cta { display: none; }
+  @media (min-width: 1024px) { .nav-links { display: flex; } .nav-cta { display: inline-flex; } }
+  .hamburger { display: inline-flex; padding: 0.5rem; border-radius: var(--r-sm); }
+  .hamburger:hover { background: var(--sand-soft); }
+  @media (min-width: 1024px) { .hamburger { display: none; } }
+  .mobile-menu { padding: 1rem 0 1.25rem; border-top: 1px solid var(--line); }
+  .mobile-menu ul { display: flex; flex-direction: column; gap: 0.25rem; }
+  .mobile-menu a { display: block; padding: 0.65rem 0.5rem; font-size: 1rem; }
+  .mobile-menu .btn { margin-top: 0.5rem; }
+
+  /* Hero */
+  .hero { padding-block: 4rem 3rem; }
+  @media (min-width: 768px) { .hero { padding-block: 6rem 4rem; } }
+  .hero h1 { margin-top: 1rem; max-width: 22ch; }
+  .hero-sub { margin-top: 1.25rem; font-size: 1.15rem; color: var(--gray); max-width: 42rem; line-height: 1.55; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2.25rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .hero-meta .stat .num { font-family: 'Inter', system-ui, sans-serif; font-size: 2rem; font-weight: 500; line-height: 1; }
+  .hero-meta .stat .lbl { color: var(--gray); font-size: 0.85rem; margin-top: 0.4rem; max-width: 14rem; }
+
+  /* Process */
+  .process { background: var(--sand-soft); }
+  .process-head { max-width: 36rem; margin-bottom: 3rem; }
+  .process-head h2 { margin-top: 0.85rem; }
+  .process-head p { margin-top: 1rem; color: var(--gray); font-size: 1.05rem; }
+
+  .steps { display: grid; gap: 1rem; }
+  @media (min-width: 768px) { .steps { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; } }
+  @media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .step {
+    background: var(--bone); border: 1px solid var(--line);
+    border-radius: var(--r-lg); padding: 1.5rem; position: relative;
+    display: flex; flex-direction: column; gap: 0.85rem;
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: var(--green); letter-spacing: 0.06em;
+  }
+  .step h3 { font-size: 1.2rem; }
+  .step p { color: var(--gray); font-size: 0.92rem; line-height: 1.55; }
+  .step .duration {
+    display: inline-flex; gap: 0.4rem; align-items: center;
+    font-size: 0.78rem; color: var(--green); margin-top: auto;
+    padding-top: 0.85rem; border-top: 1px dashed var(--line);
+  }
+  .step .duration svg { width: 13px; height: 13px; }
+
+  /* Plans */
+  .plans-head { max-width: 38rem; margin-bottom: 3rem; }
+  .plans-head h2 { margin-top: 0.85rem; }
+  .plans-head p { margin-top: 1rem; color: var(--gray); font-size: 1.05rem; }
+  .plans { display: grid; gap: 1.25rem; }
+  @media (min-width: 768px) { .plans { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+
+  .plan {
+    background: var(--bone); border: 1px solid var(--line);
+    border-radius: var(--r-lg); padding: 1.75rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: border-color 200ms, transform 200ms;
+  }
+  .plan:hover { border-color: var(--line-strong); }
+  .plan.featured { border-color: var(--green); background: var(--green-soft); position: relative; }
+  .plan.featured::before {
+    content: 'Más elegido';
+    position: absolute; top: -0.7rem; left: 1.75rem;
+    background: var(--green); color: var(--bone);
+    padding: 0.25rem 0.65rem; border-radius: 999px;
+    font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+    font-weight: 500;
+  }
+  .plan-head { display: flex; flex-direction: column; gap: 0.4rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+  .plan-tag { font-size: 0.75rem; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+  .plan h3 { font-size: 1.5rem; }
+  .plan-price { display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.35rem; }
+  .plan-price .pct { font-family: 'Inter', system-ui, sans-serif; font-size: 2.5rem; font-weight: 500; line-height: 1; }
+  .plan-price .of { color: var(--gray); font-size: 0.92rem; }
+  .plan-sub { color: var(--gray); font-size: 0.88rem; margin-top: 0.35rem; }
+  .plan-desc { color: var(--ink); font-size: 0.95rem; line-height: 1.55; }
+  .plan ul.feats { display: flex; flex-direction: column; gap: 0.7rem; }
+  .plan ul.feats li {
+    display: flex; gap: 0.6rem; align-items: flex-start;
+    font-size: 0.92rem; line-height: 1.5;
+  }
+  .plan ul.feats li svg { width: 16px; height: 16px; color: var(--green); flex-shrink: 0; margin-top: 3px; }
+  .plan ul.feats li.no svg { color: var(--gray); opacity: 0.55; }
+  .plan ul.feats li.no { color: var(--gray); }
+  .plan .btn { margin-top: auto; justify-content: center; }
+  .plan .who {
+    background: var(--sand-soft); border-radius: var(--r-md);
+    padding: 0.85rem 1rem; font-size: 0.86rem; line-height: 1.5;
+  }
+  .plan.featured .who { background: rgba(255,255,255,0.6); }
+  .plan .who strong { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; display: block; margin-bottom: 0.2rem; }
+
+  /* Comparison table */
+  .compare-wrap { margin-top: 3rem; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bone); }
+  table.compare { width: 100%; border-collapse: collapse; min-width: 640px; }
+  table.compare th, table.compare td { padding: 0.95rem 1rem; text-align: left; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+  table.compare thead th { background: var(--sand-soft); font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 0.95rem; }
+  table.compare tbody th { font-weight: 500; color: var(--gray); }
+  table.compare td.yes { color: var(--green); font-weight: 500; }
+  table.compare td.no { color: var(--gray); }
+  table.compare tr:last-child th, table.compare tr:last-child td { border-bottom: 0; }
+
+  /* FAQ */
+  .faq { background: var(--sand-soft); }
+  .faq-grid { display: grid; gap: 3rem; align-items: start; }
+  @media (min-width: 1024px) { .faq-grid { grid-template-columns: 1fr 1.6fr; gap: 4rem; } }
+  .faq-head h2 { margin-top: 0.85rem; }
+  .faq-head p { color: var(--gray); margin-top: 1rem; font-size: 1.05rem; }
+  details.qa {
+    background: var(--bone); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 1.1rem 1.25rem;
+    margin-bottom: 0.65rem;
+  }
+  details.qa[open] { border-color: var(--green); }
+  details.qa summary { list-style: none; cursor: pointer; font-family: 'Inter', system-ui, sans-serif; font-size: 1.1rem; font-weight: 500; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  details.qa summary::-webkit-details-marker { display: none; }
+  details.qa summary::after { content: '+'; font-family: 'JetBrains Mono', monospace; color: var(--green); font-size: 1.4rem; line-height: 1; transition: transform 200ms; }
+  details.qa[open] summary::after { content: '−'; }
+  details.qa p { color: var(--gray); margin-top: 0.85rem; line-height: 1.65; font-size: 0.95rem; }
+
+  /* Contact */
+  .contact-grid { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 1024px) { .contact-grid { grid-template-columns: 1fr 1.1fr; gap: 4rem; } }
+  .contact h2 { margin-top: 0.85rem; }
+  .contact .lede { color: var(--gray); margin-top: 1rem; font-size: 1.05rem; max-width: 32rem; }
+  .channels { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 2rem; }
+  .channel {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 1.1rem 1.25rem;
+    background: var(--bone); border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    transition: border-color 200ms, background 200ms;
+  }
+  .channel:hover { border-color: var(--green); background: var(--green-soft); }
+  .channel .ico {
+    width: 44px; height: 44px; flex-shrink: 0;
+    border-radius: 50%; background: var(--green); color: var(--bone);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .channel .ico svg { width: 20px; height: 20px; }
+  .channel .meta .label { font-size: 0.78rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; }
+  .channel .meta .val { font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; margin-top: 0.2rem; }
+  .channel .arr { margin-left: auto; color: var(--gray); }
+
+  .contact-form {
+    background: var(--bone); border: 1px solid var(--line);
+    border-radius: var(--r-lg); padding: 1.75rem;
+  }
+  @media (min-width: 768px) { .contact-form { padding: 2.25rem; } }
+  .contact-form h3 { font-size: 1.35rem; }
+  .contact-form .help { color: var(--gray); font-size: 0.9rem; margin-top: 0.5rem; }
+  .form-row { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 1.25rem; }
+  .form-row label { font-size: 0.82rem; color: var(--gray); font-weight: 500; }
+  .form-row .input, .form-row textarea, .form-row select {
+    width: 100%; padding: 0.75rem 0.9rem;
+    border: 1px solid var(--line); border-radius: var(--r-sm);
+    font: inherit; color: var(--ink); background: var(--bone);
+    transition: border-color 160ms;
+  }
+  .form-row .input:focus, .form-row textarea:focus, .form-row select:focus {
+    outline: 0; border-color: var(--green);
+  }
+  .form-row textarea { min-height: 110px; resize: vertical; }
+  .form-grid-2 { display: grid; gap: 1rem; }
+  @media (min-width: 600px) { .form-grid-2 { grid-template-columns: 1fr 1fr; } }
+  .submit-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .submit-row .btn { flex: 0 0 auto; }
+  .submit-row p { color: var(--gray); font-size: 0.82rem; max-width: 18rem; }
+
+  /* CTA */
+  .cta { background: var(--green); color: var(--bone); }
+  .cta h2 { color: var(--bone); }
+  .cta-grid { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; }
+  @media (min-width: 768px) { .cta-grid { flex-direction: row; justify-content: space-between; align-items: center; gap: 3rem; } }
+  .cta p { color: rgba(250,250,247,0.85); margin-top: 1rem; max-width: 36rem; font-size: 1.05rem; line-height: 1.55; }
+  .cta .btn-on-green { background: var(--terra); color: var(--bone); }
+  .cta .btn-on-green:hover { background: var(--terra-700); }
+  .cta .btn-ghost-on-green { color: var(--bone); border: 1px solid rgba(250,250,247,0.4); }
+  .cta .btn-ghost-on-green:hover { background: rgba(250,250,247,0.1); }
+  .cta-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  /* Footer */
+  footer { background: var(--bone); border-top: 1px solid var(--line); padding-block: 4rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; } }
+  footer h4 { font-family: 'Inter', sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gray); font-weight: 500; margin: 0 0 1rem; }
+  footer .col p { color: var(--gray); margin-top: 0.85rem; line-height: 1.6; max-width: 22rem; }
+  footer .col .focus { margin-top: 1rem; font-size: 0.85rem; color: var(--green); display: inline-flex; gap: 0.4rem; align-items: center; }
+  footer ul.flinks { display: flex; flex-direction: column; gap: 0.65rem; }
+  footer ul.flinks a { color: var(--ink); font-size: 0.95rem; }
+  footer ul.flinks a:hover { color: var(--green); }
+  footer ul.social { display: flex; flex-direction: column; gap: 0.65rem; }
+  footer ul.social a { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--ink); font-size: 0.95rem; }
+  footer ul.social a:hover { color: var(--green); }
+  footer ul.social svg { width: 18px; height: 18px; color: var(--green); }
+  .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; color: var(--gray); font-size: 0.85rem; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Principal">
+      <a href="hecta.html" class="logo" aria-label="Hecta, inicio">
+        <svg class="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+          <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+        </svg>
+        Hecta
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="maule.html">Maule</a></li>
+        <li><a href="como-funciona.html" class="is-active">Cómo funciona</a></li>
+        <li><a href="subir-terreno.html">Sube tu terreno</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="https://wa.me/56933832870" class="btn btn-primary nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43ZM12.05 21.8h-.01a9.85 9.85 0 0 1-5.02-1.37l-.36-.21-3.74.98 1-3.65-.24-.38a9.84 9.84 0 1 1 18.27-5.27c0 5.43-4.42 9.9-9.9 9.9Z"/>
+        </svg>
+        +569 3383 2870
+      </a>
+      <button class="hamburger" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+    <div id="mobile-menu" class="mobile-menu" hidden>
+      <ul role="list">
+        <li><a href="maule.html">Maule</a></li>
+        <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="subir-terreno.html">Sube tu terreno</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="https://wa.me/56933832870" class="btn btn-primary">+569 3383 2870</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span> Cómo trabajamos</span>
+    <h1>Visitamos cada terreno. Levantamos su ficha. Te acompañamos hasta vender.</h1>
+    <p class="hero-sub">No somos un portal de avisos. Un equipo va al predio, recorre los deslindes, conversa con los vecinos y revisa los documentos. Después armamos la ficha técnica y elegimos juntos cómo seguir: solo publicar, o que llevemos la venta completa.</p>
+
+    <div class="hero-meta">
+      <div class="stat">
+        <div class="num mono">8–12 días</div>
+        <div class="lbl">Desde que nos escribes hasta que tu ficha está publicada</div>
+      </div>
+      <div class="stat">
+        <div class="num mono">100%</div>
+        <div class="lbl">Visitas en terreno antes de publicar</div>
+      </div>
+      <div class="stat">
+        <div class="num mono">$0</div>
+        <div class="lbl">Por adelantado. Cobramos solo cuando se vende</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="wrap">
+    <div class="process-head">
+      <span class="eyebrow"><span class="dot"></span> Proceso</span>
+      <h2>De tu mensaje a la ficha publicada, en 4 pasos.</h2>
+      <p>El mismo flujo para los tres planes — la diferencia está en lo que hacemos después de publicar.</p>
+    </div>
+
+    <div class="steps">
+      <article class="step">
+        <span class="step-num">PASO 01</span>
+        <h3>Nos cuentas del terreno</h3>
+        <p>Subes los datos básicos por el formulario o nos escribes por WhatsApp. Sin compromiso — todavía no firmamos nada.</p>
+        <span class="duration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          10 minutos · Tú
+        </span>
+      </article>
+
+      <article class="step">
+        <span class="step-num">PASO 02</span>
+        <h3>Visita en terreno</h3>
+        <p>Vamos al predio. Recorremos deslindes, sacamos fotos con drone, hablamos con vecinos y revisamos los servicios disponibles.</p>
+        <span class="duration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          2–3 horas · 48h hábiles
+        </span>
+      </article>
+
+      <article class="step">
+        <span class="step-num">PASO 03</span>
+        <h3>Ficha técnica + plan</h3>
+        <p>Armamos la ficha (factibilidad, riesgos, comparables) y te mostramos un borrador. Aquí eliges modalidad — publicar, compartido o completo.</p>
+        <span class="duration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          5–7 días · Equipo
+        </span>
+      </article>
+
+      <article class="step">
+        <span class="step-num">PASO 04</span>
+        <h3>Publicación y seguimiento</h3>
+        <p>La ficha sale al sitio. Según el plan, además gestionamos visitas, ofertas, escrituración y todo el ida y vuelta hasta firmar.</p>
+        <span class="duration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          Hasta vender · Equipo
+        </span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="planes">
+  <div class="wrap">
+    <div class="plans-head">
+      <span class="eyebrow"><span class="dot"></span> Comisiones</span>
+      <h2>Eliges qué tanto nos hagamos cargo.</h2>
+      <p>Tres modalidades. Todas incluyen visita en terreno y ficha técnica. La comisión sube según cuánto trabajo tomamos en el cierre — no por publicar mejor.</p>
+    </div>
+
+    <div class="plans">
+      <!-- Plan 1: Publicación -->
+      <article class="plan">
+        <div class="plan-head">
+          <span class="plan-tag">Publicación</span>
+          <h3>Solo publicar</h3>
+          <div class="plan-price">
+            <span class="pct mono">1%</span>
+            <span class="of">del precio de venta</span>
+          </div>
+          <p class="plan-sub">Pagas solo si se vende a través del sitio.</p>
+        </div>
+
+        <div class="who">
+          <strong>Para ti si</strong>
+          Ya tienes corredor o estás vendiendo tú directo, pero quieres que tu terreno aparezca con ficha verificada en Hecta para llegar a más compradores.
+        </div>
+
+        <ul class="feats" role="list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Visita en terreno y ficha técnica firmada</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Fotos profesionales con drone</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Publicación en hecta.cl con tu contacto directo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Estadísticas de visitas e interesados</li>
+          <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Coordinación de visitas</li>
+          <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Negociación y cierre</li>
+        </ul>
+
+        <a href="subir-terreno.html" class="btn btn-secondary">Empezar con este plan</a>
+      </article>
+
+      <!-- Plan 2: Compartido -->
+      <article class="plan featured">
+        <div class="plan-head">
+          <span class="plan-tag">Corretaje compartido</span>
+          <h3>Compartido</h3>
+          <div class="plan-price">
+            <span class="pct mono">2%</span>
+            <span class="of">del precio de venta</span>
+          </div>
+          <p class="plan-sub">Llevamos la venta. Tú apruebas las decisiones grandes.</p>
+        </div>
+
+        <div class="who">
+          <strong>Para ti si</strong>
+          Quieres a alguien que filtre interesados, coordine visitas y negocie en tu nombre — pero te interesa estar cerca de cada paso y firmar tú mismo.
+        </div>
+
+        <ul class="feats" role="list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg><strong>Todo lo del plan Publicación</strong>, más:</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Filtramos y respondemos a los interesados</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Coordinamos y acompañamos las visitas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Negociamos ofertas con tu visto bueno</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Promesa de compraventa redactada</li>
+          <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Gestión legal completa hasta escritura</li>
+        </ul>
+
+        <a href="subir-terreno.html" class="btn btn-primary">Empezar con este plan</a>
+      </article>
+
+      <!-- Plan 3: Completo -->
+      <article class="plan">
+        <div class="plan-head">
+          <span class="plan-tag">Corretaje completo</span>
+          <h3>Completo</h3>
+          <div class="plan-price">
+            <span class="pct mono">3%</span>
+            <span class="of">del precio de venta</span>
+          </div>
+          <p class="plan-sub">Tú firmas. Nosotros nos hacemos cargo de todo lo demás.</p>
+        </div>
+
+        <div class="who">
+          <strong>Para ti si</strong>
+          Vives lejos del Maule, no tienes tiempo de coordinar visitas, o el terreno tiene asuntos legales que requieren gestión activa (sucesión, regularización, deslindes).
+        </div>
+
+        <ul class="feats" role="list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg><strong>Todo lo del plan Compartido</strong>, más:</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Estudio de títulos y revisión legal</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Gestión de regularizaciones y certificados</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Coordinación con notaría hasta escritura</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Acompañamiento en CBR e inscripción</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Reporte mensual del proceso</li>
+        </ul>
+
+        <a href="subir-terreno.html" class="btn btn-secondary">Empezar con este plan</a>
+      </article>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="compare-wrap" aria-label="Comparación de planes">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th scope="col">Servicio</th>
+            <th scope="col">Publicación · 1%</th>
+            <th scope="col">Compartido · 2%</th>
+            <th scope="col">Completo · 3%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Visita en terreno y ficha técnica</th><td class="yes">Incluido</td><td class="yes">Incluido</td><td class="yes">Incluido</td></tr>
+          <tr><th scope="row">Fotos con drone</th><td class="yes">Incluido</td><td class="yes">Incluido</td><td class="yes">Incluido</td></tr>
+          <tr><th scope="row">Publicación en hecta.cl</th><td class="yes">Incluido</td><td class="yes">Incluido</td><td class="yes">Incluido</td></tr>
+          <tr><th scope="row">Filtro y respuesta a interesados</th><td class="no">Tú lo haces</td><td class="yes">Lo hacemos</td><td class="yes">Lo hacemos</td></tr>
+          <tr><th scope="row">Coordinación de visitas</th><td class="no">Tú lo haces</td><td class="yes">Lo hacemos</td><td class="yes">Lo hacemos</td></tr>
+          <tr><th scope="row">Negociación de ofertas</th><td class="no">Tú lo haces</td><td class="yes">Con tu visto bueno</td><td class="yes">Lo hacemos</td></tr>
+          <tr><th scope="row">Estudio de títulos y legal</th><td class="no">No incluido</td><td class="no">No incluido</td><td class="yes">Incluido</td></tr>
+          <tr><th scope="row">Coordinación con notaría y CBR</th><td class="no">No incluido</td><td class="no">No incluido</td><td class="yes">Incluido</td></tr>
+          <tr><th scope="row">Comisión total</th><td class="yes mono">1%</td><td class="yes mono">2%</td><td class="yes mono">3%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:1.5rem; color:var(--gray); font-size:0.88rem; max-width:48rem;">
+      Las comisiones son <strong style="color:var(--ink); font-weight:500;">sobre el precio final de venta</strong> y se pagan al momento de firmar la escritura. No hay costos por publicar, fotos, drone ni visitas. Si no se vende, no pagas.
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div class="faq-head">
+        <span class="eyebrow"><span class="dot"></span> Preguntas frecuentes</span>
+        <h2>Lo que más nos preguntan antes de firmar.</h2>
+        <p>Si no encuentras lo que buscas, escríbenos por WhatsApp al <a href="https://wa.me/56933832870" style="color:var(--green); border-bottom:1px solid currentColor;">+569 3383 2870</a> y te respondemos directo.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="qa">
+          <summary>¿Tengo que pagar algo por adelantado?</summary>
+          <p>No. La visita en terreno, las fotos con drone, la ficha técnica y la publicación son sin costo. Solo cobramos comisión cuando el terreno se vende y se firma la escritura. Si no se vende, no pagas.</p>
+        </details>
+        <details class="qa">
+          <summary>¿Puedo cambiar de plan después?</summary>
+          <p>Sí. Es habitual partir con Publicación y, después de un par de meses, pasar a Compartido o Completo si no llegan los compradores correctos. Solo se ajusta el mandato — sin cobros adicionales por el cambio.</p>
+        </details>
+        <details class="qa">
+          <summary>¿La exclusividad es obligatoria?</summary>
+          <p>En Publicación, no — puedes seguir vendiendo por tu cuenta o con otros corredores. En Compartido y Completo trabajamos con mandato de exclusividad por 6 meses, renovable. Esto nos permite invertir tiempo real en tu venta sin competir con otros canales.</p>
+        </details>
+        <details class="qa">
+          <summary>¿Qué pasa si yo encuentro al comprador?</summary>
+          <p>En el plan Publicación no pagas comisión si tú cierras directo — el contacto del aviso es tuyo. En Compartido y Completo, durante el periodo del mandato cualquier venta paga la comisión acordada, sin importar quién trajo al comprador. Es lo justo: estamos invirtiendo el equipo completo en tu terreno.</p>
+        </details>
+        <details class="qa">
+          <summary>¿Trabajan terrenos fuera del Maule?</summary>
+          <p>Hoy no. Estamos enfocados 100% en el Maule porque es la única forma de tener este nivel de detalle. Lo iremos extendiendo a Ñuble y O'Higgins en 2027.</p>
+        </details>
+        <details class="qa">
+          <summary>¿Qué pasa si el terreno tiene problemas legales?</summary>
+          <p>Si los detectamos en la visita, te lo decimos antes de publicar. En el plan Completo lo gestionamos nosotros (sucesión, regularización, deslindes). En los otros planes te derivamos a abogados de confianza y coordinamos con ellos para no perder al comprador interesado.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Contacto</span>
+        <h2>Hablemos del terreno.</h2>
+        <p class="lede">Lo más rápido es WhatsApp — te respondemos el mismo día hábil. Si prefieres correo o un formulario, también funciona.</p>
+
+        <div class="channels">
+          <a href="https://wa.me/56933832870" class="channel">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43ZM12.05 21.8h-.01a9.85 9.85 0 0 1-5.02-1.37l-.36-.21-3.74.98 1-3.65-.24-.38a9.84 9.84 0 1 1 18.27-5.27c0 5.43-4.42 9.9-9.9 9.9Zm5.43-7.4c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07a8.13 8.13 0 0 1-2.4-1.48 8.97 8.97 0 0 1-1.66-2.07c-.17-.3-.02-.46.13-.6.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.06 2.88 1.21 3.08.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.7.22 1.35.19 1.86.12.57-.08 1.76-.72 2-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.34Z"/>
+              </svg>
+            </span>
+            <div class="meta">
+              <div class="label">WhatsApp · Más rápido</div>
+              <div class="val">+569 3383 2870</div>
+            </div>
+            <span class="arr">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a href="tel:+56933832870" class="channel">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+            </span>
+            <div class="meta">
+              <div class="label">Llamada directa · Lun a vie 9–18h</div>
+              <div class="val">+569 3383 2870</div>
+            </div>
+            <span class="arr">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a href="mailto:contacto@hecta.cl" class="channel">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <div class="meta">
+              <div class="label">Correo</div>
+              <div class="val">contacto@hecta.cl</div>
+            </div>
+            <span class="arr">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <h3>Cuéntanos en qué te ayudamos</h3>
+        <p class="help">Respondemos dentro del día hábil. Si tu consulta es urgente, mejor por WhatsApp.</p>
+
+        <div class="form-grid-2">
+          <div class="form-row">
+            <label for="cf-nombre">Nombre</label>
+            <input class="input" id="cf-nombre" type="text" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-row">
+            <label for="cf-fono">Teléfono o WhatsApp</label>
+            <input class="input" id="cf-fono" type="tel" placeholder="+569 ..." required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="cf-asunto">¿En qué te ayudamos?</label>
+          <select id="cf-asunto">
+            <option>Quiero vender un terreno</option>
+            <option>Estoy buscando un terreno</option>
+            <option>Soy corredor y quiero trabajar con Hecta</option>
+            <option>Tengo dudas sobre un terreno publicado</option>
+            <option>Otro</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="cf-mensaje">Mensaje</label>
+          <textarea id="cf-mensaje" placeholder="Cuéntanos lo que necesitas saber. Si es sobre un terreno específico, incluye la comuna o el nombre de la ficha."></textarea>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+          <p>Al enviar aceptas nuestra política de privacidad. No compartimos tus datos.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div>
+        <span class="eyebrow" style="color: var(--sand);"><span class="dot"></span> Listo para empezar</span>
+        <h2>Tu terreno con ficha técnica, publicado en menos de dos semanas.</h2>
+        <p>Sin pagos por adelantado. Sin compromisos hasta firmar el mandato. Te visitamos, conversamos, y eliges qué tanto nos hacemos cargo.</p>
+      </div>
+      <div class="cta-ctas">
+        <a href="subir-terreno.html" class="btn btn-on-green">Subir mi terreno</a>
+        <a href="https://wa.me/56933832870" class="btn btn-ghost-on-green">Hablar primero</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <a href="hecta.html" class="logo" aria-label="Hecta, inicio">
+          <svg class="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+            <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+          </svg>
+          Hecta
+        </a>
+        <p>El terreno que buscas, con todo lo que necesitas saber.</p>
+        <span class="focus">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-7.5-7-12a7 7 0 1 1 14 0c0 4.5-7 12-7 12Z"/></svg>
+          Foco actual: Región del Maule
+        </span>
+      </div>
+      <div class="col">
+        <h4>Navegar</h4>
+        <ul class="flinks" role="list">
+          <li><a href="maule.html">Maule</a></li>
+          <li><a href="como-funciona.html">Cómo funciona</a></li>
+          <li><a href="subir-terreno.html">Sube tu terreno</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Contacto</h4>
+        <ul class="social" role="list">
+          <li><a href="https://wa.me/56933832870">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43Z"/></svg>
+            +569 3383 2870
+          </a></li>
+          <li><a href="tel:+56933832870">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+            Llamar
+          </a></li>
+          <li><a href="mailto:contacto@hecta.cl">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            contacto@hecta.cl
+          </a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Hecta SpA · Todos los derechos reservados.</span>
+      <span>Inscritos en SII y UAF · Hecta SpA · Maule, Chile.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const ham = document.querySelector('.hamburger');
+  const menu = document.getElementById('mobile-menu');
+  ham?.addEventListener('click', () => {
+    const open = menu.hasAttribute('hidden') ? false : true;
+    if (open) { menu.setAttribute('hidden', ''); ham.setAttribute('aria-expanded', 'false'); }
+    else { menu.removeAttribute('hidden'); ham.setAttribute('aria-expanded', 'true'); }
+  });
+
+  // Contact form: stub submission
+  const form = document.getElementById('contact-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Enviado ✓';
+    btn.style.background = 'var(--green)';
+    btn.disabled = true;
+    setTimeout(() => { form.reset(); btn.textContent = 'Enviar mensaje'; btn.style.background = ''; btn.disabled = false; }, 2400);
+  });
+</script>
+
+</body>
+</html>

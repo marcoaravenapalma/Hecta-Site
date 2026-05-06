@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terrenos verificados en el Maule — Hecta</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #3B5D44;
+    --green-700: #2F4A37;
+    --sand: #E8DFC9;
+    --sand-soft: #F1EBDB;
+    --terra: #C77B5F;
+    --terra-700: #B36A4F;
+    --ink: #1A2421;
+    --bone: #FAFAF7;
+    --gray: #6B6B6B;
+    --line: #E8DFC9;
+    --line-strong: #D4D4D4;
+    --r-sm: 8px;
+    --r-md: 10px;
+    --r-lg: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bone);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent; }
+  ul { list-style: none; padding: 0; margin: 0; }
+
+  h1, h2, h3, .display {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin: 0;
+  }
+  h1 { font-size: clamp(1.85rem, 3vw + 0.5rem, 2.5rem); }
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  .wrap { width: 100%; max-width: 1320px; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2rem; } }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-block: 0.9rem; gap: 1rem; }
+  .logo { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.4rem; color: var(--ink); letter-spacing: -0.015em; }
+  .logo-mark { width: 22px; height: 22px; color: var(--green); }
+  .nav-links { display: none; gap: 0.25rem; }
+  .nav-links a { padding: 0.5rem 0.75rem; border-radius: var(--r-sm); font-size: 0.93rem; transition: color 160ms, background-color 160ms; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green); background: var(--sand-soft); }
+  .nav-cta { display: none; align-items: center; gap: 0.5rem; padding: 0.7rem 1.1rem; border-radius: var(--r-md); background: var(--terra); color: var(--bone); font-size: 0.93rem; font-weight: 500; }
+  .nav-cta:hover { background: var(--terra-700); }
+  @media (min-width: 1024px) { .nav-links { display: flex; } .nav-cta { display: inline-flex; } }
+
+  /* ---------- Page header ---------- */
+  .page-head { padding-block: 2.5rem 1.5rem; }
+  .crumbs { font-size: 0.85rem; color: var(--gray); margin-bottom: 0.85rem; }
+  .crumbs a { color: var(--green); }
+  .crumbs a:hover { color: var(--terra); }
+  .crumbs .sep { margin-inline: 0.5rem; opacity: 0.6; }
+  .page-head h1 { margin-bottom: 0.5rem; }
+  .page-head .lede { color: var(--gray); font-size: 1.02rem; max-width: 42rem; }
+  .results-bar {
+    margin-top: 1.5rem;
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    align-items: center; justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .results-count { color: var(--gray); font-size: 0.92rem; }
+  .results-count b { color: var(--ink); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+
+  /* Sort select */
+  .sort-wrap { position: relative; }
+  .sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--line-strong);
+    background: var(--bone);
+    padding: 0.6rem 2rem 0.6rem 0.85rem;
+    border-radius: var(--r-md);
+    font-size: 0.9rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .sort-select:hover { border-color: var(--green); }
+  .sort-wrap::after {
+    content: '';
+    position: absolute; right: 0.85rem; top: 50%;
+    width: 0.5rem; height: 0.5rem;
+    border-right: 1.5px solid var(--gray);
+    border-bottom: 1.5px solid var(--gray);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  /* View toggle */
+  .view-toggle {
+    display: inline-flex;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--bone);
+  }
+  .view-toggle button {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.88rem;
+    color: var(--gray);
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    transition: background-color 160ms, color 160ms;
+  }
+  .view-toggle button:hover { color: var(--ink); }
+  .view-toggle button.active { background: var(--green); color: var(--bone); }
+  .view-toggle button + button { border-left: 1px solid var(--line-strong); }
+  .view-toggle button.active + button,
+  .view-toggle button:has(+ button.active) { border-color: var(--green); }
+  .view-toggle svg { width: 14px; height: 14px; }
+
+  .filter-toggle-mobile {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    font-size: 0.9rem;
+  }
+  .filter-toggle-mobile:hover { border-color: var(--green); color: var(--green); }
+  @media (min-width: 1024px) { .filter-toggle-mobile { display: none; } }
+
+  /* ---------- Layout: sidebar + results ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 5rem;
+  }
+  @media (min-width: 1024px) {
+    .layout { grid-template-columns: 280px 1fr; gap: 2.5rem; }
+  }
+
+  /* Sidebar filters */
+  .filters {
+    position: sticky; top: 5rem;
+    align-self: start;
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+  @media (max-width: 1023px) {
+    .filters { display: none; position: static; max-height: none; }
+    .filters.open { display: block; padding-bottom: 1rem; border-bottom: 1px solid var(--line); margin-bottom: 1rem; }
+  }
+  .filters::-webkit-scrollbar { width: 6px; }
+  .filters::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 6px; }
+
+  .filter-block { padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+  .filter-block:first-child { padding-top: 0; }
+  .filter-block:last-child { border-bottom: 0; }
+  .filter-block h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    margin: 0 0 0.85rem;
+  }
+
+  /* Checkbox-list (comunas, factibilidad) */
+  .check-list { display: flex; flex-direction: column; gap: 0.4rem; }
+  .check-list label {
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: var(--r-sm);
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background-color 160ms;
+  }
+  .check-list label:hover { background: var(--sand-soft); }
+  .check-list input { display: none; }
+  .check-list .box {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 4px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: var(--bone);
+    transition: all 160ms;
+  }
+  .check-list .box svg { width: 12px; height: 12px; color: var(--bone); opacity: 0; }
+  .check-list input:checked ~ .box {
+    background: var(--green); border-color: var(--green);
+  }
+  .check-list input:checked ~ .box svg { opacity: 1; }
+  .check-list .count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.78rem;
+    color: var(--gray);
+  }
+
+  /* Range inputs */
+  .range-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .range-input {
+    width: 100%;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-sm);
+    padding: 0.55rem 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    background: var(--bone);
+    color: var(--ink);
+  }
+  .range-input:focus { outline: 0; border-color: var(--green); }
+  .range-label { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.3rem; display: block; }
+
+  /* Slider */
+  .slider-wrap { padding-top: 0.5rem; }
+  .slider-vals {
+    display: flex; justify-content: space-between;
+    margin-top: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gray);
+  }
+
+  /* Reset */
+  .filter-reset {
+    width: 100%; margin-top: 0.85rem;
+    padding: 0.65rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    font-size: 0.88rem;
+    color: var(--gray);
+    transition: all 160ms;
+  }
+  .filter-reset:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* ---------- Active filter chips ---------- */
+  .active-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; min-height: 0; }
+  .chip-active {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--sand);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+    font-size: 0.82rem;
+  }
+  .chip-active button {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(26,36,33,0.08);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background-color 160ms;
+  }
+  .chip-active button:hover { background: var(--terra); color: var(--bone); }
+  .chip-active button svg { width: 10px; height: 10px; }
+
+  /* ---------- Lots grid ---------- */
+  .lots-grid {
+    display: grid; grid-template-columns: 1fr; gap: 1.25rem;
+  }
+  @media (min-width: 700px) { .lots-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1280px) { .lots-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+
+  .lot {
+    display: flex; flex-direction: column;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 200ms ease, border-color 200ms ease;
+    position: relative;
+  }
+  .lot:hover { transform: translateY(-2px); border-color: var(--green); }
+
+  .lot-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--green);
+    overflow: hidden;
+  }
+  .lot-image svg.topo-img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lot-image .badge-verified {
+    position: absolute; top: 0.85rem; left: 0.85rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--terra); color: var(--bone);
+    font-size: 0.74rem; font-weight: 500;
+    padding: 0.4rem 0.65rem; border-radius: var(--r-sm);
+    line-height: 1;
+  }
+  .lot-image .badge-verified svg { width: 12px; height: 12px; }
+  .lot-image .save {
+    position: absolute; top: 0.85rem; right: 0.85rem;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--bone);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background-color 160ms, color 160ms;
+    color: var(--ink);
+  }
+  .lot-image .save:hover { background: var(--terra); color: var(--bone); }
+  .lot-image .save svg { width: 16px; height: 16px; }
+  .lot-image .save.saved { background: var(--terra); color: var(--bone); }
+
+  .lot-body { padding: 1.15rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; }
+
+  /* Improved hierarchy: precio big, secondary data mono row */
+  .lot-price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+  .lot-price {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .lot-ufm2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.82rem;
+    color: var(--gray);
+  }
+  .lot-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.97rem;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .lot-loc { color: var(--gray); font-size: 0.86rem; margin-top: 0.15rem; display: inline-flex; align-items: center; gap: 0.35rem; }
+  .lot-loc svg { width: 12px; height: 12px; color: var(--green); }
+
+  .lot-divider { height: 1px; background: var(--line); margin: 0.1rem 0; }
+
+  .lot-meta-row {
+    display: flex; gap: 1rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--gray);
+  }
+  .lot-meta-row span b { color: var(--ink); font-weight: 500; }
+
+  .lot-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    background: var(--sand); color: var(--ink);
+    font-size: 0.76rem; font-weight: 500;
+    padding: 0.3rem 0.55rem; border-radius: 999px;
+    line-height: 1;
+  }
+
+  /* Empty state */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--r-lg);
+    color: var(--gray);
+  }
+  .empty h3 { color: var(--ink); margin-bottom: 0.5rem; font-size: 1.25rem; }
+  .empty button { margin-top: 1.25rem; padding: 0.65rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--green); color: var(--green); }
+  .empty button:hover { background: var(--green); color: var(--bone); }
+
+  /* ---------- Map view ---------- */
+  .map-view {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    height: calc(100vh - 12rem);
+    min-height: 600px;
+  }
+  @media (min-width: 1024px) {
+    .map-view { grid-template-columns: 1fr 380px; }
+  }
+  .map-canvas {
+    position: relative;
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    min-height: 380px;
+  }
+  .map-canvas svg.map-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    cursor: pointer;
+    transition: transform 160ms ease;
+  }
+  .map-pin:hover { transform: translate(-50%, -110%); z-index: 10; }
+  .map-pin .pin-bubble {
+    background: var(--bone);
+    border: 1.5px solid var(--green);
+    color: var(--ink);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--r-sm);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    transition: all 160ms;
+  }
+  .map-pin.active .pin-bubble,
+  .map-pin:hover .pin-bubble {
+    background: var(--terra);
+    color: var(--bone);
+    border-color: var(--terra);
+  }
+  .map-pin .pin-needle {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border: 1.5px solid var(--bone);
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: -2px;
+    position: relative;
+    z-index: 1;
+    transition: background-color 160ms;
+  }
+  .map-pin.active .pin-needle, .map-pin:hover .pin-needle { background: var(--terra); }
+  .map-comuna-label {
+    position: absolute;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--green);
+    opacity: 0.6;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .map-list {
+    overflow-y: auto;
+    max-height: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .map-list::-webkit-scrollbar { width: 6px; }
+  .map-list::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 6px; }
+  .map-list-item {
+    padding: 1rem;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    display: flex;
+    gap: 0.85rem;
+    transition: background-color 160ms;
+  }
+  .map-list-item:hover, .map-list-item.active { background: var(--sand-soft); }
+  .map-list-item:last-child { border-bottom: 0; }
+  .map-list-item .thumb {
+    width: 78px; height: 78px;
+    flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+  }
+  .map-list-item .thumb svg { position: absolute; inset: 0; }
+  .map-list-item .info { flex: 1; min-width: 0; }
+  .map-list-item .info .price { font-family: 'Inter', system-ui, sans-serif; font-size: 1.1rem; line-height: 1; margin-bottom: 0.3rem; }
+  .map-list-item .info .ttl { font-size: 0.85rem; color: var(--ink); margin-bottom: 0.2rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .map-list-item .info .loc { font-size: 0.78rem; color: var(--gray); }
+  .map-list-item .info .meta { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gray); margin-top: 0.3rem; }
+
+  /* Hamburger - mobile */
+  .hamburger {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+  @media (min-width: 1024px) { .hamburger { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Principal">
+      <a href="hecta.html" class="logo">
+        <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+          <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+        </svg>
+        Hecta
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="maule.html" class="active">Maule</a></li>
+        <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="hecta.html#vendedores">Vendedores</a></li>
+        <li><a href="#corredores">Corredores</a></li>
+        <li><a href="#nosotros">Sobre nosotros</a></li>
+      </ul>
+      <a href="https://wa.me/56933832870" class="nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43Z"/></svg>
+        WhatsApp
+      </a>
+      <button class="hamburger" aria-label="Menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Page head -->
+<div class="wrap">
+  <div class="page-head">
+    <div class="crumbs">
+      <a href="hecta.html">Inicio</a>
+      <span class="sep">/</span>
+      <span>Maule</span>
+    </div>
+    <h1>Terrenos verificados en el Maule.</h1>
+    <p class="lede">Cada ficha visitada en terreno por el equipo. Filtra por comuna, presupuesto, superficie y factibilidad de servicios — todo lo que importa antes de subirte al auto.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="root"></div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useMemo, useEffect } = React;
+
+/* ---------- Data: se carga desde data/terrenos.json ----------
+ * Los terrenos se editan desde /admin (Decap CMS).
+ * Se mapean al formato que el componente ya usa (id, title, comuna,
+ * m2, precio, ufm2, talca, tags, serv, x, y) y se filtran los borradores.
+ */
+function mapTerrenoToLot(t) {
+  return {
+    id: t.id,
+    title: t.title,
+    comuna: t.comuna,
+    m2: t.m2,
+    precio: t.precio_uf,
+    ufm2: t.ufm2,
+    talca: t.distancia_talca_km,
+    tags: t.tags || [],
+    serv: t.servicios || [],
+    x: typeof t.mapa_x === 'number' ? t.mapa_x : 50,
+    y: typeof t.mapa_y === 'number' ? t.mapa_y : 50,
+  };
+}
+
+const COMUNAS = ['San Clemente', 'Talca', 'Linares', 'Pelarco', 'San Rafael'];
+const SERVICIOS = [
+  { id: 'agua-apr',     label: 'Agua APR' },
+  { id: 'pozo',         label: 'Pozo profundo' },
+  { id: 'luz-cge',      label: 'Luz CGE' },
+  { id: 'alcantarillado', label: 'Alcantarillado' },
+  { id: 'pavimento',    label: 'Acceso pavimentado' },
+];
+
+/* ---------- Topo SVG generator ---------- */
+function TopoSvg({ seed, small }) {
+  const o1 = (seed * 7) % 40 - 20;
+  const o2 = (seed * 13) % 60 - 30;
+  const o3 = (seed * 5) % 50 - 25;
+  return (
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{position:'absolute', inset:0, width:'100%', height:'100%'}} aria-hidden="true">
+      <g fill="none" stroke="#FAFAF7" strokeOpacity="0.28" strokeWidth="1.2">
+        <path d={`M-20 ${250+o1} C 80 ${220+o2}, 180 ${260+o3}, 280 ${220+o1} S 460 ${200+o2}, 540 ${230+o3}`}/>
+        <path d={`M-20 ${200+o2} C 90 ${160+o3}, 200 ${220+o1}, 300 ${170+o2} S 460 ${150+o3}, 540 ${180+o1}`}/>
+        <path d={`M-20 ${150+o3} C 110 ${110+o1}, 220 ${170+o2}, 320 ${120+o3} S 460 ${100+o1}, 540 ${130+o2}`}/>
+        <path d={`M-20 ${100+o1} C 130 ${70+o2}, 260 ${110+o3}, 360 ${80+o1} S 460 ${60+o2}, 540 ${90+o3}`}/>
+        {!small && <path d={`M-20 ${55+o2} C 140 ${35+o3}, 280 ${70+o1}, 380 ${45+o2} S 470 ${30+o3}, 540 ${55+o1}`}/>}
+      </g>
+      {!small && (
+        <g fill="none" stroke="#E8DFC9" strokeOpacity="0.55" strokeDasharray="5 5" strokeWidth="1.1">
+          <path d={`M${120+o1} ${110+o2} L ${290+o3} ${100+o1} L ${300+o2} ${230+o3} L ${135+o1} ${240+o2} Z`}/>
+        </g>
+      )}
+    </svg>
+  );
+}
+
+/* ---------- Lot card ---------- */
+function LotCard({ lot, idx, saved, toggleSave }) {
+  return (
+    <a href={`terreno.html?id=${lot.id}`} className="lot" aria-label={`${lot.title}, ${lot.comuna}, UF ${lot.precio}`}>
+      <div className="lot-image">
+        <TopoSvg seed={idx + 1} />
+        <span className="badge-verified">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+          Verificado
+        </span>
+        <button
+          className={`save ${saved ? 'saved' : ''}`}
+          aria-label={saved ? 'Quitar de guardados' : 'Guardar'}
+          onClick={(e) => { e.preventDefault(); toggleSave(lot.id); }}
+        >
+          <svg viewBox="0 0 24 24" fill={saved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+      </div>
+      <div className="lot-body">
+        <div className="lot-price-row">
+          <span className="lot-price">UF {lot.precio.toLocaleString('es-CL')}</span>
+          <span className="lot-ufm2">{lot.ufm2.toFixed(2).replace('.',',')} UF/m²</span>
+        </div>
+        <div>
+          <div className="lot-title">{lot.title}</div>
+          <div className="lot-loc">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z"/></svg>
+            {lot.comuna}, Maule
+          </div>
+        </div>
+        <div className="lot-divider" />
+        <div className="lot-meta-row">
+          <span><b>{lot.m2.toLocaleString('es-CL')}</b> m²</span>
+          <span><b>{lot.talca}</b> min a Talca</span>
+        </div>
+        <div className="lot-tags">
+          {lot.tags.map(t => <span className="tag" key={t}>{t}</span>)}
+        </div>
+      </div>
+    </a>
+  );
+}
+
+/* ---------- Map view ---------- */
+function MapView({ lots, active, setActive }) {
+  return (
+    <div className="map-view">
+      <div className="map-canvas">
+        <svg className="map-bg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <pattern id="map-grid" width="6" height="6" patternUnits="userSpaceOnUse">
+              <path d="M6 0H0V6" fill="none" stroke="#3B5D44" strokeOpacity="0.05" strokeWidth="0.2"/>
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#map-grid)"/>
+          {/* Stylized topographic curves representing valley + cordillera */}
+          <g fill="none" stroke="#3B5D44" strokeOpacity="0.18" strokeWidth="0.3">
+            <path d="M-5 75 C 25 70, 45 80, 65 72 S 95 65, 110 72"/>
+            <path d="M-5 60 C 20 55, 40 65, 60 56 S 95 48, 110 55"/>
+            <path d="M-5 40 C 25 36, 50 45, 70 38 S 100 32, 110 38"/>
+            <path d="M-5 25 C 30 20, 55 28, 75 22 S 100 18, 110 22"/>
+          </g>
+          {/* River */}
+          <path d="M0 65 C 20 60, 40 70, 60 62 S 100 55, 105 58" fill="none" stroke="#3B5D44" strokeOpacity="0.25" strokeWidth="0.5"/>
+          {/* Cordillera shading right side */}
+          <rect x="75" y="0" width="35" height="100" fill="#3B5D44" opacity="0.04"/>
+        </svg>
+        <span className="map-comuna-label" style={{left:'32%', top:'48%'}}>Talca</span>
+        <span className="map-comuna-label" style={{left:'68%', top:'58%'}}>San Clemente</span>
+        <span className="map-comuna-label" style={{left:'52%', top:'80%'}}>Linares</span>
+        <span className="map-comuna-label" style={{left:'40%', top:'30%'}}>Pelarco</span>
+        <span className="map-comuna-label" style={{left:'26%', top:'45%'}}>San Rafael</span>
+
+        {lots.map(l => (
+          <div
+            key={l.id}
+            className={`map-pin ${active === l.id ? 'active' : ''}`}
+            style={{ left: `${l.x}%`, top: `${l.y}%` }}
+            onMouseEnter={() => setActive(l.id)}
+            onClick={() => window.location.href = `terreno.html?id=${l.id}`}
+          >
+            <div className="pin-bubble">UF {l.precio.toLocaleString('es-CL')}</div>
+            <div className="pin-needle" />
+          </div>
+        ))}
+      </div>
+
+      <div className="map-list">
+        {lots.length === 0 && (
+          <div style={{padding:'2rem', textAlign:'center', color:'var(--gray)'}}>
+            Ningún terreno coincide con los filtros aplicados.
+          </div>
+        )}
+        {lots.map((l, i) => (
+          <a
+            href={`terreno.html?id=${l.id}`}
+            key={l.id}
+            className={`map-list-item ${active === l.id ? 'active' : ''}`}
+            onMouseEnter={() => setActive(l.id)}
+          >
+            <div className="thumb"><TopoSvg seed={i + 1} small /></div>
+            <div className="info">
+              <div className="price">UF {l.precio.toLocaleString('es-CL')}</div>
+              <div className="ttl">{l.title}</div>
+              <div className="loc">{l.comuna}, Maule</div>
+              <div className="meta">{l.m2.toLocaleString('es-CL')} m² · {l.ufm2.toFixed(2).replace('.',',')} UF/m²</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Main App ---------- */
+function App() {
+  const [allLots, setAllLots] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
+  const [comunas, setComunas] = useState(new Set());
+  const [servicios, setServicios] = useState(new Set());
+  const [precioMin, setPrecioMin] = useState('');
+  const [precioMax, setPrecioMax] = useState('');
+  const [m2Min, setM2Min] = useState('');
+  const [m2Max, setM2Max] = useState('');
+  const [sort, setSort] = useState('relevancia');
+  const [view, setView] = useState('list');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [saved, setSaved] = useState(new Set());
+  const [activeMapId, setActiveMapId] = useState(null);
+
+  // Cargar terrenos desde data/terrenos.json (editado vía /admin)
+  useEffect(() => {
+    fetch('data/terrenos.json', { cache: 'no-store' })
+      .then(r => {
+        if (!r.ok) throw new Error('No se pudo leer data/terrenos.json');
+        return r.json();
+      })
+      .then(json => {
+        const lista = (json.terrenos || [])
+          .filter(t => t.estado === 'publicado')
+          .map(mapTerrenoToLot);
+        setAllLots(lista);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoadError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  const toggleSet = (set, setter, val) => {
+    const next = new Set(set);
+    next.has(val) ? next.delete(val) : next.add(val);
+    setter(next);
+  };
+  const toggleSave = (id) => toggleSet(saved, setSaved, id);
+
+  const filtered = useMemo(() => {
+    let out = allLots.filter(l => {
+      if (comunas.size && !comunas.has(l.comuna)) return false;
+      if (servicios.size && ![...servicios].every(s => l.serv.includes(s))) return false;
+      if (precioMin && l.precio < +precioMin) return false;
+      if (precioMax && l.precio > +precioMax) return false;
+      if (m2Min && l.m2 < +m2Min) return false;
+      if (m2Max && l.m2 > +m2Max) return false;
+      return true;
+    });
+    switch (sort) {
+      case 'precio-asc':  out.sort((a,b) => a.precio - b.precio); break;
+      case 'precio-desc': out.sort((a,b) => b.precio - a.precio); break;
+      case 'ufm2-asc':    out.sort((a,b) => a.ufm2 - b.ufm2); break;
+      case 'm2-desc':     out.sort((a,b) => b.m2 - a.m2); break;
+      default: break;
+    }
+    return out;
+  }, [allLots, comunas, servicios, precioMin, precioMax, m2Min, m2Max, sort]);
+
+  const comunaCounts = useMemo(() => {
+    const c = {};
+    COMUNAS.forEach(co => c[co] = allLots.filter(l => l.comuna === co).length);
+    return c;
+  }, [allLots]);
+  const servicioCounts = useMemo(() => {
+    const c = {};
+    SERVICIOS.forEach(s => c[s.id] = allLots.filter(l => l.serv.includes(s.id)).length);
+    return c;
+  }, [allLots]);
+
+  const activeChips = [
+    ...[...comunas].map(c => ({ key: `c-${c}`, label: c, clear: () => toggleSet(comunas, setComunas, c) })),
+    ...[...servicios].map(s => ({ key: `s-${s}`, label: SERVICIOS.find(x=>x.id===s)?.label, clear: () => toggleSet(servicios, setServicios, s) })),
+    ...(precioMin ? [{ key: 'pmin', label: `Mín UF ${precioMin}`, clear: () => setPrecioMin('') }] : []),
+    ...(precioMax ? [{ key: 'pmax', label: `Máx UF ${precioMax}`, clear: () => setPrecioMax('') }] : []),
+    ...(m2Min ? [{ key: 'mmin', label: `Mín ${m2Min} m²`, clear: () => setM2Min('') }] : []),
+    ...(m2Max ? [{ key: 'mmax', label: `Máx ${m2Max} m²`, clear: () => setM2Max('') }] : []),
+  ];
+
+  const resetAll = () => {
+    setComunas(new Set()); setServicios(new Set());
+    setPrecioMin(''); setPrecioMax(''); setM2Min(''); setM2Max('');
+  };
+
+  return (
+    <>
+      <div className="results-bar">
+        <div className="results-count">
+          <b>{filtered.length}</b> {filtered.length === 1 ? 'terreno' : 'terrenos'} verificados
+          {comunas.size > 0 && <> en <b>{[...comunas].join(', ')}</b></>}
+        </div>
+        <div className="controls">
+          <button className="filter-toggle-mobile" onClick={() => setFiltersOpen(!filtersOpen)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+            Filtros{activeChips.length > 0 ? ` · ${activeChips.length}` : ''}
+          </button>
+          <div className="sort-wrap">
+            <select className="sort-select" value={sort} onChange={e => setSort(e.target.value)}>
+              <option value="relevancia">Más relevantes</option>
+              <option value="precio-asc">Precio: menor a mayor</option>
+              <option value="precio-desc">Precio: mayor a menor</option>
+              <option value="ufm2-asc">UF/m² más conveniente</option>
+              <option value="m2-desc">Mayor superficie</option>
+            </select>
+          </div>
+          <div className="view-toggle" role="tablist" aria-label="Vista">
+            <button className={view === 'list' ? 'active' : ''} onClick={() => setView('list')} aria-pressed={view==='list'}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Lista
+            </button>
+            <button className={view === 'map' ? 'active' : ''} onClick={() => setView('map')} aria-pressed={view==='map'}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+              Mapa
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="layout">
+        <aside className={`filters ${filtersOpen ? 'open' : ''}`} aria-label="Filtros">
+          <div className="filter-block">
+            <h4>Comuna</h4>
+            <ul className="check-list">
+              {COMUNAS.map(c => (
+                <li key={c}>
+                  <label>
+                    <input type="checkbox" checked={comunas.has(c)} onChange={() => toggleSet(comunas, setComunas, c)} />
+                    <span className="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    {c}
+                    <span className="count">{comunaCounts[c]}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="filter-block">
+            <h4>Precio (UF)</h4>
+            <div className="range-row">
+              <div>
+                <label className="range-label">Desde</label>
+                <input className="range-input" type="number" placeholder="1.500" value={precioMin} onChange={e => setPrecioMin(e.target.value)} />
+              </div>
+              <div>
+                <label className="range-label">Hasta</label>
+                <input className="range-input" type="number" placeholder="4.500" value={precioMax} onChange={e => setPrecioMax(e.target.value)} />
+              </div>
+            </div>
+          </div>
+
+          <div className="filter-block">
+            <h4>Superficie (m²)</h4>
+            <div className="range-row">
+              <div>
+                <label className="range-label">Desde</label>
+                <input className="range-input" type="number" placeholder="1.000" value={m2Min} onChange={e => setM2Min(e.target.value)} />
+              </div>
+              <div>
+                <label className="range-label">Hasta</label>
+                <input className="range-input" type="number" placeholder="20.000" value={m2Max} onChange={e => setM2Max(e.target.value)} />
+              </div>
+            </div>
+          </div>
+
+          <div className="filter-block">
+            <h4>Factibilidad de servicios</h4>
+            <ul className="check-list">
+              {SERVICIOS.map(s => (
+                <li key={s.id}>
+                  <label>
+                    <input type="checkbox" checked={servicios.has(s.id)} onChange={() => toggleSet(servicios, setServicios, s.id)} />
+                    <span className="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    {s.label}
+                    <span className="count">{servicioCounts[s.id]}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <button className="filter-reset" onClick={resetAll}>Limpiar todos los filtros</button>
+        </aside>
+
+        <div>
+          {activeChips.length > 0 && (
+            <div className="active-chips">
+              {activeChips.map(c => (
+                <span key={c.key} className="chip-active">
+                  {c.label}
+                  <button onClick={c.clear} aria-label={`Quitar filtro ${c.label}`}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {view === 'list' ? (
+            <div className="lots-grid">
+              {loading ? (
+                <div className="empty">
+                  <h3>Cargando terrenos…</h3>
+                </div>
+              ) : loadError ? (
+                <div className="empty">
+                  <h3>No pudimos cargar los terrenos.</h3>
+                  <p>Recarga la página. Si el problema sigue, escríbenos por WhatsApp.</p>
+                </div>
+              ) : filtered.length === 0 ? (
+                <div className="empty">
+                  <h3>Ningún terreno coincide con tus filtros.</h3>
+                  <p>Prueba ampliando el rango de precio, sumando comunas o quitando un servicio.</p>
+                  <button onClick={resetAll}>Limpiar todos los filtros</button>
+                </div>
+              ) : (
+                filtered.map((l, i) => (
+                  <LotCard key={l.id} lot={l} idx={i} saved={saved.has(l.id)} toggleSave={toggleSave} />
+                ))
+              )}
+            </div>
+          ) : (
+            <MapView lots={filtered} active={activeMapId} setActive={setActiveMapId} />
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

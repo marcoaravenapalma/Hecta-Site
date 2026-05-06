@@ -1,0 +1,1173 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parcela 5.230 m² · Sector Mariposas — Hecta</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #3B5D44;
+    --green-700: #2F4A37;
+    --green-soft: #EAF0EC;
+    --sand: #E8DFC9;
+    --sand-soft: #F1EBDB;
+    --terra: #C77B5F;
+    --terra-700: #B36A4F;
+    --terra-soft: #F5E5DD;
+    --ink: #1A2421;
+    --bone: #FAFAF7;
+    --gray: #6B6B6B;
+    --gray-light: #9A9A9A;
+    --line: #E8DFC9;
+    --line-strong: #D4D4D4;
+    --warn: #B8742E;
+    --warn-soft: #F4E8D5;
+    --r-sm: 8px;
+    --r-md: 10px;
+    --r-lg: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bone);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent; }
+  ul { list-style: none; padding: 0; margin: 0; }
+
+  h1, h2, h3, .display {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); }
+  h2 { font-size: clamp(1.4rem, 1.5vw + 0.75rem, 1.85rem); line-height: 1.2; }
+  h3 { font-size: 1.15rem; line-height: 1.3; }
+
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  .wrap { width: 100%; max-width: 1280px; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2rem; } }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-block: 0.9rem; gap: 1rem; }
+  .logo { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.4rem; color: var(--ink); letter-spacing: -0.015em; }
+  .logo-mark { width: 22px; height: 22px; color: var(--green); }
+  .nav-links { display: none; gap: 0.25rem; }
+  .nav-links a { padding: 0.5rem 0.75rem; border-radius: var(--r-sm); font-size: 0.93rem; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green); background: var(--sand-soft); }
+  .nav-cta { display: none; align-items: center; gap: 0.5rem; padding: 0.7rem 1.1rem; border-radius: var(--r-md); background: var(--terra); color: var(--bone); font-size: 0.93rem; font-weight: 500; }
+  .nav-cta:hover { background: var(--terra-700); }
+  @media (min-width: 1024px) { .nav-links { display: flex; } .nav-cta { display: inline-flex; } }
+  .hamburger { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: var(--r-sm); border: 1px solid var(--line-strong); }
+  @media (min-width: 1024px) { .hamburger { display: none; } }
+
+  /* ---------- Crumbs + back ---------- */
+  .top-bar { padding-block: 1.25rem 0; }
+  .crumbs { font-size: 0.85rem; color: var(--gray); }
+  .crumbs a { color: var(--green); }
+  .crumbs a:hover { color: var(--terra); }
+  .crumbs .sep { margin-inline: 0.5rem; opacity: 0.6; }
+
+  /* ---------- Lot header ---------- */
+  .lot-header { padding-block: 1.25rem 1.5rem; }
+  .lot-tagline { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.78rem; font-weight: 500;
+    padding: 0.4rem 0.7rem; border-radius: 999px;
+    line-height: 1;
+  }
+  .badge-verified { background: var(--terra); color: var(--bone); }
+  .badge-fresh { background: var(--green-soft); color: var(--green); border: 1px solid rgba(59,93,68,0.15); }
+  .badge svg { width: 12px; height: 12px; }
+  .lot-meta-line { display: flex; gap: 0.65rem; align-items: center; color: var(--gray); font-size: 0.92rem; flex-wrap: wrap; }
+  .lot-meta-line svg { width: 14px; height: 14px; color: var(--green); }
+  .lot-meta-line .dot { width: 3px; height: 3px; background: var(--gray-light); border-radius: 50%; }
+
+  .lot-header h1 { margin-top: 0.85rem; }
+  .header-actions { display: flex; gap: 0.65rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .header-actions button {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    font-size: 0.88rem;
+    color: var(--ink);
+    background: var(--bone);
+    transition: all 160ms;
+  }
+  .header-actions button:hover { border-color: var(--green); color: var(--green); }
+  .header-actions button svg { width: 14px; height: 14px; }
+
+  /* ---------- Gallery ---------- */
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .gallery {
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        "main t1 t2"
+        "main t3 t4";
+      height: 480px;
+      gap: 0.65rem;
+    }
+  }
+  .gal-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background: var(--green);
+    cursor: pointer;
+    aspect-ratio: 4 / 3;
+  }
+  @media (min-width: 768px) {
+    .gal-item { aspect-ratio: auto; }
+    .gal-item.main { grid-area: main; aspect-ratio: auto; }
+    .gal-item.t1 { grid-area: t1; }
+    .gal-item.t2 { grid-area: t2; }
+    .gal-item.t3 { grid-area: t3; }
+    .gal-item.t4 { grid-area: t4; }
+  }
+  .gal-item svg.topo-img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .gal-item .label {
+    position: absolute; bottom: 0.65rem; left: 0.75rem;
+    background: rgba(26,36,33,0.7);
+    color: var(--bone);
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .gal-item .more {
+    position: absolute; right: 0.65rem; bottom: 0.65rem;
+    background: var(--bone); color: var(--ink);
+    font-size: 0.78rem; font-weight: 500;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--r-sm);
+    display: inline-flex; align-items: center; gap: 0.35rem;
+  }
+  .gal-item .more svg { width: 12px; height: 12px; }
+
+  /* ---------- Body grid ---------- */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 5rem;
+  }
+  @media (min-width: 1024px) {
+    .body-grid { grid-template-columns: 1fr 380px; gap: 3rem; }
+  }
+
+  /* ---------- Quick stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+  @media (min-width: 768px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat {
+    padding: 1.25rem 1.35rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 768px) {
+    .stat { border-bottom: 0; }
+    .stat:nth-child(4) { border-right: 0; }
+  }
+  @media (max-width: 767px) {
+    .stat:nth-child(2n) { border-right: 0; }
+    .stat:nth-child(3), .stat:nth-child(4) { border-bottom: 0; }
+  }
+  .stat .lbl { font-size: 0.74rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+  .stat .val { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.4rem; line-height: 1; color: var(--ink); }
+  .stat .sub { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gray); margin-top: 0.4rem; }
+
+  /* ---------- Section ---------- */
+  .section { margin-bottom: 3rem; }
+  .section-head { margin-bottom: 1.5rem; }
+  .section-head .eyebrow { font-size: 0.78rem; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+  .section-head h2 { margin: 0; }
+  .section-head .lede { color: var(--gray); margin-top: 0.5rem; max-width: 38rem; }
+
+  /* ---------- Description ---------- */
+  .description p { color: var(--ink); font-size: 1.02rem; line-height: 1.7; margin-bottom: 1rem; max-width: 38rem; }
+  .description p:last-child { margin-bottom: 0; }
+
+  /* ---------- equipo analysis ---------- */
+  .equipo {
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 1.75rem;
+  }
+  @media (min-width: 768px) { .equipo { padding: 2.25rem; } }
+  .equipo-head {
+    display: flex; gap: 1rem; align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(26,36,33,0.08);
+    margin-bottom: 1.75rem;
+  }
+  .equipo-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--green); color: var(--bone);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .equipo-meta .label { font-size: 0.74rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; }
+  .equipo-meta .name { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 1.15rem; line-height: 1.2; margin-top: 0.2rem; }
+  .equipo-meta .role { color: var(--gray); font-size: 0.85rem; margin-top: 0.15rem; }
+
+  .equipo blockquote {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0 0 1.75rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--terra);
+    text-wrap: balance;
+  }
+
+  .three-three { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  @media (min-width: 700px) { .three-three { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+  .pro-list h4, .verify-list h4 {
+    font-size: 0.78rem; font-weight: 600; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin: 0 0 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .pro-list h4 svg { color: var(--green); }
+  .verify-list h4 svg { color: var(--warn); }
+  .pro-list h4 svg, .verify-list h4 svg { width: 14px; height: 14px; }
+  .pro-list ol, .verify-list ol {
+    list-style: none; padding: 0; margin: 0;
+    counter-reset: item;
+  }
+  .pro-list li, .verify-list li {
+    counter-increment: item;
+    padding: 0.65rem 0 0.65rem 1.85rem;
+    border-bottom: 1px solid rgba(26,36,33,0.08);
+    position: relative;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .pro-list li:last-child, .verify-list li:last-child { border-bottom: 0; }
+  .pro-list li::before, .verify-list li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute; left: 0; top: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.78rem;
+  }
+  .pro-list li::before { color: var(--green); }
+  .verify-list li::before { color: var(--warn); }
+
+  /* ---------- Factibilidad ---------- */
+  .fact-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+  @media (min-width: 700px) { .fact-grid { grid-template-columns: 1fr 1fr; } }
+  .fact {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bone);
+  }
+  .fact-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--r-sm);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .fact-icon svg { width: 18px; height: 18px; }
+  .fact-icon.ok { background: var(--green-soft); color: var(--green); }
+  .fact-icon.warn { background: var(--warn-soft); color: var(--warn); }
+  .fact-icon.no { background: #F4E1DA; color: #B0533A; }
+  .fact .ttl { font-weight: 500; font-size: 0.97rem; line-height: 1.3; }
+  .fact .desc { color: var(--gray); font-size: 0.86rem; margin-top: 0.3rem; line-height: 1.5; }
+  .fact .src { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--gray); margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.3rem; }
+  .fact .src svg { width: 11px; height: 11px; }
+
+  /* ---------- Riesgos ---------- */
+  .risk-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+  @media (min-width: 700px) { .risk-grid { grid-template-columns: repeat(3, 1fr); } }
+  .risk {
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bone);
+  }
+  .risk-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.85rem;
+  }
+  .risk-head .name { font-weight: 500; font-size: 0.95rem; }
+  .risk-level {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 500;
+    padding: 0.25rem 0.55rem; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .risk-level.bajo { background: var(--green-soft); color: var(--green); }
+  .risk-level.medio { background: var(--warn-soft); color: var(--warn); }
+  .risk-level.alto { background: #F4E1DA; color: #B0533A; }
+  .risk-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 0.85rem; }
+  .risk-bar-fill { height: 100%; border-radius: 3px; transition: width 600ms ease; }
+  .risk-bar-fill.bajo { background: var(--green); }
+  .risk-bar-fill.medio { background: var(--warn); }
+  .risk-bar-fill.alto { background: #B0533A; }
+  .risk p { font-size: 0.86rem; color: var(--gray); line-height: 1.55; margin: 0; }
+  .risk .src { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gray-light); margin-top: 0.65rem; }
+
+  /* ---------- Comparables ---------- */
+  .comps-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .comps-table thead th {
+    text-align: left;
+    padding: 0.85rem 0.75rem;
+    background: var(--sand-soft);
+    color: var(--gray);
+    font-weight: 500;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--line);
+  }
+  .comps-table thead th:first-child { border-top-left-radius: var(--r-md); }
+  .comps-table thead th:last-child { border-top-right-radius: var(--r-md); }
+  .comps-table tbody td {
+    padding: 0.85rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.86rem;
+  }
+  .comps-table tbody tr:last-child td { border-bottom: 0; }
+  .comps-table tbody td:first-child { font-family: 'Inter', sans-serif; font-weight: 500; }
+  .comps-pill { display: inline-flex; align-items: center; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.74rem; }
+  .comps-pill.this { background: var(--terra); color: var(--bone); }
+  .comps-pill.over { background: var(--warn-soft); color: var(--warn); }
+  .comps-pill.under { background: var(--green-soft); color: var(--green); }
+  .comps-pill.eq { background: var(--sand); color: var(--ink); }
+  .comps-table tbody tr.this-row td { background: var(--terra-soft); }
+  .comps-summary {
+    padding: 1.15rem 1.25rem;
+    background: var(--green-soft);
+    border-left: 3px solid var(--green);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    margin-top: 1.5rem;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+  .comps-table-wrap { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; overflow-x: auto; }
+
+  /* ---------- Ubicación ---------- */
+  .loc-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  @media (min-width: 768px) { .loc-grid { grid-template-columns: 1.2fr 1fr; } }
+  .loc-map {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--sand-soft);
+    overflow: hidden;
+  }
+  .loc-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .loc-map .pin {
+    position: absolute; top: 50%; left: 56%;
+    transform: translate(-50%, -100%);
+    color: var(--terra);
+    width: 36px; height: 36px;
+    filter: drop-shadow(0 2px 0 rgba(26,36,33,0.1));
+  }
+  .loc-list {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .loc-list-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.95rem 1.15rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .loc-list-item:last-child { border-bottom: 0; }
+  .loc-list-item .left { display: inline-flex; align-items: center; gap: 0.65rem; }
+  .loc-list-item .left svg { width: 16px; height: 16px; color: var(--green); }
+  .loc-list-item .right { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--gray); }
+
+  /* ---------- Datos legales ---------- */
+  .legal-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  @media (min-width: 700px) { .legal-grid { grid-template-columns: 1fr 1fr; } }
+  .legal-row {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    padding: 0.95rem 1.15rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  @media (min-width: 700px) {
+    .legal-row:nth-child(odd) { border-right: 1px solid var(--line); }
+    .legal-row:nth-last-child(-n+2) { border-bottom: 0; }
+  }
+  @media (max-width: 699px) {
+    .legal-row:last-child { border-bottom: 0; }
+  }
+  .legal-row .k { color: var(--gray); }
+  .legal-row .v { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; }
+
+  /* ---------- Sticky CTA card ---------- */
+  .cta-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .cta-card { position: sticky; top: 5rem; }
+  }
+  .cta-price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
+  .cta-price { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 2rem; line-height: 1; }
+  .cta-ufm2 { font-family: 'JetBrains Mono', monospace; color: var(--gray); font-size: 0.85rem; }
+  .cta-clp { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--gray); margin-bottom: 1.5rem; }
+  .cta-divider { height: 1px; background: var(--line); margin: 1.25rem 0; }
+
+  .cta-buttons { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1rem; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--r-md);
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1;
+    transition: all 160ms;
+  }
+  .btn-primary { background: var(--terra); color: var(--bone); }
+  .btn-primary:hover { background: var(--terra-700); }
+  .btn-secondary { border: 1px solid var(--green); color: var(--green); background: transparent; }
+  .btn-secondary:hover { background: var(--green); color: var(--bone); }
+
+  .cta-features { display: flex; flex-direction: column; gap: 0.65rem; }
+  .cta-features li {
+    display: flex; align-items: flex-start; gap: 0.55rem;
+    font-size: 0.86rem; color: var(--gray);
+    line-height: 1.4;
+  }
+  .cta-features svg { width: 14px; height: 14px; color: var(--green); margin-top: 2px; flex-shrink: 0; }
+
+  .signed-by {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    display: flex; gap: 0.75rem; align-items: center;
+  }
+  .signed-by .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--green); color: var(--bone);
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 0.95rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .signed-by .lbl { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; }
+  .signed-by .nm { font-size: 0.9rem; font-weight: 500; }
+  .signed-by .when { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gray); margin-top: 0.1rem; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--bone);
+    border-top: 1px solid var(--line);
+    padding-block: 2.5rem 1.5rem;
+    margin-top: 2rem;
+  }
+  .footer-bottom {
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Principal">
+      <a href="hecta.html" class="logo">
+        <svg class="logo-mark" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+          <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+        </svg>
+        Hecta
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="maule.html" class="active">Maule</a></li>
+        <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="hecta.html#vendedores">Vendedores</a></li>
+        <li><a href="#corredores">Corredores</a></li>
+        <li><a href="#nosotros">Sobre nosotros</a></li>
+      </ul>
+      <a href="https://wa.me/56933832870" class="nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43Z"/></svg>
+        WhatsApp
+      </a>
+      <button class="hamburger" aria-label="Menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Crumbs -->
+<div class="wrap">
+  <div class="top-bar">
+    <div class="crumbs">
+      <a href="hecta.html">Inicio</a>
+      <span class="sep">/</span>
+      <a href="maule.html">Maule</a>
+      <span class="sep">/</span>
+      <a href="maule.html" id="lot-bc-comuna">San Clemente</a>
+      <span class="sep">/</span>
+      <span id="lot-bc-sector">Sector Mariposas</span>
+    </div>
+  </div>
+</div>
+
+<!-- Lot header -->
+<div class="wrap">
+  <div class="lot-header">
+    <div class="lot-tagline">
+      <span class="badge badge-verified">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+        Verificado Hecta
+      </span>
+      <span class="badge badge-fresh">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Visitada hace 18 días
+      </span>
+      <span class="badge" style="background: var(--sand); color: var(--ink);">
+        <span class="mono" style="font-size: 0.74rem;">ID</span> <span id="lot-id-badge">PRD-MAR-001</span>
+      </span>
+    </div>
+    <div class="lot-meta-line">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z"/></svg>
+      <span id="lot-location-line">Sector Mariposas, San Clemente, Maule</span>
+      <span class="dot"></span>
+      <span class="mono" id="lot-m2-line">5.230 m²</span>
+      <span class="dot"></span>
+      <span class="mono" id="lot-talca-line">25 min de Talca</span>
+    </div>
+    <h1 id="lot-title">Parcela en Mariposas con APR confirmada y vista al valle.</h1>
+
+    <div class="header-actions">
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Guardar
+      </button>
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+        Compartir
+      </button>
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h4"/></svg>
+        Descargar ficha PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Gallery -->
+<div class="wrap">
+  <div class="gallery">
+    <div class="gal-item main">
+      <svg class="topo-img" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="600" height="400" fill="#3B5D44"/>
+        <g fill="none" stroke="#FAFAF7" stroke-opacity="0.3" stroke-width="1.4">
+          <path d="M-20 320 C 100 280, 200 340, 320 290 S 540 250, 620 290"/>
+          <path d="M-20 260 C 110 220, 230 280, 350 230 S 540 200, 620 230"/>
+          <path d="M-20 200 C 130 160, 260 220, 380 170 S 540 140, 620 170"/>
+          <path d="M-20 140 C 150 110, 290 160, 400 110 S 540 90, 620 110"/>
+          <path d="M-20 80 C 170 60, 320 100, 420 70 S 540 50, 620 70"/>
+        </g>
+        <g fill="none" stroke="#E8DFC9" stroke-opacity="0.65" stroke-dasharray="6 6" stroke-width="1.4">
+          <path d="M180 130 L 420 120 L 430 320 L 195 330 Z"/>
+        </g>
+      </svg>
+      <span class="label">drone · 14 mar 2026</span>
+    </div>
+    <div class="gal-item t1">
+      <svg class="topo-img" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="300" fill="#3B5D44"/>
+        <g fill="none" stroke="#FAFAF7" stroke-opacity="0.28" stroke-width="1.2">
+          <path d="M-20 230 C 90 200, 200 240, 300 210 S 460 180, 540 210"/>
+          <path d="M-20 170 C 110 140, 220 180, 320 150 S 460 120, 540 150"/>
+          <path d="M-20 110 C 130 80, 260 110, 360 90 S 460 70, 540 90"/>
+        </g>
+      </svg>
+      <span class="label">acceso</span>
+    </div>
+    <div class="gal-item t2">
+      <svg class="topo-img" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="300" fill="#3B5D44"/>
+        <g fill="none" stroke="#FAFAF7" stroke-opacity="0.32" stroke-width="1.2">
+          <path d="M-20 250 C 80 210, 180 260, 280 220 S 460 190, 540 220"/>
+          <path d="M-20 190 C 100 160, 200 200, 300 170 S 460 140, 540 170"/>
+        </g>
+      </svg>
+      <span class="label">deslinde norte</span>
+    </div>
+    <div class="gal-item t3">
+      <svg class="topo-img" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="300" fill="#3B5D44"/>
+        <g fill="none" stroke="#FAFAF7" stroke-opacity="0.28" stroke-width="1.2">
+          <path d="M-20 200 C 100 170, 220 210, 320 180 S 460 150, 540 180"/>
+          <path d="M-20 140 C 130 110, 250 140, 360 120 S 460 100, 540 120"/>
+        </g>
+      </svg>
+      <span class="label">vista al valle</span>
+    </div>
+    <div class="gal-item t4">
+      <svg class="topo-img" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="300" fill="#3B5D44"/>
+        <g fill="none" stroke="#FAFAF7" stroke-opacity="0.3" stroke-width="1.2">
+          <path d="M-20 220 C 90 200, 200 230, 300 210 S 460 190, 540 210"/>
+          <path d="M-20 160 C 110 140, 220 170, 320 150 S 460 130, 540 150"/>
+        </g>
+      </svg>
+      <span class="more">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+        +12 fotos
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="wrap">
+  <div class="body-grid">
+    <main>
+
+      <!-- Quick stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="lbl">Superficie</div>
+          <div class="val"><span id="lot-stat-m2">5.230</span> <span class="mono" style="font-size:1rem; font-weight:500; color:var(--gray);">m²</span></div>
+          <div class="sub" id="lot-stat-ha">0,52 ha</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">Precio</div>
+          <div class="val" id="lot-stat-precio">UF 2.450</div>
+          <div class="sub" id="lot-stat-clp">~ $98.4M CLP</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">UF por m²</div>
+          <div class="val mono" style="font-size:1.4rem;" id="lot-stat-ufm2">0,47</div>
+          <div class="sub">vs. sector</div>
+        </div>
+        <div class="stat">
+          <div class="lbl">A Talca</div>
+          <div class="val" id="lot-stat-talca">25 min</div>
+          <div class="sub" id="lot-stat-talca-sub">22 km · ruta L-31</div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <section class="section description">
+        <div class="section-head">
+          <div class="eyebrow">Sobre el terreno</div>
+          <h2 id="lot-section-title">Una parcela del rincón sur de Mariposas, con todos los servicios resueltos.</h2>
+        </div>
+        <div id="lot-description-body">
+          <p>Predio rectangular de 5.230 m², con frente de 42 m a camino vecinal pavimentado todo el año. La pendiente es suave hacia el sureste, lo que da vista despejada al valle del Maule y a la cordillera. La parte habitable proyectada queda en la franja alta, fuera de la zona de inundación marcada por SENAPRED.</p>
+          <p>Tiene factibilidad eléctrica confirmada con CGE en el poste del frente, y el comité APR Mariposas Sur entrega carta vigente. El alcantarillado depende de fosa séptica — habitual en la zona, suelo absorbente según calicata realizada por el vecino en 2024.</p>
+          <p>Es un terreno tranquilo, con tres vecinos consolidados y ninguna construcción a más de 200 m. Adecuado para casa de descanso, segunda vivienda o proyecto de subdivisión menor (hasta 5 lotes según resolución SAG vigente).</p>
+        </div>
+      </section>
+
+      <!-- equipo analysis -->
+      <section class="section">
+        <div class="equipo">
+          <div class="equipo-head">
+            <div class="equipo-avatar">CM</div>
+            <div class="equipo-meta">
+              <div class="label">Análisis del equipo</div>
+              <div class="name">Camila Muñoz</div>
+              <div class="role">Arquitecta · 6 años evaluando terrenos en el Maule</div>
+            </div>
+          </div>
+
+          <blockquote>"Este terreno tiene factibilidad eléctrica confirmada con CGE y APR vigente, pero el agua para más de una vivienda va a depender de pozo profundo. El precio está justo bajo el promedio del sector, justificado por la pendiente leve y un acceso ya pavimentado."</blockquote>
+
+          <div class="three-three">
+            <div class="pro-list">
+              <h4>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+                Tres fortalezas
+              </h4>
+              <ol>
+                <li>APR Mariposas Sur entrega carta de factibilidad sin lista de espera. Un punto de entrega ya instalado en el deslinde.</li>
+                <li>Acceso pavimentado todo el año, con paso de bus rural cada 90 minutos. No queda aislado en invierno.</li>
+                <li>Pendiente baja (3%) y suelo franco-arenoso. Sin restricciones evidentes para fundación tipo radier o pilotes simples.</li>
+              </ol>
+            </div>
+            <div class="verify-list">
+              <h4>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16v.01"/></svg>
+                Tres cosas a verificar
+              </h4>
+              <ol>
+                <li>Servidumbre de paso de los vecinos del fondo: aparece en el plano CBR pero no en la escritura. Pedir aclaración.</li>
+                <li>Distancia a quebrada estacional (~80 m). En la zonificación NCh 433 corresponde sismo zona 3, normal para el Maule.</li>
+                <li>Subdivisión SAG: la resolución actual permite 5 lotes pero vence en oct/2027. Si es plan a futuro, conviene anticipar.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Factibilidad -->
+      <section class="section">
+        <div class="section-head">
+          <div class="eyebrow">Factibilidad real verificada</div>
+          <h2>Servicios disponibles, con fuente y vigencia.</h2>
+          <p class="lede">No te decimos "tiene factibilidad". Verificamos cada servicio con la empresa o entidad que lo entrega, y dejamos constancia del documento que lo respalda.</p>
+        </div>
+        <div class="fact-grid">
+          <div class="fact">
+            <div class="fact-icon ok">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            </div>
+            <div>
+              <div class="ttl">Agua potable — APR Mariposas Sur</div>
+              <div class="desc">Carta de factibilidad vigente. Punto de entrega instalado a 6 m del deslinde norte. Sin lista de espera al cierre de mar/2026.</div>
+              <div class="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v4a1 1 0 0 0 1 1h4M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg> APR-MARSUR-2025-184</div>
+            </div>
+          </div>
+          <div class="fact">
+            <div class="fact-icon ok">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            </div>
+            <div>
+              <div class="ttl">Electricidad — CGE</div>
+              <div class="desc">Poste de baja tensión en el frente del predio. Empalme estimado UF 32 según consulta CGE feb/2026.</div>
+              <div class="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v4a1 1 0 0 0 1 1h4M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg> CGE-CONSULTA-91204</div>
+            </div>
+          </div>
+          <div class="fact">
+            <div class="fact-icon warn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16v.01"/></svg>
+            </div>
+            <div>
+              <div class="ttl">Alcantarillado — fosa séptica</div>
+              <div class="desc">No hay red pública. La solución estándar del sector es fosa séptica. Calicata vecina (2024) muestra suelo absorbente apto.</div>
+              <div class="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v4a1 1 0 0 0 1 1h4M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg> Verificación visita 14/03/2026</div>
+            </div>
+          </div>
+          <div class="fact">
+            <div class="fact-icon ok">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            </div>
+            <div>
+              <div class="ttl">Conectividad — Movistar 4G + WOM 5G</div>
+              <div class="desc">Cobertura medida en sitio: Movistar 4G 32 Mbps, WOM 5G 88 Mbps. Fibra óptica disponible a 1,2 km en ruta principal.</div>
+              <div class="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v4a1 1 0 0 0 1 1h4M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg> Speedtest in situ 14/03/2026</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Riesgos -->
+      <section class="section">
+        <div class="section-head">
+          <div class="eyebrow">Riesgo del territorio</div>
+          <h2>Lo que dicen las fuentes oficiales — sin maquillaje.</h2>
+          <p class="lede">Cada riesgo viene de la fuente que lo evalúa: CONAF para incendio, SENAPRED para inundación, NCh 433 para sismo. Si está en alto, lo decimos en alto.</p>
+        </div>
+        <div class="risk-grid">
+          <div class="risk">
+            <div class="risk-head">
+              <span class="name">Incendio forestal</span>
+              <span class="risk-level medio">Medio</span>
+            </div>
+            <div class="risk-bar"><div class="risk-bar-fill medio" style="width: 55%;"></div></div>
+            <p>Zona de pastizal con matorral disperso. Corta-fuego disponible a 600 m. Recomendado mantener faja perimetral de 10 m libre de combustible.</p>
+            <div class="src">CONAF · Mapa de amenaza 2025</div>
+          </div>
+          <div class="risk">
+            <div class="risk-head">
+              <span class="name">Inundación</span>
+              <span class="risk-level bajo">Bajo</span>
+            </div>
+            <div class="risk-bar"><div class="risk-bar-fill bajo" style="width: 22%;"></div></div>
+            <p>Predio 8 m sobre cota de quebrada estacional. Fuera de zona inundable T100. Evento mayor histórico: invierno 2008, sin afectar el sitio.</p>
+            <div class="src">SENAPRED · Visor de amenazas</div>
+          </div>
+          <div class="risk">
+            <div class="risk-head">
+              <span class="name">Sismo</span>
+              <span class="risk-level medio">Zona 3</span>
+            </div>
+            <div class="risk-bar"><div class="risk-bar-fill medio" style="width: 65%;"></div></div>
+            <p>Zona sísmica 3 según NCh 433. Suelo tipo C (firme). Diseño estructural debe cumplir factor sísmico estándar para vivienda en el Maule.</p>
+            <div class="src">NCh 433 Of.96 mod. 2012</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparables -->
+      <section class="section">
+        <div class="section-head">
+          <div class="eyebrow">Comparables del sector</div>
+          <h2>5 ventas reales del último año, a menos de 5 km.</h2>
+          <p class="lede">Son ventas registradas en CBR San Clemente entre abr/2025 y mar/2026. Filtradas por superficie similar (3.000 a 8.000 m²) y servicios comparables.</p>
+        </div>
+        <div class="comps-table-wrap">
+          <table class="comps-table">
+            <thead>
+              <tr>
+                <th>Sector</th>
+                <th>Superficie</th>
+                <th>Precio</th>
+                <th>UF/m²</th>
+                <th>Vendido</th>
+                <th>vs. este</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="this-row">
+                <td>Mariposas (este)</td>
+                <td>5.230 m²</td>
+                <td>UF 2.450</td>
+                <td>0,47</td>
+                <td>—</td>
+                <td><span class="comps-pill this">en venta</span></td>
+              </tr>
+              <tr>
+                <td>Mariposas Norte</td>
+                <td>4.800 m²</td>
+                <td>UF 2.520</td>
+                <td>0,53</td>
+                <td>oct/2025</td>
+                <td><span class="comps-pill over">+13%</span></td>
+              </tr>
+              <tr>
+                <td>El Colorado</td>
+                <td>6.100 m²</td>
+                <td>UF 2.890</td>
+                <td>0,47</td>
+                <td>jul/2025</td>
+                <td><span class="comps-pill eq">par</span></td>
+              </tr>
+              <tr>
+                <td>Mariposas Sur</td>
+                <td>5.500 m²</td>
+                <td>UF 2.310</td>
+                <td>0,42</td>
+                <td>feb/2026</td>
+                <td><span class="comps-pill under">−11%</span></td>
+              </tr>
+              <tr>
+                <td>Los Maquis</td>
+                <td>7.200 m²</td>
+                <td>UF 3.100</td>
+                <td>0,43</td>
+                <td>nov/2025</td>
+                <td><span class="comps-pill under">−9%</span></td>
+              </tr>
+              <tr>
+                <td>Mariposas Centro</td>
+                <td>3.900 m²</td>
+                <td>UF 2.180</td>
+                <td>0,56</td>
+                <td>ago/2025</td>
+                <td><span class="comps-pill over">+19%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="comps-summary">
+          <strong>Lectura:</strong> precio levemente bajo el promedio del sector (−6% en UF/m²), justificado por suelo plano sin pendiente premium. Los terrenos con pendiente y vista directa a la cordillera se transan entre 0,52 y 0,58 UF/m² en la misma zona.
+        </div>
+      </section>
+
+      <!-- Ubicación -->
+      <section class="section">
+        <div class="section-head">
+          <div class="eyebrow">Ubicación</div>
+          <h2>Sector Mariposas, San Clemente.</h2>
+        </div>
+        <div class="loc-grid">
+          <div class="loc-map">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <rect width="100" height="100" fill="#F1EBDB"/>
+              <g fill="none" stroke="#3B5D44" stroke-opacity="0.18" stroke-width="0.3">
+                <path d="M-5 75 C 25 70, 45 80, 65 72 S 95 65, 110 72"/>
+                <path d="M-5 60 C 20 55, 40 65, 60 56 S 95 48, 110 55"/>
+                <path d="M-5 40 C 25 36, 50 45, 70 38 S 100 32, 110 38"/>
+                <path d="M-5 25 C 30 20, 55 28, 75 22 S 100 18, 110 22"/>
+              </g>
+              <path d="M0 65 C 25 60, 45 72, 65 60 S 100 55, 105 60" fill="none" stroke="#3B5D44" stroke-opacity="0.3" stroke-width="0.6"/>
+              <path d="M10 50 L 90 48" stroke="#1A2421" stroke-opacity="0.3" stroke-width="0.4" stroke-dasharray="2 1.5"/>
+              <text x="14" y="86" font-family="Inter" font-style="italic" font-size="3" fill="#3B5D44" opacity="0.6">Río Maule</text>
+              <text x="20" y="46" font-family="Inter" font-size="2.2" fill="#1A2421" opacity="0.5">L-31</text>
+              <text x="35" y="60" font-family="Inter" font-style="italic" font-size="3" fill="#3B5D44" opacity="0.5">Mariposas</text>
+              <circle cx="32" cy="58" r="0.8" fill="#1A2421" opacity="0.4"/>
+              <text x="34" y="60" font-family="Inter" font-size="2.2" fill="#1A2421" opacity="0.7">San Clemente</text>
+            </svg>
+            <svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z"/>
+              <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+            </svg>
+          </div>
+          <ul class="loc-list">
+            <li class="loc-list-item">
+              <span class="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h18l-2 8H5l-2-8z"/><path d="M7 13V8a5 5 0 0 1 10 0v5"/></svg>
+                Talca centro
+              </span>
+              <span class="right">25 min · 22 km</span>
+            </li>
+            <li class="loc-list-item">
+              <span class="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+                San Clemente municipal
+              </span>
+              <span class="right">8 min · 6 km</span>
+            </li>
+            <li class="loc-list-item">
+              <span class="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14V8a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M19 14l-2 4H7l-2-4M5 18v3M19 18v3"/></svg>
+                Colegio rural Mariposas
+              </span>
+              <span class="right">3 min · 2 km</span>
+            </li>
+            <li class="loc-list-item">
+              <span class="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+                Hospital regional Talca
+              </span>
+              <span class="right">28 min · 24 km</span>
+            </li>
+            <li class="loc-list-item">
+              <span class="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-2 12H5L3 6z"/></svg>
+                Supermercado Unimarc
+              </span>
+              <span class="right">10 min · 8 km</span>
+            </li>
+            <li class="loc-list-item">
+              <span class="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V9l7-5 7 5v12"/></svg>
+                Aeropuerto Talca
+              </span>
+              <span class="right">35 min · 32 km</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Datos legales -->
+      <section class="section">
+        <div class="section-head">
+          <div class="eyebrow">Datos legales y catastrales</div>
+          <h2>La info técnica que vas a pedir igual.</h2>
+        </div>
+        <div class="legal-grid">
+          <div class="legal-row"><span class="k">ROL predial</span><span class="v">421-78</span></div>
+          <div class="legal-row"><span class="k">Comuna</span><span class="v">San Clemente</span></div>
+          <div class="legal-row"><span class="k">Inscripción CBR</span><span class="v">Fs. 1.482 N°2.318 / 2019</span></div>
+          <div class="legal-row"><span class="k">Uso de suelo</span><span class="v">Rural agrícola</span></div>
+          <div class="legal-row"><span class="k">Subdivisión SAG</span><span class="v">Hasta 5 lotes</span></div>
+          <div class="legal-row"><span class="k">Plano regulador</span><span class="v">PRC SCL 2018</span></div>
+          <div class="legal-row"><span class="k">Gravámenes</span><span class="v">Sin gravámenes</span></div>
+          <div class="legal-row"><span class="k">Deuda contribuciones</span><span class="v">Al día · feb/2026</span></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sticky CTA card -->
+    <aside>
+      <div class="cta-card">
+        <div class="cta-price-row">
+          <span class="cta-price" id="lot-cta-price">UF 2.450</span>
+          <span class="cta-ufm2" id="lot-cta-ufm2">0,47 UF/m²</span>
+        </div>
+        <div class="cta-clp" id="lot-cta-clp">~ $98.4M CLP</div>
+
+        <div class="cta-buttons">
+          <a href="https://wa.me/56933832870" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43Z"/></svg>
+            Coordinar visita por WhatsApp
+          </a>
+          <a href="#agendar" class="btn btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Agendar visita en terreno
+          </a>
+        </div>
+
+        <div class="cta-divider"></div>
+
+        <ul class="cta-features">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            Ficha técnica con certificados al día
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            El equipo te acompaña en la primera visita
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            Sin comisión al comprador
+          </li>
+        </ul>
+
+        <div class="signed-by">
+          <div class="avatar">CM</div>
+          <div>
+            <div class="lbl">Visitada por</div>
+            <div class="nm">Camila Muñoz</div>
+            <div class="when">14 mar 2026 · 15:40</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© 2026 Hecta SpA</span>
+      <span>Inscritos en SII y UAF · Hecta SpA · Maule, Chile.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Carga dinámica del terreno ----------
+ * Lee ?id=xxx de la URL, busca el terreno en data/terrenos.json
+ * y rellena los campos clave de la ficha. Si no hay id en la URL
+ * o no se encuentra, mantiene el contenido de plantilla por defecto.
+ */
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if (!id) return; // sin id, queda como demo estática
+
+  fetch('data/terrenos.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(json => {
+      const t = (json.terrenos || []).find(x => x.id === id);
+      if (!t) {
+        document.title = 'Terreno no encontrado — Hecta';
+        const h1 = document.getElementById('lot-title');
+        if (h1) h1.textContent = 'No encontramos este terreno.';
+        return;
+      }
+
+      // Helpers de formato (chileno: punto miles, coma decimal)
+      const fmtMiles = n => Number(n).toLocaleString('es-CL');
+      const fmtUFm2 = n => Number(n).toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const fmtClp = ufs => {
+        const valorUF = 40124; // valor de referencia; idealmente leer de fuente
+        const clp = Math.round(ufs * valorUF);
+        return '~ $' + (clp / 1_000_000).toFixed(1) + 'M CLP';
+      };
+      const fmtHa = m2 => (m2 / 10000).toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ha';
+
+      const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el && value !== undefined && value !== null && value !== '') el.textContent = value;
+      };
+
+      // Title del documento
+      document.title = `${t.title} — Hecta`;
+
+      // Breadcrumb
+      setText('lot-bc-comuna', t.comuna);
+      setText('lot-bc-sector', `Sector ${t.sector || ''}`.trim());
+
+      // Badge ID (formato: PRD-XXX-NNN basado en id interno)
+      const idFmt = (t.id || '').toUpperCase();
+      setText('lot-id-badge', `PRD-${idFmt}`);
+
+      // Meta-line
+      setText('lot-location-line', `${t.sector ? 'Sector ' + t.sector + ', ' : ''}${t.comuna}, Maule`);
+      setText('lot-m2-line', `${fmtMiles(t.m2)} m²`);
+      setText('lot-talca-line', `${t.distancia_talca_km} min de Talca`);
+
+      // H1
+      setText('lot-title', t.title);
+
+      // Stats
+      setText('lot-stat-m2', fmtMiles(t.m2));
+      setText('lot-stat-ha', fmtHa(t.m2));
+      setText('lot-stat-precio', `UF ${fmtMiles(t.precio_uf)}`);
+      setText('lot-stat-clp', fmtClp(t.precio_uf));
+      setText('lot-stat-ufm2', fmtUFm2(t.ufm2));
+      setText('lot-stat-talca', `${t.distancia_talca_km} min`);
+
+      // Section description (solo si hay descripción cargada)
+      if (t.descripcion && t.descripcion.trim().length > 0) {
+        const body = document.getElementById('lot-description-body');
+        if (body) {
+          // Convertir saltos dobles en párrafos
+          const parrafos = t.descripcion.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+          body.innerHTML = parrafos.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+        }
+      }
+
+      // CTA card
+      setText('lot-cta-price', `UF ${fmtMiles(t.precio_uf)}`);
+      setText('lot-cta-ufm2', `${fmtUFm2(t.ufm2)} UF/m²`);
+      setText('lot-cta-clp', fmtClp(t.precio_uf));
+    })
+    .catch(err => {
+      console.error('Error cargando terreno:', err);
+    });
+})();
+</script>
+</body>
+</html>
