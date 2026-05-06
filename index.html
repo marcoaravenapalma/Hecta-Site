@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hecta — El terreno que buscas, con todo lo que necesitas saber.</title>
+<meta name="description" content="Información profunda y verificada de cada parcela en el Maule. Factibilidad real, riesgos del territorio y comparables del sector." />
+
+<!-- Google Fonts: Inter, JetBrains Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    --green: #3B5D44;     /* primario */
+    --green-700: #2F4A37;
+    --sand: #E8DFC9;      /* secundario */
+    --sand-soft: #F1EBDB;
+    --terra: #C77B5F;     /* acento / CTA */
+    --terra-700: #B36A4F;
+    --ink: #1A2421;       /* texto principal */
+    --bone: #FAFAF7;      /* fondo */
+    --gray: #6B6B6B;      /* texto secundario */
+    --line: #E8DFC9;      /* bordes sutiles */
+    --line-strong: #D4D4D4;
+
+    --r-sm: 8px;
+    --r-md: 10px;
+    --r-lg: 12px;
+
+    --container: 1200px;
+  }
+
+  /* ---------- Reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--bone);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: transparent; }
+  ul { list-style: none; padding: 0; margin: 0; }
+
+  /* ---------- Tipografía ---------- */
+  .display, h1, h2, h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(2.25rem, 5vw + 0.5rem, 4rem); }
+  h2 { font-size: clamp(1.75rem, 2.5vw + 0.75rem, 2.75rem); line-height: 1.15; }
+  h3 { font-size: 1.25rem; line-height: 1.3; }
+  p { margin: 0; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 500; }
+  .muted { color: var(--gray); }
+
+  /* ---------- Layout ---------- */
+  .wrap {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) { .wrap { padding-inline: 2rem; } }
+
+  section { padding-block: 4rem; }
+  @media (min-width: 768px) { section { padding-block: 6rem; } }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.15rem;
+    border-radius: var(--r-md);
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1;
+    transition: transform 120ms ease, background-color 160ms ease, color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: var(--terra);
+    color: var(--bone);
+  }
+  .btn-primary:hover { background: var(--terra-700); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .btn-secondary:hover { background: var(--green); color: var(--bone); }
+  .btn-ghost {
+    color: var(--ink);
+    padding: 0.5rem 0.75rem;
+  }
+  .btn-ghost:hover { color: var(--green); }
+  .btn-on-green {
+    background: var(--terra);
+    color: var(--bone);
+  }
+  .btn-on-green:hover { background: var(--terra-700); }
+
+  /* ---------- Tags / Badges ---------- */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--sand);
+    color: var(--ink);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.32rem 0.6rem;
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .badge-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--terra);
+    color: var(--bone);
+    font-size: 0.74rem;
+    font-weight: 500;
+    padding: 0.4rem 0.65rem;
+    border-radius: var(--r-sm);
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  .badge-verified svg { width: 12px; height: 12px; }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 250, 247, 0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    -webkit-backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.9rem;
+    gap: 1rem;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+  .logo-mark {
+    width: 22px;
+    height: 22px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .nav-links a {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--r-sm);
+    font-size: 0.93rem;
+    color: var(--ink);
+    transition: color 160ms ease, background-color 160ms ease;
+  }
+  .nav-links a:hover { color: var(--green); background: var(--sand-soft); }
+  .nav-cta { display: none; }
+  @media (min-width: 1024px) {
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-flex; }
+  }
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px; height: 42px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+  .hamburger:hover { background: var(--sand-soft); }
+  @media (min-width: 1024px) { .hamburger { display: none; } }
+
+  /* Mobile drawer */
+  .mobile-menu {
+    display: none;
+    border-top: 1px solid var(--line);
+    padding-block: 0.75rem 1.25rem;
+  }
+  .mobile-menu.is-open { display: block; }
+  .mobile-menu ul { display: flex; flex-direction: column; gap: 0.15rem; }
+  .mobile-menu a {
+    display: block;
+    padding: 0.85rem 0.25rem;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-menu .btn-primary { margin-top: 1rem; width: 100%; justify-content: center; padding-block: 0.9rem; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-block: 4rem 4.5rem;
+  }
+  @media (min-width: 768px) { .hero { padding-block: 6rem 6.5rem; } }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (min-width: 1024px) {
+    .hero-grid { grid-template-columns: 1.25fr 1fr; gap: 4rem; }
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--green);
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--terra);
+  }
+  .hero h1 { margin-bottom: 1.25rem; }
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--gray);
+    max-width: 38rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  @media (min-width: 768px) { .hero-sub { font-size: 1.2rem; } }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .hero-meta {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 2.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+  .hero-meta .stat .num {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .hero-meta .stat .lbl {
+    font-size: 0.82rem;
+    color: var(--gray);
+    margin-top: 0.4rem;
+  }
+
+  /* Hero illustration: topographic SVG */
+  .hero-illu {
+    aspect-ratio: 5 / 4;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--sand-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-illu svg.topo { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-illu .pin {
+    position: absolute;
+    left: 58%;
+    top: 44%;
+    transform: translate(-50%, -100%);
+    color: var(--terra);
+    width: 38px; height: 38px;
+    filter: drop-shadow(0 2px 0 rgba(26,36,33,0.08));
+  }
+  .hero-illu .chip {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+    color: var(--ink);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .hero-illu .chip .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(59,93,68,0.4);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59,93,68,0.45); }
+    70% { box-shadow: 0 0 0 8px rgba(59,93,68,0); }
+    100% { box-shadow: 0 0 0 0 rgba(59,93,68,0); }
+  }
+
+  /* ---------- Diferenciadores ---------- */
+  .diff {
+    background: var(--sand);
+  }
+  .diff-head {
+    max-width: 50rem;
+    margin-bottom: 3rem;
+  }
+  .diff-head p { color: var(--ink); opacity: 0.78; margin-top: 1rem; font-size: 1.05rem; }
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .diff-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  }
+  .diff-card {
+    background: var(--bone);
+    border: 1px solid rgba(26,36,33,0.06);
+    border-radius: var(--r-lg);
+    padding: 1.75rem;
+  }
+  @media (min-width: 768px) { .diff-card { padding: 2rem; } }
+  .diff-card .icon {
+    width: 40px; height: 40px;
+    color: var(--green);
+    margin-bottom: 1.25rem;
+  }
+  .diff-card h3 { margin-bottom: 0.6rem; font-size: 1.35rem; }
+  .diff-card p { color: var(--gray); font-size: 0.97rem; line-height: 1.6; }
+
+  /* ---------- Terrenos ---------- */
+  .lots-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .lots-head p { color: var(--gray); margin-top: 0.6rem; font-size: 1.02rem; }
+  .lots-head .link-arrow {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    color: var(--green); font-weight: 500; font-size: 0.95rem;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .lots-head .link-arrow:hover { color: var(--terra); }
+
+  .lots-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 700px) {
+    .lots-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .lots-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  }
+
+  .lot {
+    display: flex;
+    flex-direction: column;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 200ms ease, border-color 200ms ease;
+  }
+  .lot:hover { transform: translateY(-2px); border-color: var(--green); }
+  .lot:hover .lot-image .arrow { opacity: 1; transform: translate(0, 0); }
+
+  .lot-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--green);
+    overflow: hidden;
+  }
+  .lot-image svg.topo-img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lot-image .badge-verified {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+  }
+  .lot-image .arrow {
+    position: absolute;
+    bottom: 0.85rem;
+    right: 0.85rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--bone);
+    color: var(--ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transform: translate(4px, 0);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .lot-body { padding: 1.15rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; }
+  .lot-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .lot-loc { color: var(--gray); font-size: 0.88rem; margin-top: 0.2rem; }
+  .lot-divider { height: 1px; background: var(--line); margin: 0.15rem 0; }
+  .lot-data {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .lot-data .cell { display: flex; flex-direction: column; gap: 0.2rem; }
+  .lot-data .k { font-size: 0.7rem; color: var(--gray); text-transform: lowercase; letter-spacing: 0.02em; }
+  .lot-data .v { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 0.88rem; color: var(--ink); }
+  .lot-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  /* ---------- Vendedores (verde) ---------- */
+  .sellers {
+    background: var(--green);
+    color: var(--bone);
+  }
+  .sellers h2 { color: var(--bone); }
+  .sellers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .sellers-grid { grid-template-columns: 1.1fr 1fr; gap: 4.5rem; }
+  }
+  .sellers p.lead {
+    color: rgba(250,250,247,0.85);
+    margin-top: 1.5rem;
+    font-size: 1.08rem;
+    line-height: 1.65;
+    max-width: 32rem;
+  }
+  .sellers .btn-on-green { margin-top: 2rem; }
+  .sellers ul.checks { display: flex; flex-direction: column; gap: 1.1rem; }
+  .sellers ul.checks li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(232,223,201,0.18);
+    border-radius: var(--r-md);
+    background: rgba(250,250,247,0.04);
+  }
+  .sellers ul.checks .check {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+    color: var(--sand);
+    margin-top: 2px;
+  }
+  .sellers ul.checks .ttl {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--bone);
+    line-height: 1.3;
+  }
+  .sellers ul.checks .desc { color: rgba(250,250,247,0.7); font-size: 0.9rem; margin-top: 0.2rem; }
+
+  /* ---------- Glosario ---------- */
+  .glossary-head { max-width: 46rem; margin-bottom: 2.75rem; }
+  .glossary-head p { color: var(--gray); margin-top: 1rem; font-size: 1.02rem; }
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  @media (min-width: 640px) { .glossary-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .glossary-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+  .gloss {
+    display: block;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1.25rem 1.35rem;
+    transition: border-color 180ms ease, transform 180ms ease;
+  }
+  .gloss:hover { border-color: var(--green); transform: translateY(-2px); }
+  .gloss .row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+  }
+  .gloss .term {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+  .gloss .arrow-sm {
+    color: var(--gray);
+    transition: color 180ms ease, transform 180ms ease;
+  }
+  .gloss:hover .arrow-sm { color: var(--green); transform: translate(2px, -2px); }
+  .gloss p { color: var(--gray); font-size: 0.9rem; margin-top: 0.4rem; line-height: 1.55; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--bone);
+    border-top: 1px solid var(--line);
+    padding-block: 4rem 2rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; }
+  }
+  footer h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    margin: 0 0 1rem;
+  }
+  footer .col p { color: var(--gray); margin-top: 0.85rem; line-height: 1.6; max-width: 22rem; }
+  footer .col .focus {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--green);
+    display: inline-flex; gap: 0.4rem; align-items: center;
+  }
+  footer ul.flinks { display: flex; flex-direction: column; gap: 0.65rem; }
+  footer ul.flinks a { color: var(--ink); font-size: 0.95rem; }
+  footer ul.flinks a:hover { color: var(--green); }
+  footer ul.social { display: flex; flex-direction: column; gap: 0.65rem; }
+  footer ul.social a {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    color: var(--ink); font-size: 0.95rem;
+  }
+  footer ul.social a:hover { color: var(--green); }
+  footer ul.social svg { width: 18px; height: 18px; color: var(--green); }
+
+  .footer-bottom {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+
+  /* ---------- Utilities ---------- */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0;
+    margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- HEADER                                                       -->
+<!-- ============================================================ -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Principal">
+      <a href="#" class="logo" aria-label="Hecta, inicio">
+        <!-- Pin original: gota redonda con punto interior -->
+        <svg class="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+          <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+        </svg>
+        Hecta
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#maule">Maule</a></li>
+        <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="#vendedores">Vendedores</a></li>
+        <li><a href="#corredores">Corredores</a></li>
+        <li><a href="#nosotros">Sobre nosotros</a></li>
+      </ul>
+
+      <a href="https://wa.me/56933832870" class="btn btn-primary nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43ZM12.05 21.8h-.01a9.85 9.85 0 0 1-5.02-1.37l-.36-.21-3.74.98 1-3.65-.24-.38a9.84 9.84 0 1 1 18.27-5.27c0 5.43-4.42 9.9-9.9 9.9Zm5.43-7.4c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07a8.13 8.13 0 0 1-2.4-1.48 8.97 8.97 0 0 1-1.66-2.07c-.17-.3-.02-.46.13-.6.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.06 2.88 1.21 3.08.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.7.22 1.35.19 1.86.12.57-.08 1.76-.72 2-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.34Z"/>
+        </svg>
+        Hablar por WhatsApp
+      </a>
+
+      <button class="hamburger" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menú">
+        <svg id="ico-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </nav>
+
+    <div id="mobile-menu" class="mobile-menu" hidden>
+      <ul role="list">
+        <li><a href="#maule">Maule</a></li>
+        <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="#vendedores">Vendedores</a></li>
+        <li><a href="#corredores">Corredores</a></li>
+        <li><a href="#nosotros">Sobre nosotros</a></li>
+      </ul>
+      <a href="https://wa.me/56933832870" class="btn btn-primary">Hablar por WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================ -->
+<!-- HERO                                                         -->
+<!-- ============================================================ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-eyebrow">
+          <span class="dot"></span>
+          Foco actual: Región del Maule
+        </span>
+        <h1 id="hero-title">El terreno que buscas, con todo lo que necesitas saber.</h1>
+        <p class="hero-sub">
+          Información profunda y verificada de cada parcela en el Maule. Factibilidad real, riesgos del territorio y comparables del sector — antes de que vayas a verlo.
+        </p>
+        <div class="hero-ctas">
+          <a href="#maule" class="btn btn-primary">Ver terrenos del Maule</a>
+          <a href="#vendedores" class="btn btn-secondary">¿Vendes terreno? Trabaja con nosotros</a>
+        </div>
+
+        <div class="hero-meta" aria-label="Indicadores actuales">
+          <div class="stat">
+            <div class="num mono">42</div>
+            <div class="lbl">Terrenos verificados</div>
+          </div>
+          <div class="stat">
+            <div class="num mono">6</div>
+            <div class="lbl">Comunas cubiertas</div>
+          </div>
+          <div class="stat">
+            <div class="num mono">100%</div>
+            <div class="lbl">Visitados por el equipo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Topographic illustration -->
+      <div class="hero-illu" aria-hidden="true">
+        <svg class="topo" viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0H0V40" fill="none" stroke="#3B5D44" stroke-opacity="0.06" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="500" height="400" fill="url(#grid)"/>
+          <!-- contour lines -->
+          <g fill="none" stroke="#3B5D44" stroke-opacity="0.55" stroke-width="1.25">
+            <path d="M-20 320 C 80 280, 180 330, 280 290 S 460 250, 540 280"/>
+            <path d="M-20 270 C 90 220, 200 280, 300 230 S 460 200, 540 230"/>
+            <path d="M-20 220 C 100 170, 220 230, 320 180 S 460 150, 540 180"/>
+            <path d="M-20 170 C 110 130, 240 180, 340 140 S 460 110, 540 140"/>
+            <path d="M-20 120 C 130 90, 260 130, 360 100 S 460 80, 540 110"/>
+            <path d="M-20 75 C 140 55, 280 90, 380 65 S 470 50, 540 75"/>
+          </g>
+          <!-- subtle parcel boundary -->
+          <g fill="none" stroke="#C77B5F" stroke-opacity="0.5" stroke-dasharray="4 4" stroke-width="1.25">
+            <path d="M180 140 L 350 130 L 360 280 L 200 290 Z"/>
+          </g>
+        </svg>
+        <!-- Pin -->
+        <svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z"/>
+          <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+        </svg>
+        <span class="chip">
+          <span class="pulse" aria-hidden="true"></span>
+          Parcela verificada · San Clemente
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- DIFERENCIADORES                                              -->
+<!-- ============================================================ -->
+<section class="diff" id="como-funciona" aria-labelledby="diff-title">
+  <div class="wrap">
+    <div class="diff-head">
+      <h2 id="diff-title">Lo que ningún portal te dice antes de visitar el terreno.</h2>
+      <p>Cada ficha en Hecta es trabajada por una persona que fue al sitio. No agregamos. Verificamos.</p>
+    </div>
+
+    <div class="diff-grid">
+      <article class="diff-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 21V9l7-5 7 5v12"/>
+          <path d="M5 21h14"/>
+          <path d="M9 21v-6h6v6"/>
+          <path d="M3 13h2M19 13h2"/>
+        </svg>
+        <h3>Factibilidad real verificada</h3>
+        <p>No te decimos "tiene factibilidad". Te decimos: APR confirmada, certificado SISS al día, costo de empalme CGE.</p>
+      </article>
+
+      <article class="diff-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3 2 21h20L12 3Z"/>
+          <path d="M12 10v5"/>
+          <circle cx="12" cy="18" r="0.6" fill="currentColor" stroke="none"/>
+        </svg>
+        <h3>Riesgos del territorio analizados</h3>
+        <p>Incendio según CONAF, inundación según SENAPRED, sismo según norma NCh 433. Honestos antes que vendedores.</p>
+      </article>
+
+      <article class="diff-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18"/>
+          <rect x="7" y="13" width="3" height="5"/>
+          <rect x="12" y="9" width="3" height="9"/>
+          <rect x="17" y="6" width="3" height="12"/>
+        </svg>
+        <h3>Comparables del sector</h3>
+        <p>5 a 10 ventas reales del último año a 5 km. Sabes si el precio es justo o está sobre mercado.</p>
+      </article>
+
+      <article class="diff-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h12l4 4v12a0 0 0 0 1 0 0H4Z"/>
+          <path d="M16 4v4h4"/>
+          <path d="M8 13h8M8 17h6"/>
+        </svg>
+        <h3>Análisis del equipo</h3>
+        <p>Cada ficha la firma quien fue al terreno. Te decimos las 3 fortalezas y las 3 cosas a verificar. Sin marketing inflado.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TERRENOS                                                     -->
+<!-- ============================================================ -->
+<section id="maule" aria-labelledby="lots-title">
+  <div class="wrap">
+    <div class="lots-head">
+      <div>
+        <h2 id="lots-title">Terrenos verificados disponibles ahora.</h2>
+        <p>Foco actual: Región del Maule</p>
+      </div>
+      <a href="#maule" class="link-arrow">
+        Ver todos los terrenos del Maule
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="lots-grid" id="lots-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- VENDEDORES                                                   -->
+<!-- ============================================================ -->
+<section class="sellers" id="vendedores" aria-labelledby="sellers-title">
+  <div class="wrap">
+    <div class="sellers-grid">
+      <div>
+        <h2 id="sellers-title">Tu terreno merece más que un aviso en un clasificado.</h2>
+        <p class="lead">
+          Hacemos una ficha técnica completa, con factibilidad verificada, fotos profesionales, video recorrido y comparables del sector. Trabajamos por mandato exclusivo o referido. No publicamos terrenos que no entendemos.
+        </p>
+        <a href="https://wa.me/56933832870" class="btn btn-on-green">
+          Cuéntanos sobre tu terreno
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <ul class="checks" role="list">
+        <li>
+          <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          <div>
+            <div class="ttl">Ficha técnica completa con certificados</div>
+            <div class="desc">ROL, CBR, factibilidad de servicios, plano regulador y restricciones del sitio.</div>
+          </div>
+        </li>
+        <li>
+          <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          <div>
+            <div class="ttl">Fotos profesionales y video recorrido</div>
+            <div class="desc">Drone, plano de implantación y un caminado por el deslinde, narrado.</div>
+          </div>
+        </li>
+        <li>
+          <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          <div>
+            <div class="ttl">Marketing geosegmentado en redes</div>
+            <div class="desc">Llegamos a quienes buscan terreno en tu zona específica, no a 17 millones de personas.</div>
+          </div>
+        </li>
+        <li>
+          <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          <div>
+            <div class="ttl">Solo cobramos comisión cuando se vende</div>
+            <div class="desc">Sin pagos por aviso, sin cobros por gestión. Si no se vende, no nos pagas.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- GLOSARIO                                                     -->
+<!-- ============================================================ -->
+<section id="glosario" aria-labelledby="glossary-title">
+  <div class="wrap">
+    <div class="glossary-head">
+      <h2 id="glossary-title">Términos que deberías conocer antes de comprar.</h2>
+      <p>Glosario corto, en chileno claro. Cada término abre una página con detalle, ejemplos y los certificados que vale la pena pedir.</p>
+    </div>
+
+    <div class="glossary-grid" id="glossary-grid"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                       -->
+<!-- ============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col">
+        <a href="#" class="logo" aria-label="Hecta, inicio">
+          <svg class="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
+            <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
+          </svg>
+          Hecta
+        </a>
+        <p>El terreno que buscas, con todo lo que necesitas saber.</p>
+        <span class="focus">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-7.5-7-12a7 7 0 1 1 14 0c0 4.5-7 12-7 12Z"/></svg>
+          Foco actual: Región del Maule
+        </span>
+      </div>
+
+      <div class="col">
+        <h4>Navegar</h4>
+        <ul class="flinks" role="list">
+          <li><a href="#maule">Maule</a></li>
+          <li><a href="como-funciona.html">Cómo funciona</a></li>
+          <li><a href="#vendedores">Vendedores</a></li>
+          <li><a href="#corredores">Corredores</a></li>
+          <li><a href="#nosotros">Sobre nosotros</a></li>
+          <li><a href="#glosario">Glosario</a></li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <h4>Contacto</h4>
+        <ul class="social" role="list">
+          <li><a href="https://wa.me/56933832870">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.83 11.83 0 0 0 12.04 0C5.48 0 .14 5.34.14 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43Z"/></svg>
+            WhatsApp
+          </a></li>
+          <li><a href="mailto:hola@hecta.cl"> contacto@hecta.cl</a></li>
+          <li><a href="#ig">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+            Instagram
+          </a></li>
+          <li><a href="#tk">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.5 7.6a6.5 6.5 0 0 1-3.7-1.2v8.7a5.7 5.7 0 1 1-5-5.65v3.05a2.7 2.7 0 1 0 2 2.6V2h2.95a3.6 3.6 0 0 0 3.75 3.6Z"/></svg>
+            TikTok
+          </a></li>
+          <li><a href="#li">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.8v1.6h.05c.53-.95 1.83-1.95 3.77-1.95 4.04 0 4.78 2.6 4.78 5.97V21h-4v-5.3c0-1.27-.02-2.9-1.78-2.9-1.78 0-2.05 1.37-2.05 2.8V21h-4V9.5Z"/></svg>
+            LinkedIn
+          </a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Hecta SpA · Todos los derechos reservados.</span>
+      <span>Inscritos en SII y UAF · Hecta SpA · Maule, Chile.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ----------------- Mobile menu ----------------- */
+  (function () {
+    const btn = document.querySelector('.hamburger');
+    const menu = document.getElementById('mobile-menu');
+    const ico = document.getElementById('ico-menu');
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      ico.innerHTML = open
+        ? '<path d="M6 6l12 12M18 6 6 18" />'
+        : '<path d="M4 7h16M4 12h16M4 17h16" />';
+    });
+    // close after click on link
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      menu.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      ico.innerHTML = '<path d="M4 7h16M4 12h16M4 17h16" />';
+    }));
+  })();
+
+  /* ----------------- Topographic SVG for lot images ----------------- */
+  function topoSvg(seed) {
+    // deterministic offset based on seed for variety
+    const o1 = (seed * 7) % 40 - 20;
+    const o2 = (seed * 13) % 60 - 30;
+    const o3 = (seed * 5) % 50 - 25;
+    return `
+      <svg class="topo-img" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <pattern id="g${seed}" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M32 0H0V32" fill="none" stroke="#FAFAF7" stroke-opacity="0.06" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="300" fill="url(#g${seed})"/>
+        <g fill="none" stroke="#FAFAF7" stroke-opacity="0.28" stroke-width="1.2">
+          <path d="M-20 ${250+o1} C 80 ${220+o2}, 180 ${260+o3}, 280 ${220+o1} S 460 ${200+o2}, 540 ${230+o3}"/>
+          <path d="M-20 ${200+o2} C 90 ${160+o3}, 200 ${220+o1}, 300 ${170+o2} S 460 ${150+o3}, 540 ${180+o1}"/>
+          <path d="M-20 ${150+o3} C 110 ${110+o1}, 220 ${170+o2}, 320 ${120+o3} S 460 ${100+o1}, 540 ${130+o2}"/>
+          <path d="M-20 ${100+o1} C 130 ${70+o2}, 260 ${110+o3}, 360 ${80+o1} S 460 ${60+o2}, 540 ${90+o3}"/>
+          <path d="M-20 ${55+o2} C 140 ${35+o3}, 280 ${70+o1}, 380 ${45+o2} S 470 ${30+o3}, 540 ${55+o1}"/>
+        </g>
+        <g fill="none" stroke="#E8DFC9" stroke-opacity="0.55" stroke-dasharray="5 5" stroke-width="1.1">
+          <path d="M${120+o1} ${110+o2} L ${290+o3} ${100+o1} L ${300+o2} ${230+o3} L ${135+o1} ${240+o2} Z"/>
+        </g>
+      </svg>
+    `;
+  }
+
+  /* ----------------- Lots data ----------------- */
+  const lots = [
+    {
+      title: 'Parcela 5.230 m² · Sector Mariposas',
+      loc:   'San Clemente, Maule',
+      precio: 'UF 2.450',
+      ufm2:   '0,47',
+      talca:  '25 min',
+      tags:   ['Agua APR', 'Luz CGE', 'Rol propio'],
+    },
+    {
+      title: 'Parcela 8.140 m² · Las Rastras',
+      loc:   'Talca, Maule',
+      precio: 'UF 4.480',
+      ufm2:   '0,55',
+      talca:  '12 min',
+      tags:   ['Pozo profundo', 'Luz CGE', 'Acceso pavimentado'],
+    },
+    {
+      title: 'Sitio 3.100 m² · Linares Centro',
+      loc:   'Linares, Maule',
+      precio: 'UF 1.580',
+      ufm2:   '0,51',
+      talca:  '55 min',
+      tags:   ['Agua APR', 'Alcantarillado', 'Plano regulador OK'],
+    },
+    {
+      title: 'Parcela 1,2 ha · Sector Vilches',
+      loc:   'San Clemente, Maule',
+      precio: 'UF 3.200',
+      ufm2:   '0,27',
+      talca:  '45 min',
+      tags:   ['Pozo profundo', 'Vista cordillera', 'Camino ripio'],
+    },
+    {
+      title: 'Parcela 4.580 m² · Pelarco',
+      loc:   'Pelarco, Maule',
+      precio: 'UF 1.950',
+      ufm2:   '0,43',
+      talca:  '20 min',
+      tags:   ['Agua APR', 'Luz CGE', 'Subdivisión SAG'],
+    },
+    {
+      title: 'Parcela 6.700 m² · San Rafael',
+      loc:   'San Rafael, Maule',
+      precio: 'UF 2.890',
+      ufm2:   '0,43',
+      talca:  '18 min',
+      tags:   ['Agua APR', 'Luz CGE', 'Rol propio'],
+    },
+  ];
+
+  function renderLots() {
+    const grid = document.getElementById('lots-grid');
+    grid.innerHTML = lots.map((l, i) => `
+      <a href="#lot-${i}" class="lot" aria-label="${l.title} en ${l.loc}, ${l.precio}">
+        <div class="lot-image">
+          ${topoSvg(i + 1)}
+          <span class="badge-verified">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            Verificado Hecta
+          </span>
+          <span class="arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </span>
+        </div>
+        <div class="lot-body">
+          <div>
+            <div class="lot-title">${l.title}</div>
+            <div class="lot-loc">${l.loc}</div>
+          </div>
+          <div class="lot-divider"></div>
+          <div class="lot-data">
+            <div class="cell"><span class="k mono">precio</span><span class="v">${l.precio}</span></div>
+            <div class="cell"><span class="k mono">uf/m²</span><span class="v">${l.ufm2}</span></div>
+            <div class="cell"><span class="k mono">a Talca</span><span class="v">${l.talca}</span></div>
+          </div>
+          <div class="lot-tags">
+            ${l.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+  renderLots();
+
+  /* ----------------- Glossary ----------------- */
+  const glossary = [
+    { term: 'ROL predial',           desc: 'El número con que el SII identifica el predio. Es la huella digital del terreno: con él se piden todos los certificados.' },
+    { term: 'Factibilidad APR',      desc: 'Disponibilidad real de agua potable rural. Pide carta de factibilidad firmada por el comité APR vigente.' },
+    { term: 'Plano regulador',       desc: 'Lo que el municipio te deja hacer en el sitio: subdividir, construir, el uso del suelo. Sin él, vas a ciegas.' },
+    { term: 'Subdivisión SAG',       desc: 'Para predios rústicos. Define si la parcela puede dividirse legalmente sin perder su condición agrícola.' },
+    { term: 'Certificado de gravámenes', desc: 'Lista las hipotecas, prohibiciones y embargos sobre el predio. Vigencia máxima recomendada: 30 días.' },
+    { term: 'Derechos de agua',      desc: 'Distinto a tener un pozo. Son derechos inscritos sobre un caudal específico, regulados por la DGA.' },
+  ];
+
+  function renderGlossary() {
+    const grid = document.getElementById('glossary-grid');
+    grid.innerHTML = glossary.map(g => `
+      <a href="#g-${g.term.replace(/\s+/g,'-').toLowerCase()}" class="gloss">
+        <div class="row">
+          <span class="term">${g.term}</span>
+          <svg class="arrow-sm" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </div>
+        <p>${g.desc}</p>
+      </a>
+    `).join('');
+  }
+  renderGlossary();
+</script>
+
+<!-- Netlify Identity: maneja el link de invitación (#invite_token=...) -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => {
+          document.location.href = '/admin/';
+        });
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
