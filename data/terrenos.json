@@ -1,232 +1,314 @@
 {
   "terrenos": [
     {
-      "id": "mar-001",
+      "m2": 5200,
+      "lng": -71.45,
       "estado": "publicado",
-      "title": "Parcela 5.230 m² · Sector Mariposas",
       "sector": "Mariposas",
       "comuna": "San Clemente",
-      "m2": 5230,
       "precio_uf": 2450,
-      "ufm2": 0.47,
-      "distancia_talca_km": 25,
       "descripcion": "Parcela en el rincón sur de Mariposas, con todos los servicios resueltos. Vista al valle, suelo regular y acceso por camino consolidado.",
-      "tags": ["Agua APR", "Luz CGE", "Rol propio"],
-      "servicios": ["agua-apr", "luz-cge"],
-      "lat": -35.5,
-      "lng": -71.45,
+      "fotos": [],
+      "ufm2": 0.47,
+      "title": "Parcela 5.230 m² · Sector Mariposas",
+      "tags": [
+        "Agua APR",
+        "Luz CGE",
+        "Rol propio"
+      ],
+      "id": "mar-001",
+      "distancia_talca_km": 25,
+      "servicios": [
+        "agua-apr",
+        "luz-cge"
+      ],
       "mapa_x": 62,
       "mapa_y": 58,
-      "fotos": []
+      "lat": -35.5
     },
     {
-      "id": "ras-002",
+      "m2": 8140,
+      "lng": -71.66,
       "estado": "publicado",
-      "title": "Parcela 8.140 m² · Las Rastras",
       "sector": "Las Rastras",
       "comuna": "Talca",
-      "m2": 8140,
       "precio_uf": 4480,
-      "ufm2": 0.55,
-      "distancia_talca_km": 12,
       "descripcion": "",
-      "tags": ["Pozo profundo", "Luz CGE", "Acceso pavimentado"],
-      "servicios": ["pozo", "luz-cge", "pavimento"],
-      "lat": -35.42,
-      "lng": -71.66,
+      "fotos": [],
+      "ufm2": 0.55,
+      "title": "Parcela 8.140 m² · Las Rastras",
+      "tags": [
+        "Pozo profundo",
+        "Luz CGE",
+        "Acceso pavimentado"
+      ],
+      "id": "ras-002",
+      "distancia_talca_km": 12,
+      "servicios": [
+        "pozo",
+        "luz-cge",
+        "pavimento"
+      ],
       "mapa_x": 35,
       "mapa_y": 50,
-      "fotos": []
+      "lat": -35.42
     },
     {
-      "id": "lin-003",
+      "m2": 3100,
+      "lng": -71.6,
       "estado": "publicado",
-      "title": "Sitio 3.100 m² · Linares Centro",
       "sector": "Linares Centro",
       "comuna": "Linares",
-      "m2": 3100,
       "precio_uf": 1580,
-      "ufm2": 0.51,
-      "distancia_talca_km": 55,
       "descripcion": "",
-      "tags": ["Agua APR", "Alcantarillado", "Plano regulador OK"],
-      "servicios": ["agua-apr", "alcantarillado"],
-      "lat": -35.85,
-      "lng": -71.6,
+      "fotos": [],
+      "ufm2": 0.51,
+      "title": "Sitio 3.100 m² · Linares Centro",
+      "tags": [
+        "Agua APR",
+        "Alcantarillado",
+        "Plano regulador OK"
+      ],
+      "id": "lin-003",
+      "distancia_talca_km": 55,
+      "servicios": [
+        "agua-apr",
+        "alcantarillado"
+      ],
       "mapa_x": 50,
       "mapa_y": 82,
-      "fotos": []
+      "lat": -35.85
     },
     {
-      "id": "vil-004",
+      "m2": 12000,
+      "lng": -71.05,
       "estado": "publicado",
-      "title": "Parcela 1,2 ha · Sector Vilches",
       "sector": "Vilches",
       "comuna": "San Clemente",
-      "m2": 12000,
       "precio_uf": 3200,
-      "ufm2": 0.27,
-      "distancia_talca_km": 45,
       "descripcion": "",
-      "tags": ["Pozo profundo", "Vista cordillera", "Camino ripio"],
-      "servicios": ["pozo"],
-      "lat": -35.6,
-      "lng": -71.05,
+      "fotos": [],
+      "ufm2": 0.27,
+      "title": "Parcela 1,2 ha · Sector Vilches",
+      "tags": [
+        "Pozo profundo",
+        "Vista cordillera",
+        "Camino ripio"
+      ],
+      "id": "vil-004",
+      "distancia_talca_km": 45,
+      "servicios": [
+        "pozo"
+      ],
       "mapa_x": 78,
       "mapa_y": 56,
-      "fotos": []
+      "lat": -35.6
     },
     {
-      "id": "pel-005",
+      "m2": 4580,
+      "lng": -71.55,
       "estado": "publicado",
-      "title": "Parcela 4.580 m² · Pelarco",
       "sector": "Pelarco",
       "comuna": "Pelarco",
-      "m2": 4580,
       "precio_uf": 1950,
-      "ufm2": 0.43,
-      "distancia_talca_km": 20,
       "descripcion": "",
-      "tags": ["Agua APR", "Luz CGE", "Subdivisión SAG"],
-      "servicios": ["agua-apr", "luz-cge"],
-      "lat": -35.32,
-      "lng": -71.55,
+      "fotos": [],
+      "ufm2": 0.43,
+      "title": "Parcela 4.580 m² · Pelarco",
+      "tags": [
+        "Agua APR",
+        "Luz CGE",
+        "Subdivisión SAG"
+      ],
+      "id": "pel-005",
+      "distancia_talca_km": 20,
+      "servicios": [
+        "agua-apr",
+        "luz-cge"
+      ],
       "mapa_x": 38,
       "mapa_y": 34,
-      "fotos": []
+      "lat": -35.32
     },
     {
-      "id": "srf-006",
+      "m2": 6700,
+      "lng": -71.55,
       "estado": "publicado",
-      "title": "Parcela 6.700 m² · San Rafael",
       "sector": "San Rafael",
       "comuna": "San Rafael",
-      "m2": 6700,
       "precio_uf": 2890,
-      "ufm2": 0.43,
-      "distancia_talca_km": 18,
       "descripcion": "",
-      "tags": ["Agua APR", "Luz CGE", "Rol propio"],
-      "servicios": ["agua-apr", "luz-cge"],
-      "lat": -35.3,
-      "lng": -71.55,
+      "fotos": [],
+      "ufm2": 0.43,
+      "title": "Parcela 6.700 m² · San Rafael",
+      "tags": [
+        "Agua APR",
+        "Luz CGE",
+        "Rol propio"
+      ],
+      "id": "srf-006",
+      "distancia_talca_km": 18,
+      "servicios": [
+        "agua-apr",
+        "luz-cge"
+      ],
       "mapa_x": 30,
       "mapa_y": 42,
-      "fotos": []
+      "lat": -35.3
     },
     {
-      "id": "mar-007",
+      "m2": 7800,
+      "lng": -71.4,
       "estado": "publicado",
-      "title": "Parcela 7.800 m² · Mariposas Sur",
       "sector": "Mariposas",
       "comuna": "San Clemente",
-      "m2": 7800,
       "precio_uf": 2980,
-      "ufm2": 0.38,
-      "distancia_talca_km": 28,
       "descripcion": "",
-      "tags": ["Pozo profundo", "Luz CGE", "Cerca río"],
-      "servicios": ["pozo", "luz-cge"],
-      "lat": -35.55,
-      "lng": -71.4,
+      "fotos": [],
+      "ufm2": 0.38,
+      "title": "Parcela 7.800 m² · Mariposas Sur",
+      "tags": [
+        "Pozo profundo",
+        "Luz CGE",
+        "Cerca río"
+      ],
+      "id": "mar-007",
+      "distancia_talca_km": 28,
+      "servicios": [
+        "pozo",
+        "luz-cge"
+      ],
       "mapa_x": 64,
       "mapa_y": 64,
-      "fotos": []
+      "lat": -35.55
     },
     {
-      "id": "lin-008",
+      "m2": 1450,
+      "lng": -71.55,
       "estado": "publicado",
-      "title": "Sitio 1.450 m² · Linares Oriente",
       "sector": "Linares Oriente",
       "comuna": "Linares",
-      "m2": 1450,
       "precio_uf": 1620,
-      "ufm2": 1.12,
-      "distancia_talca_km": 58,
       "descripcion": "",
-      "tags": ["Agua APR", "Luz CGE", "Alcantarillado"],
-      "servicios": ["agua-apr", "luz-cge", "alcantarillado"],
-      "lat": -35.85,
-      "lng": -71.55,
+      "fotos": [],
+      "ufm2": 1.12,
+      "title": "Sitio 1.450 m² · Linares Oriente",
+      "tags": [
+        "Agua APR",
+        "Luz CGE",
+        "Alcantarillado"
+      ],
+      "id": "lin-008",
+      "distancia_talca_km": 58,
+      "servicios": [
+        "agua-apr",
+        "luz-cge",
+        "alcantarillado"
+      ],
       "mapa_x": 53,
       "mapa_y": 78,
-      "fotos": []
+      "lat": -35.85
     },
     {
-      "id": "tal-009",
+      "m2": 3250,
+      "lng": -71.65,
       "estado": "publicado",
-      "title": "Parcela 3.250 m² · Talca Norte",
       "sector": "Talca Norte",
       "comuna": "Talca",
-      "m2": 3250,
       "precio_uf": 2100,
-      "ufm2": 0.65,
-      "distancia_talca_km": 8,
       "descripcion": "",
-      "tags": ["Agua APR", "Luz CGE", "Rol propio"],
-      "servicios": ["agua-apr", "luz-cge"],
-      "lat": -35.4,
-      "lng": -71.65,
+      "fotos": [],
+      "ufm2": 0.65,
+      "title": "Parcela 3.250 m² · Talca Norte",
+      "tags": [
+        "Agua APR",
+        "Luz CGE",
+        "Rol propio"
+      ],
+      "id": "tal-009",
+      "distancia_talca_km": 8,
+      "servicios": [
+        "agua-apr",
+        "luz-cge"
+      ],
       "mapa_x": 32,
       "mapa_y": 46,
-      "fotos": []
+      "lat": -35.4
     },
     {
-      "id": "pel-010",
+      "m2": 9500,
+      "lng": -71.5,
       "estado": "publicado",
-      "title": "Parcela 9.500 m² · Pelarco Alto",
       "sector": "Pelarco Alto",
       "comuna": "Pelarco",
-      "m2": 9500,
       "precio_uf": 2400,
-      "ufm2": 0.25,
-      "distancia_talca_km": 25,
       "descripcion": "",
-      "tags": ["Pozo profundo", "Vista valle", "Camino ripio"],
-      "servicios": ["pozo"],
-      "lat": -35.3,
-      "lng": -71.5,
+      "fotos": [],
+      "ufm2": 0.25,
+      "title": "Parcela 9.500 m² · Pelarco Alto",
+      "tags": [
+        "Pozo profundo",
+        "Vista valle",
+        "Camino ripio"
+      ],
+      "id": "pel-010",
+      "distancia_talca_km": 25,
+      "servicios": [
+        "pozo"
+      ],
       "mapa_x": 42,
       "mapa_y": 30,
-      "fotos": []
+      "lat": -35.3
     },
     {
-      "id": "srf-011",
+      "m2": 5100,
+      "lng": -71.5,
       "estado": "publicado",
-      "title": "Parcela 5.100 m² · San Rafael Sur",
       "sector": "San Rafael Sur",
       "comuna": "San Rafael",
-      "m2": 5100,
       "precio_uf": 2250,
-      "ufm2": 0.44,
-      "distancia_talca_km": 22,
       "descripcion": "",
-      "tags": ["Agua APR", "Luz CGE"],
-      "servicios": ["agua-apr", "luz-cge"],
-      "lat": -35.32,
-      "lng": -71.5,
+      "fotos": [],
+      "ufm2": 0.44,
+      "title": "Parcela 5.100 m² · San Rafael Sur",
+      "tags": [
+        "Agua APR",
+        "Luz CGE"
+      ],
+      "id": "srf-011",
+      "distancia_talca_km": 22,
+      "servicios": [
+        "agua-apr",
+        "luz-cge"
+      ],
       "mapa_x": 28,
       "mapa_y": 48,
-      "fotos": []
+      "lat": -35.32
     },
     {
-      "id": "vil-012",
+      "m2": 21000,
+      "lng": -71,
       "estado": "publicado",
-      "title": "Parcela 2,1 ha · Vilches Alto",
       "sector": "Vilches Alto",
       "comuna": "San Clemente",
-      "m2": 21000,
       "precio_uf": 4150,
-      "ufm2": 0.20,
-      "distancia_talca_km": 50,
       "descripcion": "",
-      "tags": ["Pozo profundo", "Vista cordillera", "Cerca estero"],
-      "servicios": ["pozo"],
-      "lat": -35.62,
-      "lng": -71.0,
+      "fotos": [],
+      "ufm2": 0.2,
+      "title": "Parcela 2,1 ha · Vilches Alto",
+      "tags": [
+        "Pozo profundo",
+        "Vista cordillera",
+        "Cerca estero"
+      ],
+      "id": "vil-012",
+      "distancia_talca_km": 50,
+      "servicios": [
+        "pozo"
+      ],
       "mapa_x": 82,
       "mapa_y": 60,
-      "fotos": []
+      "lat": -35.62
     }
   ]
 }
