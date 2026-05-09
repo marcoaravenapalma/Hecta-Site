@@ -450,6 +450,136 @@
   }
 
   /* File upload */
+  /* ---------- Video links ---------- */
+  #video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+  }
+  .video-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .video-row .video-input-wrap {
+    flex: 1;
+    position: relative;
+  }
+  .video-row .video-input-wrap .video-platform-tag {
+    position: absolute;
+    top: 50%;
+    right: 0.7rem;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--green);
+    background: var(--green-soft);
+    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .video-row .video-input-wrap.has-platform .video-platform-tag {
+    opacity: 1;
+  }
+  .video-row .video-input-wrap.has-platform input {
+    padding-right: 5.5rem;
+  }
+  .video-row .video-remove {
+    flex-shrink: 0;
+    width: 42px;
+    border: 1px solid var(--line);
+    background: var(--bone);
+    border-radius: var(--r-sm);
+    color: var(--gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .video-row .video-remove:hover {
+    color: var(--terra);
+    border-color: var(--terra);
+  }
+  .video-row .video-remove svg {
+    width: 16px;
+    height: 16px;
+  }
+  .btn-add-video {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.95rem;
+    background: transparent;
+    color: var(--green);
+    border: 1px dashed var(--green);
+    border-radius: var(--r-sm);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-add-video:hover {
+    background: var(--green-soft);
+  }
+  .btn-add-video svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---------- CIP block (Certificado de Informaciones Previas) ---------- */
+  .cip-block {
+    background: var(--sand-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .cip-block h3 {
+    margin-top: 0;
+  }
+  .cip-upload {
+    margin-top: 1.25rem;
+  }
+  .cip-info {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    margin-top: 1.25rem;
+    padding: 1rem 1.15rem;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+  }
+  .cip-info .cip-info-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    color: var(--green);
+  }
+  .cip-info .cip-info-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .cip-info .ttl {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+  .cip-info p {
+    color: var(--gray);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .cip-info p a {
+    color: var(--green);
+    border-bottom: 1px solid currentColor;
+  }
+
   .upload-zone {
     border: 1.5px dashed var(--line-strong);
     border-radius: var(--r-md);
@@ -816,6 +946,61 @@
           <p class="lede">Lo básico para entender qué estás vendiendo. Si no sabes algún dato, déjalo en blanco — lo llenamos en la visita.</p>
         </div>
 
+        <!-- ============ CIP (Certificado de Informaciones Previas) ============ -->
+        <div class="field-group cip-block">
+          <h3>¿Tienes el Certificado de Informaciones Previas (CIP)?</h3>
+          <p class="group-help">El CIP es un documento que entrega la municipalidad con toda la información clave del predio: rol, dirección, superficie, zona del Plan Regulador, usos permitidos. Si lo tienes, te ahorras llenar varios datos.</p>
+
+          <div class="radio-cards cols-2" data-radio-group="tiene-cip">
+            <label class="radio-card">
+              <input type="radio" name="tiene-cip" value="si">
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">Sí, lo tengo</div>
+                  <div class="desc">Lo subo y me ahorro completar varios campos.</div>
+                </div>
+              </div>
+            </label>
+            <label class="radio-card selected">
+              <input type="radio" name="tiene-cip" value="no" checked>
+              <div class="rc-head">
+                <span class="dot"></span>
+                <div>
+                  <div class="ttl">No lo tengo o no sé qué es</div>
+                  <div class="desc">Sigo llenando los datos manualmente.</div>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Upload del CIP (visible solo si elige "Sí") -->
+          <div id="cip-upload" class="cip-upload" hidden>
+            <label class="upload-zone" for="cip-input" id="cip-zone">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+                <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>
+                <path d="M9 13h6M9 17h4"/>
+              </svg>
+              <div class="ttl">Sube tu CIP en PDF aquí o <b>elige desde tu dispositivo</b></div>
+              <div class="desc">PDF · Máx. 25 MB</div>
+              <input type="file" id="cip-input" accept=".pdf" hidden>
+            </label>
+            <div class="file-list" id="cip-list"></div>
+          </div>
+
+          <!-- Mensaje educativo (visible si elige "No") -->
+          <div id="cip-info" class="cip-info">
+            <div class="cip-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+            </div>
+            <div>
+              <div class="ttl">¿Cómo sacar el CIP?</div>
+              <p>Lo entrega la Dirección de Obras Municipales (DOM) de tu comuna. Suele costar entre $5.000 y $15.000 y demora pocos días. Algunos municipios lo tienen online (ej. <a href="https://talcatransparente.cl" target="_blank" rel="noopener">Talca</a>). Si no lo tienes, no te preocupes — sigue con el formulario y te ayudamos a sacarlo.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="field-group">
           <h3>¿Qué tipo de terreno es?</h3>
           <p class="group-help">Esto nos ayuda a saber qué certificados pedir.</p>
@@ -864,7 +1049,7 @@
             <div class="help">Cómo aparecerá en el listado. Lo afinamos contigo si hace falta.</div>
           </div>
 
-          <div class="field-row cols-2">
+          <div class="field-row cols-2 cip-hides" data-cip-hide>
             <div class="field">
               <div class="label-row">
                 <label for="superficie">Superficie aprox. <span class="req">*</span></label>
@@ -884,6 +1069,18 @@
               </div>
               <div class="help">Si tienes flexibilidad, lo conversamos en la visita.</div>
             </div>
+          </div>
+
+          <!-- Cuando tiene CIP, solo pedimos el precio (la superficie sale del CIP) -->
+          <div class="field cip-shows" data-cip-show hidden>
+            <div class="label-row">
+              <label for="precio-cip">Precio que pides <span class="req">*</span></label>
+            </div>
+            <div class="input-wrap" style="max-width:18rem;">
+              <span class="input-prefix">UF</span>
+              <input class="input input-mono has-prefix" id="precio-cip" type="number" placeholder="2.450" inputmode="numeric">
+            </div>
+            <div class="help">La superficie la sacaremos del CIP. Si tienes flexibilidad de precio, lo conversamos en la visita.</div>
           </div>
 
           <div class="field">
@@ -929,7 +1126,7 @@
         <div class="step-head">
           <div class="small-eyebrow">Paso 02 de 05</div>
           <h2>¿Dónde queda?</h2>
-          <p class="lede">La dirección no aparece pública en la ficha — solo el sector. La ubicación exacta la usamos solo para coordinar la visita.</p>
+          <p class="lede">La ubicación exacta es lo más importante para llegar al terreno y armar la ficha. Lo más rápido es marcarla en Google Maps y compartirnos el enlace.</p>
         </div>
 
         <div class="field-group">
@@ -963,26 +1160,29 @@
             </div>
           </div>
 
-          <div class="field">
-            <div class="label-row">
-              <label for="sector">Sector o localidad <span class="opt">opcional</span></label>
+          <!-- Sector y dirección manual: se ocultan si tiene CIP (porque vienen ahí) -->
+          <div class="cip-hides" data-cip-hide>
+            <div class="field">
+              <div class="label-row">
+                <label for="sector">Sector o localidad <span class="opt">opcional</span></label>
+              </div>
+              <input class="input" id="sector" type="text" placeholder="Ej. Mariposas, El Colorado, Los Maquis…">
+              <div class="help">El nombre con que la zona se conoce localmente.</div>
             </div>
-            <input class="input" id="sector" type="text" placeholder="Ej. Mariposas, El Colorado, Los Maquis…">
-            <div class="help">El nombre con que la zona se conoce localmente.</div>
-          </div>
 
-          <div class="field">
-            <div class="label-row">
-              <label for="direccion">Dirección o referencia para llegar <span class="req">*</span></label>
+            <div class="field">
+              <div class="label-row">
+                <label for="direccion">Dirección o referencia para llegar <span class="opt">opcional</span></label>
+              </div>
+              <input class="input" id="direccion" type="text" placeholder="Camino L-31 km 8, frente al portón verde de los Soto…">
+              <div class="help">Solo si quieres dar más contexto al equipo. Lo importante es el enlace de Google Maps abajo.</div>
             </div>
-            <input class="input" id="direccion" type="text" placeholder="Camino L-31 km 8, frente al portón verde de los Soto…">
-            <div class="help">No aparece pública. Es solo para que el equipo llegue al terreno.</div>
           </div>
         </div>
 
         <div class="field-group">
-          <h3>Marca el predio con Google Maps</h3>
-          <p class="group-help">Abre Google Maps en el celular, mantén presionado el punto exacto del terreno hasta que aparezca un pin rojo, toca <code style="font-family:'JetBrains Mono',monospace; background:var(--bone); border:1px solid var(--line); padding:0.05rem 0.35rem; border-radius:4px; font-size:0.82rem;">Compartir</code> y pega aquí el enlace. También sirve copiar las coordenadas directamente desde la app.</p>
+          <h3>Marca el predio con Google Maps <span class="req">*</span></h3>
+          <p class="group-help">Esta es la forma más precisa y rápida de mostrarnos dónde queda. Abre Google Maps en el celular, mantén presionado el punto exacto del terreno hasta que aparezca un pin rojo, toca <code style="font-family:'JetBrains Mono',monospace; background:var(--bone); border:1px solid var(--line); padding:0.05rem 0.35rem; border-radius:4px; font-size:0.82rem;">Compartir</code> y pega aquí el enlace. También sirve copiar las coordenadas directamente desde la app.</p>
 
           <div class="input-wrap" style="display:flex; gap:0.5rem;">
             <input class="input" id="gmaps-url" type="text" placeholder="https://maps.app.goo.gl/...   o   −35.6109, −71.4416" style="flex:1;">
@@ -1080,7 +1280,7 @@
           </div>
         </div>
 
-        <div class="field-group">
+        <div class="field-group cip-hides" data-cip-hide>
           <h3>Datos legales</h3>
           <p class="group-help">Si los tienes a mano. Si no, lo verificamos en CBR y SII por ti, sin costo.</p>
 
@@ -1174,6 +1374,20 @@
           </label>
 
           <div class="photo-grid" id="photo-grid"></div>
+        </div>
+
+        <div class="field-group">
+          <h3>Video del terreno <span class="opt" style="font-weight:400; color:var(--gray-light); font-size:0.78rem;">opcional</span></h3>
+          <p class="group-help">Si grabaste un recorrido o tienes video con drone, súbelo a YouTube, Google Drive, WeTransfer o Dropbox y pégale el enlace aquí. Si es Drive o Dropbox, asegúrate que el link sea visible para "cualquiera con el enlace".</p>
+
+          <div id="video-list">
+            <!-- Los inputs se agregan dinámicamente. Empieza con uno. -->
+          </div>
+
+          <button type="button" class="btn-add-video" id="add-video-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Agregar otro link de video
+          </button>
         </div>
 
         <div class="field-group">
@@ -1496,7 +1710,10 @@
       fojas: '',
       uso_suelo: '',
       subdivision: '',
+      tieneCip: 'no',
+      cipFile: null,
       photos: [],
+      videos: [''],
       docs: [],
       nombre: '',
       rut: '',
@@ -1568,9 +1785,185 @@
         card.classList.add('selected');
         const input = card.querySelector('input');
         input.checked = true;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     });
   });
+
+  /* ============== Lógica CIP (mostrar/ocultar campos) ============== */
+  function applyCipMode(tieneCip) {
+    const hides = document.querySelectorAll('[data-cip-hide]');
+    const shows = document.querySelectorAll('[data-cip-show]');
+    const upload = document.getElementById('cip-upload');
+    const info = document.getElementById('cip-info');
+
+    if (tieneCip === 'si') {
+      hides.forEach(el => el.hidden = true);
+      shows.forEach(el => el.hidden = false);
+      if (upload) upload.hidden = false;
+      if (info) info.style.display = 'none';
+    } else {
+      hides.forEach(el => el.hidden = false);
+      shows.forEach(el => el.hidden = true);
+      if (upload) upload.hidden = true;
+      if (info) info.style.display = 'flex';
+    }
+  }
+
+  // Inicialización
+  applyCipMode('no');
+
+  // Listener para cambios en la opción CIP
+  document.querySelectorAll('input[name="tiene-cip"]').forEach(input => {
+    input.addEventListener('change', e => {
+      if (e.target.checked) {
+        state.data.tieneCip = e.target.value;
+        applyCipMode(e.target.value);
+      }
+    });
+  });
+
+  /* ============== Upload del CIP ============== */
+  const cipInput = document.getElementById('cip-input');
+  const cipList = document.getElementById('cip-list');
+  const cipZone = document.getElementById('cip-zone');
+
+  function renderCipList() {
+    if (!cipList) return;
+    if (!state.data.cipFile) {
+      cipList.innerHTML = '';
+      return;
+    }
+    const f = state.data.cipFile;
+    const sizeKb = Math.round(f.size / 1024);
+    cipList.innerHTML = `
+      <div class="file-item">
+        <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+          <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>
+        </svg>
+        <div class="file-info">
+          <div class="file-name">${f.name}</div>
+          <div class="file-size">${sizeKb} KB · CIP cargado</div>
+        </div>
+        <button type="button" class="file-remove" data-remove-cip aria-label="Quitar CIP">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    `;
+    cipList.querySelector('[data-remove-cip]').addEventListener('click', () => {
+      state.data.cipFile = null;
+      cipInput.value = '';
+      renderCipList();
+    });
+  }
+
+  if (cipInput) {
+    cipInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 25 * 1024 * 1024) {
+        alert('El archivo supera los 25 MB. Comprime el PDF e inténtalo de nuevo.');
+        cipInput.value = '';
+        return;
+      }
+      state.data.cipFile = { name: file.name, size: file.size };
+      renderCipList();
+    });
+  }
+
+
+  /* ============== Videos (links externos) ============== */
+  const videoList = document.getElementById('video-list');
+  const addVideoBtn = document.getElementById('add-video-btn');
+
+  // Detecta a qué plataforma pertenece un link (cosmético + validación suave)
+  function detectVideoPlatform(url) {
+    if (!url) return null;
+    const u = url.toLowerCase().trim();
+    if (u.includes('youtube.com') || u.includes('youtu.be')) return 'YouTube';
+    if (u.includes('drive.google.com')) return 'Drive';
+    if (u.includes('dropbox.com')) return 'Dropbox';
+    if (u.includes('wetransfer.com') || u.includes('we.tl')) return 'WeTransfer';
+    if (u.includes('vimeo.com')) return 'Vimeo';
+    if (u.includes('icloud.com')) return 'iCloud';
+    if (u.startsWith('http://') || u.startsWith('https://')) return 'Link';
+    return null;
+  }
+
+  function renderVideoList() {
+    if (!videoList) return;
+    videoList.innerHTML = state.data.videos.map((url, i) => {
+      const platform = detectVideoPlatform(url);
+      const hasPlatform = !!platform;
+      return `
+        <div class="video-row" data-video-idx="${i}">
+          <div class="video-input-wrap${hasPlatform ? ' has-platform' : ''}">
+            <input
+              class="input"
+              type="url"
+              inputmode="url"
+              placeholder="https://youtube.com/... o https://drive.google.com/..."
+              value="${(url || '').replace(/"/g, '&quot;')}"
+              data-video-input
+            >
+            ${platform ? `<span class="video-platform-tag">${platform}</span>` : ''}
+          </div>
+          ${state.data.videos.length > 1 ? `
+            <button type="button" class="video-remove" data-video-remove aria-label="Quitar este link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
+          ` : ''}
+        </div>
+      `;
+    }).join('');
+
+    // Listeners para inputs
+    videoList.querySelectorAll('[data-video-input]').forEach(input => {
+      input.addEventListener('input', e => {
+        const idx = +e.target.closest('.video-row').dataset.videoIdx;
+        state.data.videos[idx] = e.target.value;
+        // Re-render solo si el estado del platform tag cambió
+        const wrap = e.target.closest('.video-input-wrap');
+        const platform = detectVideoPlatform(e.target.value);
+        const hadPlatform = wrap.classList.contains('has-platform');
+        if (!!platform !== hadPlatform) renderVideoList();
+      });
+    });
+
+    // Listeners para botones de quitar
+    videoList.querySelectorAll('[data-video-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = +btn.closest('.video-row').dataset.videoIdx;
+        state.data.videos.splice(idx, 1);
+        if (state.data.videos.length === 0) state.data.videos.push('');
+        renderVideoList();
+      });
+    });
+  }
+
+  if (addVideoBtn) {
+    addVideoBtn.addEventListener('click', () => {
+      // Si el último link está vacío, no agregamos otro
+      const last = state.data.videos[state.data.videos.length - 1];
+      if (last && last.trim()) {
+        state.data.videos.push('');
+        renderVideoList();
+        // Focus en el nuevo input
+        setTimeout(() => {
+          const inputs = videoList.querySelectorAll('input');
+          inputs[inputs.length - 1].focus();
+        }, 0);
+      } else {
+        // Si está vacío, solo focus en el actual
+        const inputs = videoList.querySelectorAll('input');
+        if (inputs.length) inputs[inputs.length - 1].focus();
+      }
+    });
+  }
+
+  renderVideoList();
+
 
   /* ============== Check items ============== */
   document.querySelectorAll('[data-check]').forEach(item => {
@@ -1825,6 +2218,8 @@
       condiciones: [...state.data.condiciones],
       photos: state.data.photos.map(p => p.name + ' (' + Math.round(p.size/1024) + ' KB)'),
       docs: state.data.docs.map(d => d.name + ' (' + Math.round(d.size/1024) + ' KB)'),
+      videos: state.data.videos.filter(v => v && v.trim()),
+      cipFile: state.data.cipFile ? state.data.cipFile.name + ' (' + Math.round(state.data.cipFile.size/1024) + ' KB)' : null,
     };
     document.getElementById('form-payload').value = JSON.stringify(payloadObj, null, 2);
 
