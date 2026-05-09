@@ -126,6 +126,9 @@
   .plans-head p { margin-top: 1rem; color: var(--gray); font-size: 1.05rem; }
   .plans { display: grid; gap: 1.25rem; }
   @media (min-width: 768px) { .plans { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+  /* Variante de un solo plan: card centrada y con ancho contenido */
+  .plans-single { grid-template-columns: 1fr !important; max-width: 36rem; margin-inline: auto; }
+  @media (min-width: 768px) { .plans-single { grid-template-columns: 1fr !important; } }
 
   .plan {
     background: var(--bone); border: 1px solid var(--line);
@@ -143,6 +146,8 @@
     font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
     font-weight: 500;
   }
+  /* Cuando hay un solo plan, no tiene sentido el badge "Más elegido" */
+  .plans-single .plan.featured::before { content: none; }
   .plan-head { display: flex; flex-direction: column; gap: 0.4rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
   .plan-tag { font-size: 0.75rem; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
   .plan h3 { font-size: 1.5rem; }
@@ -322,7 +327,7 @@
   <div class="wrap">
     <span class="eyebrow"><span class="dot"></span> Cómo trabajamos</span>
     <h1>Visitamos cada terreno. Levantamos su ficha. Te acompañamos hasta vender.</h1>
-    <p class="hero-sub">No somos un portal de avisos. Un equipo va al predio, recorre los deslindes, conversa con los vecinos y revisa los documentos. Después armamos la ficha técnica y elegimos juntos cómo seguir: solo publicar, o que llevemos la venta completa.</p>
+    <p class="hero-sub">No somos un portal de avisos. Un equipo va al predio, recorre los deslindes, conversa con los vecinos y revisa los documentos. Después armamos la ficha técnica y llevamos la venta hasta firmar en notaría.</p>
 
     <div class="hero-meta">
       <div class="stat">
@@ -347,7 +352,7 @@
     <div class="process-head">
       <span class="eyebrow"><span class="dot"></span> Proceso</span>
       <h2>De tu mensaje a la ficha publicada, en 4 pasos.</h2>
-      <p>El mismo flujo para los tres planes — la diferencia está en lo que hacemos después de publicar.</p>
+      <p>Mismo proceso para todos los terrenos. Lo único que cambia es qué encontramos en la visita.</p>
     </div>
 
     <div class="steps">
@@ -373,8 +378,8 @@
 
       <article class="step">
         <span class="step-num">PASO 03</span>
-        <h3>Ficha técnica + plan</h3>
-        <p>Armamos la ficha (factibilidad, riesgos, comparables) y te mostramos un borrador. Aquí eliges modalidad — publicar, compartido o completo.</p>
+        <h3>Ficha técnica y mandato</h3>
+        <p>Armamos la ficha (factibilidad, riesgos, comparables) y te mostramos un borrador. Si todo cuadra, firmamos el mandato y partimos.</p>
         <span class="duration">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           5–7 días · Equipo
@@ -383,8 +388,8 @@
 
       <article class="step">
         <span class="step-num">PASO 04</span>
-        <h3>Publicación y seguimiento</h3>
-        <p>La ficha sale al sitio. Según el plan, además gestionamos visitas, ofertas, escrituración y todo el ida y vuelta hasta firmar.</p>
+        <h3>Venta hasta la escritura</h3>
+        <p>La ficha sale al sitio. Filtramos interesados, coordinamos visitas, negociamos ofertas y gestionamos todo el cierre legal hasta firmar en notaría.</p>
         <span class="duration">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           Hasta vender · Equipo
@@ -398,127 +403,48 @@
 <section id="planes">
   <div class="wrap">
     <div class="plans-head">
-      <span class="eyebrow"><span class="dot"></span> Comisiones</span>
-      <h2>Eliges qué tanto nos hagamos cargo.</h2>
-      <p>Tres modalidades. Todas incluyen visita en terreno y ficha técnica. La comisión sube según cuánto trabajo tomamos en el cierre — no por publicar mejor.</p>
+      <span class="eyebrow"><span class="dot"></span> Comisión</span>
+      <h2>Una sola forma de trabajar. De principio a fin.</h2>
+      <p>Hecta toma tu venta completa: visita, ficha técnica, publicación, filtro de interesados, coordinación de visitas, negociación, gestión legal y notaría. Una comisión, sin sorpresas.</p>
     </div>
 
-    <div class="plans">
-      <!-- Plan 1: Publicación -->
-      <article class="plan">
+    <div class="plans plans-single">
+      <article class="plan featured">
         <div class="plan-head">
-          <span class="plan-tag">Publicación</span>
-          <h3>Solo publicar</h3>
+          <span class="plan-tag">Corretaje completo</span>
+          <h3>Vendemos tu terreno.</h3>
           <div class="plan-price">
-            <span class="pct mono">1%</span>
+            <span class="pct mono">2,5%</span>
             <span class="of">del precio de venta</span>
           </div>
-          <p class="plan-sub">Pagas solo si se vende a través del sitio.</p>
+          <p class="plan-sub">Solo se paga al firmar la escritura. Si no se vende, no pagas.</p>
         </div>
 
         <div class="who">
-          <strong>Para ti si</strong>
-          Ya tienes corredor o estás vendiendo tú directo, pero quieres que tu terreno aparezca con ficha verificada en Hecta para llegar a más compradores.
+          <strong>Qué hacemos por ti</strong>
+          Tú firmas. Nosotros nos encargamos del resto: del primer interesado al cierre en notaría.
         </div>
 
         <ul class="feats" role="list">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Visita en terreno y ficha técnica firmada</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Fotos profesionales con drone</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Publicación en hecta.cl con tu contacto directo</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Estadísticas de visitas e interesados</li>
-          <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Coordinación de visitas</li>
-          <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Negociación y cierre</li>
-        </ul>
-
-        <a href="subir-terreno.html" class="btn btn-secondary">Empezar con este plan</a>
-      </article>
-
-      <!-- Plan 2: Compartido -->
-      <article class="plan featured">
-        <div class="plan-head">
-          <span class="plan-tag">Corretaje compartido</span>
-          <h3>Compartido</h3>
-          <div class="plan-price">
-            <span class="pct mono">2%</span>
-            <span class="of">del precio de venta</span>
-          </div>
-          <p class="plan-sub">Llevamos la venta. Tú apruebas las decisiones grandes.</p>
-        </div>
-
-        <div class="who">
-          <strong>Para ti si</strong>
-          Quieres a alguien que filtre interesados, coordine visitas y negocie en tu nombre — pero te interesa estar cerca de cada paso y firmar tú mismo.
-        </div>
-
-        <ul class="feats" role="list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg><strong>Todo lo del plan Publicación</strong>, más:</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Filtramos y respondemos a los interesados</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Coordinamos y acompañamos las visitas</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Negociamos ofertas con tu visto bueno</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Publicación con factibilidades verificadas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Filtro y respuesta a interesados</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Coordinación y acompañamiento de visitas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Negociación de ofertas con tu visto bueno</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Promesa de compraventa redactada</li>
-          <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Gestión legal completa hasta escritura</li>
-        </ul>
-
-        <a href="subir-terreno.html" class="btn btn-primary">Empezar con este plan</a>
-      </article>
-
-      <!-- Plan 3: Completo -->
-      <article class="plan">
-        <div class="plan-head">
-          <span class="plan-tag">Corretaje completo</span>
-          <h3>Completo</h3>
-          <div class="plan-price">
-            <span class="pct mono">3%</span>
-            <span class="of">del precio de venta</span>
-          </div>
-          <p class="plan-sub">Tú firmas. Nosotros nos hacemos cargo de todo lo demás.</p>
-        </div>
-
-        <div class="who">
-          <strong>Para ti si</strong>
-          Vives lejos del Maule, no tienes tiempo de coordinar visitas, o el terreno tiene asuntos legales que requieren gestión activa (sucesión, regularización, deslindes).
-        </div>
-
-        <ul class="feats" role="list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg><strong>Todo lo del plan Compartido</strong>, más:</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Estudio de títulos y revisión legal</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Gestión de regularizaciones y certificados</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Coordinación con notaría hasta escritura</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Acompañamiento en CBR e inscripción</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Reporte mensual del proceso</li>
         </ul>
 
-        <a href="subir-terreno.html" class="btn btn-secondary">Empezar con este plan</a>
+        <a href="subir-terreno.html" class="btn btn-primary">Empezar</a>
       </article>
     </div>
 
-    <!-- Comparison table -->
-    <div class="compare-wrap" aria-label="Comparación de planes">
-      <table class="compare">
-        <thead>
-          <tr>
-            <th scope="col">Servicio</th>
-            <th scope="col">Publicación · 1%</th>
-            <th scope="col">Compartido · 2%</th>
-            <th scope="col">Completo · 3%</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Visita en terreno y ficha técnica</th><td class="yes">Incluido</td><td class="yes">Incluido</td><td class="yes">Incluido</td></tr>
-          <tr><th scope="row">Fotos con drone</th><td class="yes">Incluido</td><td class="yes">Incluido</td><td class="yes">Incluido</td></tr>
-          <tr><th scope="row">Publicación en hecta.cl</th><td class="yes">Incluido</td><td class="yes">Incluido</td><td class="yes">Incluido</td></tr>
-          <tr><th scope="row">Filtro y respuesta a interesados</th><td class="no">Tú lo haces</td><td class="yes">Lo hacemos</td><td class="yes">Lo hacemos</td></tr>
-          <tr><th scope="row">Coordinación de visitas</th><td class="no">Tú lo haces</td><td class="yes">Lo hacemos</td><td class="yes">Lo hacemos</td></tr>
-          <tr><th scope="row">Negociación de ofertas</th><td class="no">Tú lo haces</td><td class="yes">Con tu visto bueno</td><td class="yes">Lo hacemos</td></tr>
-          <tr><th scope="row">Estudio de títulos y legal</th><td class="no">No incluido</td><td class="no">No incluido</td><td class="yes">Incluido</td></tr>
-          <tr><th scope="row">Coordinación con notaría y CBR</th><td class="no">No incluido</td><td class="no">No incluido</td><td class="yes">Incluido</td></tr>
-          <tr><th scope="row">Comisión total</th><td class="yes mono">1%</td><td class="yes mono">2%</td><td class="yes mono">3%</td></tr>
-        </tbody>
-      </table>
-    </div>
-
     <p style="margin-top:1.5rem; color:var(--gray); font-size:0.88rem; max-width:48rem;">
-      Las comisiones son <strong style="color:var(--ink); font-weight:500;">sobre el precio final de venta</strong> y se pagan al momento de firmar la escritura. No hay costos por publicar, fotos, drone ni visitas. Si no se vende, no pagas.
+      La comisión es <strong style="color:var(--ink); font-weight:500;">sobre el precio final de venta</strong> y se paga al momento de firmar la escritura. No hay costos por publicar, fotos, drone ni visitas. Si no se vende, no pagas.
     </p>
   </div>
 </section>
@@ -539,16 +465,12 @@
           <p>No. La visita en terreno, las fotos con drone, la ficha técnica y la publicación son sin costo. Solo cobramos comisión cuando el terreno se vende y se firma la escritura. Si no se vende, no pagas.</p>
         </details>
         <details class="qa">
-          <summary>¿Puedo cambiar de plan después?</summary>
-          <p>Sí. Es habitual partir con Publicación y, después de un par de meses, pasar a Compartido o Completo si no llegan los compradores correctos. Solo se ajusta el mandato — sin cobros adicionales por el cambio.</p>
-        </details>
-        <details class="qa">
           <summary>¿La exclusividad es obligatoria?</summary>
-          <p>En Publicación, no — puedes seguir vendiendo por tu cuenta o con otros corredores. En Compartido y Completo trabajamos con mandato de exclusividad por 6 meses, renovable. Esto nos permite invertir tiempo real en tu venta sin competir con otros canales.</p>
+          <p>Sí. Trabajamos con mandato de exclusividad por 6 meses, renovable. Es lo que nos permite invertir tiempo real en tu venta — visita, drone, ficha, filtro de interesados, gestión legal — sin competir con otros canales que no hacen ese trabajo.</p>
         </details>
         <details class="qa">
           <summary>¿Qué pasa si yo encuentro al comprador?</summary>
-          <p>En el plan Publicación no pagas comisión si tú cierras directo — el contacto del aviso es tuyo. En Compartido y Completo, durante el periodo del mandato cualquier venta paga la comisión acordada, sin importar quién trajo al comprador. Es lo justo: estamos invirtiendo el equipo completo en tu terreno.</p>
+          <p>Durante el periodo del mandato cualquier venta paga la comisión acordada, sin importar quién trajo al comprador. Es lo justo: estamos invirtiendo el equipo completo en tu terreno desde el día uno.</p>
         </details>
         <details class="qa">
           <summary>¿Trabajan terrenos fuera del Maule?</summary>
@@ -556,7 +478,11 @@
         </details>
         <details class="qa">
           <summary>¿Qué pasa si el terreno tiene problemas legales?</summary>
-          <p>Si los detectamos en la visita, te lo decimos antes de publicar. En el plan Completo lo gestionamos nosotros (sucesión, regularización, deslindes). En los otros planes te derivamos a abogados de confianza y coordinamos con ellos para no perder al comprador interesado.</p>
+          <p>Si los detectamos en la visita, te lo decimos antes de publicar. La gestión legal (sucesión, regularización, deslindes, estudio de títulos) está incluida en el servicio — sin costo extra. Si la situación es muy compleja, coordinamos con abogados especialistas para no perder al comprador interesado.</p>
+        </details>
+        <details class="qa">
+          <summary>¿Cuánto demora vender un terreno?</summary>
+          <p>Depende del terreno, el precio y la temporada. Como referencia, los terrenos bien fichados y con precio acorde al sector se venden en promedio entre 3 y 6 meses. Te entregamos reporte mensual con visitas, contactos e interesados serios.</p>
         </details>
       </div>
     </div>
