@@ -1049,8 +1049,8 @@
             <div class="help">Cómo aparecerá en el listado. Lo afinamos contigo si hace falta.</div>
           </div>
 
-          <div class="field-row cols-2 cip-hides" data-cip-hide>
-            <div class="field">
+          <div class="field-row cols-2">
+            <div class="field cip-hides" data-cip-hide>
               <div class="label-row">
                 <label for="superficie">Superficie aprox. <span class="req">*</span></label>
               </div>
@@ -1058,6 +1058,7 @@
                 <input class="input input-mono has-suffix" id="superficie" type="number" placeholder="5.230" inputmode="numeric">
                 <span class="input-suffix">m²</span>
               </div>
+              <div class="help">La superficie según tu mejor estimación.</div>
             </div>
             <div class="field">
               <div class="label-row">
@@ -1067,20 +1068,9 @@
                 <span class="input-prefix">UF</span>
                 <input class="input input-mono has-prefix" id="precio" type="number" placeholder="2.450" inputmode="numeric">
               </div>
-              <div class="help">Si tienes flexibilidad, lo conversamos en la visita.</div>
+              <div class="help" data-help-no-cip>Si tienes flexibilidad, lo conversamos en la visita.</div>
+              <div class="help" data-help-cip hidden>La superficie la sacaremos del CIP. Si tienes flexibilidad de precio, lo conversamos en la visita.</div>
             </div>
-          </div>
-
-          <!-- Cuando tiene CIP, solo pedimos el precio (la superficie sale del CIP) -->
-          <div class="field cip-shows" data-cip-show hidden>
-            <div class="label-row">
-              <label for="precio-cip">Precio que pides <span class="req">*</span></label>
-            </div>
-            <div class="input-wrap" style="max-width:18rem;">
-              <span class="input-prefix">UF</span>
-              <input class="input input-mono has-prefix" id="precio-cip" type="number" placeholder="2.450" inputmode="numeric">
-            </div>
-            <div class="help">La superficie la sacaremos del CIP. Si tienes flexibilidad de precio, lo conversamos en la visita.</div>
           </div>
 
           <div class="field">
@@ -1796,15 +1786,21 @@
     const shows = document.querySelectorAll('[data-cip-show]');
     const upload = document.getElementById('cip-upload');
     const info = document.getElementById('cip-info');
+    const helpNoCip = document.querySelectorAll('[data-help-no-cip]');
+    const helpCip = document.querySelectorAll('[data-help-cip]');
 
     if (tieneCip === 'si') {
       hides.forEach(el => el.hidden = true);
       shows.forEach(el => el.hidden = false);
+      helpNoCip.forEach(el => el.hidden = true);
+      helpCip.forEach(el => el.hidden = false);
       if (upload) upload.hidden = false;
       if (info) info.style.display = 'none';
     } else {
       hides.forEach(el => el.hidden = false);
       shows.forEach(el => el.hidden = true);
+      helpNoCip.forEach(el => el.hidden = false);
+      helpCip.forEach(el => el.hidden = true);
       if (upload) upload.hidden = true;
       if (info) info.style.display = 'flex';
     }
