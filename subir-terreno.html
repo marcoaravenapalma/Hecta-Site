@@ -1374,7 +1374,7 @@
 
           <div class="ref-num">
             <span class="label">Tu referencia</span>
-            <strong id="ref-code">PRD-EN-2026-0184</strong>
+            <strong id="ref-code">HCT-260509-0000</strong>
           </div>
 
           <div class="success-timeline">
@@ -1845,8 +1845,15 @@
     })
       .then(res => {
         if (!res.ok) throw new Error('Error ' + res.status);
-        const num = String(Math.floor(Math.random() * 9000) + 1000);
-        document.getElementById('ref-code').textContent = `PRD-EN-2026-0${num.slice(0,3)}`;
+        // Generar código único: HCT-AAMMDD-XXXX
+        // AAMMDD = fecha actual (año-mes-día), XXXX = últimos 4 dígitos del timestamp
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const seq = String(now.getTime()).slice(-4);
+        const refCode = `HCT-${yy}${mm}${dd}-${seq}`;
+        document.getElementById('ref-code').textContent = refCode;
         goToStep('success');
       })
       .catch(err => {
