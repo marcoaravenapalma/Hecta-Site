@@ -92,6 +92,26 @@ collections:
               - { label: "Longitud", name: "lng", widget: "number", value_type: "float", step: 0.0001, required: false }
               - { label: "Posición X en mapa de la región (0–100)", name: "mapa_x", widget: "number", value_type: "int", min: 0, max: 100, default: 50, hint: "0 = oeste, 100 = este. Es la posición visual en el mapa pequeño del listado." }
               - { label: "Posición Y en mapa de la región (0–100)", name: "mapa_y", widget: "number", value_type: "int", min: 0, max: 100, default: 50, hint: "0 = norte, 100 = sur." }
+              - label: "Videos"
+                name: "videos"
+                widget: "list"
+                required: false
+                hint: "Links a videos del terreno. Acepta YouTube, Vimeo, Google Drive, Dropbox, etc. Asegúrate que los links sean visibles para 'cualquiera con el enlace'."
+                summary: "{{fields.titulo}} ({{fields.plataforma}})"
+                fields:
+                  - { label: "Título del video", name: "titulo", widget: "string", required: false, hint: "Ej: Recorrido a pie, Drone vista valle, Acceso desde camino L-31" }
+                  - { label: "URL del video", name: "url", widget: "string", hint: "Pega la URL completa (https://...)" }
+                  - label: "Plataforma"
+                    name: "plataforma"
+                    widget: "select"
+                    required: false
+                    default: "youtube"
+                    options:
+                      - { label: "YouTube", value: "youtube" }
+                      - { label: "Vimeo", value: "vimeo" }
+                      - { label: "Google Drive", value: "drive" }
+                      - { label: "Dropbox", value: "dropbox" }
+                      - { label: "Otro", value: "otro" }
               - label: "Fotos"
                 name: "fotos"
                 widget: "list"
