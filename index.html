@@ -278,15 +278,17 @@
   }
   .hero-meta .stat .num {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 1.75rem;
-    font-weight: 500;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--ink);
-    line-height: 1;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
   }
   .hero-meta .stat .lbl {
     font-size: 0.82rem;
     color: var(--gray);
     margin-top: 0.4rem;
+    max-width: 14rem;
   }
 
   /* Hero illustration: topographic SVG */
@@ -453,6 +455,75 @@
   .lot-data .v { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 0.88rem; color: var(--ink); }
   .lot-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
+  /* ---------- Nosotros ---------- */
+  .nosotros { background: var(--sand-soft); }
+  .nosotros .nos-head {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+  .nosotros .nos-head .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--green);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .nosotros .nos-head .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--terra);
+  }
+  .nosotros .nos-lead {
+    color: var(--gray);
+    font-size: 1.15rem;
+    line-height: 1.55;
+    margin-top: 1.25rem;
+    max-width: 42rem;
+  }
+  .nosotros .nos-lead strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .nos-pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    margin-top: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .nos-pillars { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  }
+  .nos-pillar {
+    border-top: 2px solid var(--green);
+    padding-top: 1.5rem;
+  }
+  .nos-pillar .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--terra);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+  }
+  .nos-pillar h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.01em;
+  }
+  .nos-pillar p {
+    color: var(--gray);
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+  .nos-pillar p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
   /* ---------- Vendedores (verde) ---------- */
   .sellers {
     background: var(--green);
@@ -605,7 +676,7 @@
 <header class="site-header">
   <div class="wrap">
     <nav class="nav" aria-label="Principal">
-      <a href="#" class="logo" aria-label="Hecta, inicio">
+      <a href="/" class="logo" aria-label="Hecta, inicio">
         <!-- Pin original: gota redonda con punto interior -->
         <svg class="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
@@ -617,6 +688,7 @@
       <ul class="nav-links" role="list">
         <li><a href="maule.html">Maule</a></li>
         <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#vendedores">Vendedores</a></li>
       </ul>
 
@@ -638,6 +710,7 @@
       <ul role="list">
         <li><a href="maule.html">Maule</a></li>
         <li><a href="como-funciona.html">Cómo funciona</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#vendedores">Vendedores</a></li>
       </ul>
       <a href="https://wa.me/56933832870" class="btn btn-primary">Hablar por WhatsApp</a>
@@ -668,18 +741,18 @@
           <a href="https://wa.me/56933832870" class="btn btn-ghost">Hablar por WhatsApp</a>
         </div>
 
-        <div class="hero-meta" aria-label="Indicadores actuales">
+        <div class="hero-meta" aria-label="Compromiso Hecta">
           <div class="stat">
-            <div class="num mono">42</div>
-            <div class="lbl">Terrenos verificados</div>
+            <div class="num">Maule</div>
+            <div class="lbl">Foco actual</div>
           </div>
           <div class="stat">
-            <div class="num mono">6</div>
-            <div class="lbl">Comunas cubiertas</div>
+            <div class="num">En terreno</div>
+            <div class="lbl">Cada ficha la firma quien fue al sitio</div>
           </div>
           <div class="stat">
-            <div class="num mono">100%</div>
-            <div class="lbl">Visitados por el equipo</div>
+            <div class="num">Sin pago</div>
+            <div class="lbl">por adelantado</div>
           </div>
         </div>
       </div>
@@ -798,6 +871,44 @@
 </section>
 
 <!-- ============================================================ -->
+<!-- NOSOTROS                                                     -->
+<!-- ============================================================ -->
+<section class="nosotros" id="nosotros" aria-labelledby="nosotros-title">
+  <div class="wrap">
+    <div class="nos-head">
+      <span class="eyebrow"><span class="dot"></span> Nosotros</span>
+      <h2 id="nosotros-title">Compramos un terreno y nos dimos cuenta de algo.</h2>
+      <p class="nos-lead">
+        Buscando una parcela en el Maule descubrimos que <strong>casi nadie te dice la verdad</strong>: ni los avisos, ni los corredores apurados, ni los portales que listan miles de terrenos sin haber pisado uno. Te enteras de los problemas después de comprar — un APR sin agua suficiente, un camino que se corta en invierno, un deslinde que nadie marcó nunca, un precio inflado un 30% sobre el sector.
+      </p>
+      <p class="nos-lead">
+        Hecta nace para que esto deje de pasar. <strong>Vamos al terreno antes que tú.</strong> Caminamos los deslindes, hablamos con los vecinos, revisamos los certificados, comparamos con ventas reales del sector. Después armamos una ficha honesta — incluyendo lo bueno y lo que no — para que decidas con la información que mereces.
+      </p>
+    </div>
+
+    <div class="nos-pillars">
+      <article class="nos-pillar">
+        <div class="num">01 — Misión</div>
+        <h3>Información honesta antes de cada decisión.</h3>
+        <p>Comprar o vender un terreno es de las decisiones más grandes que tomas en tu vida. Mereces tener los datos reales <strong>antes</strong>, no después. Esa es la única razón por la que existimos.</p>
+      </article>
+
+      <article class="nos-pillar">
+        <div class="num">02 — Método</div>
+        <h3>Cada ficha la firma quien fue al terreno.</h3>
+        <p>Nada de "información del propietario sin verificar". Si publicamos un terreno es porque alguien del equipo estuvo ahí, midió el frente, revisó el suelo y ratificó los certificados. <strong>Si no fuimos, no aparece.</strong></p>
+      </article>
+
+      <article class="nos-pillar">
+        <div class="num">03 — Foco</div>
+        <h3>Solo el Maule, por ahora.</h3>
+        <p>Para hacer este trabajo bien necesitamos conocer el territorio: sus comunas, sus APR, sus suelos, sus caminos en invierno. Empezamos por el Maule porque es nuestra casa. <strong>Crecemos cuando podamos sostener la calidad.</strong></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
 <!-- VENDEDORES                                                   -->
 <!-- ============================================================ -->
 <section class="sellers" id="vendedores" aria-labelledby="sellers-title">
@@ -871,7 +982,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div class="col">
-        <a href="#" class="logo" aria-label="Hecta, inicio">
+        <a href="/" class="logo" aria-label="Hecta, inicio">
           <svg class="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 2C7.85 2 4.5 5.27 4.5 9.3c0 5.4 6.4 11.7 7.05 12.32a.65.65 0 0 0 .9 0c.65-.62 7.05-6.92 7.05-12.32C19.5 5.27 16.15 2 12 2Z" fill="currentColor"/>
             <circle cx="12" cy="9.2" r="2.6" fill="#FAFAF7"/>
@@ -890,6 +1001,7 @@
         <ul class="flinks" role="list">
           <li><a href="maule.html">Maule</a></li>
           <li><a href="como-funciona.html">Cómo funciona</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#vendedores">Vendedores</a></li>
           <li><a href="subir-terreno.html">Sube tu terreno</a></li>
           <li><a href="#glosario">Glosario</a></li>
